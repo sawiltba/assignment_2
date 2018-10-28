@@ -3,7 +3,7 @@
 #include <vector>
 #include <string>
 #include "Variable.h"
-#include "Netlist.h"
+#include "Component.h"
 
 class Netlist{
 	private:
