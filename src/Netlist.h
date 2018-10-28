@@ -3,8 +3,9 @@
 #include <vector>
 #include <string>
 #include "Variable.h"
-#include "components/Component.h"
-
+//#include "components/Component.h"
+class Component;
+/*
 #include "components/Adder.h"
 #include "components/Subtractor.h"
 #include "components/Multiplier.h"
@@ -13,7 +14,7 @@
 #include "components/Comparator.h"
 #include "components/ShiftRight.h"
 #include "components/ShiftLeft.h"
-
+*/
 class Netlist{
 	private:
 		std::vector<Variable> inputs, outputs, wires;
@@ -35,14 +36,14 @@ class Netlist{
 				end = line.find(" ", begin);
 				len = end - begin;
 			}
-			tokens.push_back(begin, end);
+			tokens.push_back(line.substr(begin, end));
 
 			if(tokens.size() < 3){
 				//ERROR
 			}
 
 			//tokens is {"<input/output/wire>", "[U]Int#", "name1", ...}
-			bool sign = tokens[1][0] == "I"; //If signed, sign is true
+			bool sign = tokens[1][0] == 'I'; //If signed, sign is true
 			size_t numLoc = tokens[1].find("t") + 1;
 			int width = std::stoi(tokens[1].substr(numLoc, 
 											  std::string::npos));
@@ -65,9 +66,15 @@ class Netlist{
 			}
 		}
 		void addComponent(std::string line);
-		std::vector<Variable> getInputs();
-		std::vector<Variable> getOutputs();
-		std::vector<Variable> getWires();
+		std::vector<Variable> getInputs(){
+			return inputs;	
+		}
+		std::vector<Variable> getOutputs(){
+			return outputs;	
+		}
+		std::vector<Variable> getWires(){
+			return wires;	
+		}
 };
 
 #endif

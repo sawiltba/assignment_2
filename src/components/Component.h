@@ -2,8 +2,8 @@
 #define __COMPONENT_H
 #include <vector>
 #include <string>
-
-class Netlist;
+#include "../Netlist.h"
+//class Netlist;
 
 class Component{
 	protected:
@@ -27,26 +27,26 @@ class Component{
 		int getWidth(){
 			int toReturn = 0;
 			for(std::string input : inputs){
-				for(Variable v : netlist->getInputs()){
-					if(input == v.getName() && v.width() > toReturn){
-						toReturn = v.width();
+				for(Variable v : this->netlist->getInputs()){
+					if(input == v.getName() && v.getWidth() > toReturn){
+						toReturn = v.getWidth();
 					}
 				}
-				for(Variable v : netlist->getWires()){
-					if(input == v.getName() && v.width() > toReturn){
-						toReturn = v.width();
+				for(Variable v : this->netlist->getWires()){
+					if(input == v.getName() && v.getWidth() > toReturn){
+						toReturn = v.getWidth();
 					}
 				}
 			}
 			for(std::string output : outputs){
-				for(Variable v : netlist->getOutputs()){
-					if(output == v.getName() && v.width() > toReturn){
-						toReturn = v.width();
+				for(Variable v : this->netlist->getOutputs()){
+					if(output == v.getName() && v.getWidth() > toReturn){
+						toReturn = v.getWidth();
 					}
 				}
-				for(Variable v : netlist->getWires()){
-					if(output == v.getName() && v.width() > toReturn){
-						toReturn = v.width();
+				for(Variable v : this->netlist->getWires()){
+					if(output == v.getName() && v.getWidth() > toReturn){
+						toReturn = v.getWidth();
 					}
 				}
 			}
@@ -54,12 +54,12 @@ class Component{
 		}
 		virtual bool isSigned(){
 			for(std::string output : outputs){
-				for(Variable outputVar : netlist->getOutputs()){
+				for(Variable outputVar : this->netlist->getOutputs()){
 					if(output == outputVar.getName() && outputVar.isSigned()){
 						return true;
 					}
 				}
-				for(Variable wireVar : netList->getWires()){
+				for(Variable wireVar : this->netlist->getWires()){
 					if(output == wireVar.getName() && wireVar.isSigned()){
 						return true;
 					}
