@@ -1,6 +1,7 @@
 #include <iostream>
 #include <fstream>
 #include "Printer.h"
+#include "Reader.h"
 
 using namespace std;
 
@@ -15,7 +16,7 @@ int main(int argc, char *argv[]) {
 	inFile.open(argv[1]);
 	outFile.open(argv[2]);
 
-	// netlist Netlist = Reader(inFile);
+	netlist Netlist = Reader(inFile);
 	// Printer(outFile, Netlist);
 
 	return;
