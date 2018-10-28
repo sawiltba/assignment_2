@@ -3,12 +3,12 @@
 #include "Component.h"
 #include "Netlist.h"
 
-class Adder: public Component {
+class add: public Component {
 	private:
 		static int number = 0;
 
 	public:
-		Adder(Netlist* netlist, std::string line){
+		add(Netlist* netlist, std::string line){
 			this->netlist = netlist;
 			size_t begin = 0, end = 0;
 			id = number;
