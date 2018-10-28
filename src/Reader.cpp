@@ -13,7 +13,10 @@ Netlist read(ifstream inFile){
         cout << inFile << "Read errors" << endl;
     }
     while(getline(progfile, line)){
-        if(line.find("=") != -1){//equals found, component parser
+        if(!line.compare("\0")){
+            //ignore only newline
+        }
+        else if(line.find("=") != -1){//equals found, component parser
             net.addComponent(line);
         }
         else{//no equals, variable parser
