@@ -2,7 +2,7 @@
 #define __COMPONENT_H
 #include <vector>
 #include <string>
-#include "Netlist.h"
+#include "../Netlist.h"
 
 class Component{
 	protected:
