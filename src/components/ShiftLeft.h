@@ -4,6 +4,6 @@
 
 class shl: public Component {
 	
-}
+};
 
 #endif

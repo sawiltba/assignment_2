@@ -4,6 +4,6 @@
 
 class comp: public Component {
 	
-}
+};
 
 #endif

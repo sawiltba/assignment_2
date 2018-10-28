@@ -25,6 +25,6 @@ class Netlist{
 		std::vector<Variable> getInputs();
 		std::vector<Variable> getOutputs();
 		std::vector<Variable> getWires();
-}
+};
 
 #endif

@@ -4,6 +4,6 @@
 
 class mult: public Component {
 	
-}
+};
 
 #endif

@@ -4,6 +4,6 @@
 
 class sub: public Component {
 	
-}
+};
 
 #endif

@@ -4,6 +4,6 @@
 
 class reg: public Component {
 	
-}
+};
 
 #endif

@@ -1,7 +1,6 @@
 #ifndef __ADDER_H
 #define __ADDER_H
 #include "Component.h"
-#include "Netlist.h"
 
 class add: public Component {
 	private:
@@ -25,12 +24,28 @@ class add: public Component {
 
 		std::string toString() override{
 			std::string toReturn;
-			//ADD #(.DATAWIDTH(<width>)) <id> (a, b, sum);
-			size_t len = 29;
-			
+			//ADD #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n
+			size_t len = 29 
+				+ this->IOStrLen()
+				+ this->getID().length()
+				+ std::to_string(this->getWidth()).length();
+			toReturn.resize(len);
+			char* str = (char*)malloc(len + 1);
+			sprintf(str, "ADD #(.DATAWIDTH(%d)) %s (%s, %s, %s);\n",
+					this->getWidth(), this->getID().c_str(), 
+					inputs[0].c_str(), inputs[1].c_str(),
+					outputs[0].c_str());
+			toReturn.assign(str);
+			free(str);
+			return toReturn;
 		}
 
-}
+		std::string getID() override{
+			std::string toReturn = "a" + std::to_string(id);
+			return toReturn;
+		}
+
+};
 
 
 #endif

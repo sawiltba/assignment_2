@@ -4,6 +4,6 @@
 
 class shr: public Component {
 	
-}
+};
 
 #endif

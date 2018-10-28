@@ -4,6 +4,6 @@
 
 class mux: public Component {
 	
-}
+};
 
 #endif
