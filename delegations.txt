@@ -1,0 +1,15 @@
+Kyle:
+Reader
+component implementation
+
+Matt:
+Main
+Printer
+
+Ryan:
+Component class
+
+Sarah:
+Vivado signed/unsigned components
+
+Laura:
