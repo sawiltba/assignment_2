@@ -22,6 +22,10 @@ class add: public Component {
 			inputs.push_back(line.substr(begin, end - begin));
 		}
 
+		int getNumber(){
+			return number;
+		}
+
 		std::string toString() override{
 			std::string toReturn;
 			//ADD #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n

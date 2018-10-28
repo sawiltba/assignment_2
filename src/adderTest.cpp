@@ -10,7 +10,7 @@ int main(int argc, char** argv){
 	n.addVariable("output UInt64 output");
 	std::string line = "output = itemOne + itemTwo";
 	add a{&n, line};
-	std::cout << line.length() << std::endl;
 	std::cout << a.toString();
 	std::cout << a.isSigned() << std::endl;
+	std::cout << a.getNumber() << std::endl;
 }
