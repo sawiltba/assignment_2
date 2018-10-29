@@ -3,3 +3,6 @@
 !*.v
 !*.gitignore
 !*.md
+!*.cpp
+!*.c
+!*.h
