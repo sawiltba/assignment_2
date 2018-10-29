@@ -9,9 +9,12 @@ class add: public Component {
 	public:
 		add(Netlist* netlist, std::string line){
 			this->netlist = netlist;
-			size_t begin = 0, end = 0;
+            this->idName = "a";
+            this->componentName = "ADD";
 			id = number;
 			number++;
+            this->calcIOs("+", line);
+/*			size_t begin = 0, end = 0;
 			end = line.find("=");
 			outputs.push_back(line.substr(begin, end - 1));
 			begin = end + 2;
@@ -20,15 +23,16 @@ class add: public Component {
 			begin = end + 2;
 			end = line.length();
 			inputs.push_back(line.substr(begin, end - begin));
-		}
+*/		}
 
 		int getNumber(){
 			return number;
 		}
 
-		std::string toString() override{
+/*		std::string toString() override{
 			std::string toReturn;
-			//ADD #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n
+            bool sign = this->isSigned();
+			//[S]ADD #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n
 			size_t len = 29 
 				+ this->IOStrLen()
 				+ this->getID().length()
@@ -41,14 +45,14 @@ class add: public Component {
 					outputs[0].c_str());
 			toReturn.assign(str);
 			free(str);
-			return toReturn;
+			return (sign ? "S" : "") + toReturn;
 		}
-
-		std::string getID() override{
+*/
+/*		std::string getID() override{
 			std::string toReturn = "a" + std::to_string(id);
 			return toReturn;
 		}
-
+*/
 };
 
 int add::number = 0;

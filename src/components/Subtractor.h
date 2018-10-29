@@ -8,10 +8,13 @@ class sub: public Component {
 		static int number;
 	public:
 		sub(Netlist *net, std::string line){
+            this->idName = "s";
+            this->componentName = "SUB";
 			netlist = net;
 			id = number;
 			number++;
-			size_t begin = 0, end;
+            this->calcIOs("-", line);
+/*			size_t begin = 0, end;
 			end = line.find("=");
 			outputs.push_back(line.substr(begin, end - 1));
 			begin = end + 2;
@@ -20,9 +23,9 @@ class sub: public Component {
 			begin = end + 2;
 			end = line.length();
 			inputs.push_back(line.substr(begin, end - begin));
-		}
+*/		}
 
-		std::string toString() override{
+/*		std::string toString() override{
 			std::string toReturn;
 			//ADD #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n
 			size_t len = 29 
@@ -44,10 +47,10 @@ class sub: public Component {
 			std::string toReturn = "s" + std::to_string(id);
 			return toReturn;
 		}
-
+*/
 
 };
 
-sub::number = 0;
+int sub::number = 0;
 
 #endif

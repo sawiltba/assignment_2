@@ -9,9 +9,12 @@ class mult: public Component {
 	public:
 		mult(Netlist* netlist, std::string line){
 			this->netlist = netlist;
-			size_t begin = 0, end = 0;
+            this->componentName = "MULT";
+            this->idName = "mult";
 			id = number;
 			number++;
+            this->calcIOs("*", line);
+/*			size_t begin = 0, end = 0;
 			end = line.find("=");
 			outputs.push_back(line.substr(begin, end - 1));
 			begin = end + 2;
@@ -20,9 +23,9 @@ class mult: public Component {
 			begin = end + 2;
 			end = line.length();
 			inputs.push_back(line.substr(begin, end - begin));
-		}
+*/		}
 
-		std::string toString() override{
+/*		std::string toString() override{
 			std::string toReturn;
 			//MULT #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n
 			size_t len = 30 
@@ -44,9 +47,9 @@ class mult: public Component {
 			std::string toReturn = "mult" + std::to_string(id);
 			return toReturn;
 		}
-
+*/
 };
 
-mult::number = 0;
+int mult::number = 0;
 
 #endif

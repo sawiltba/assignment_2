@@ -9,8 +9,23 @@ class Component{
 	protected:
 		Netlist *netlist;
 		int id;
+        std::string idName;
+        std::string componentName;
 		std::vector<std::string> inputs;
 		std::vector<std::string> outputs;
+
+        virtual void calcIOs(std::string operation, std::string line){
+			size_t begin = 0, end = 0;
+			end = line.find("=");
+			outputs.push_back(line.substr(begin, end - 1));
+			begin = end + 2;
+			end = line.find(operation);
+			inputs.push_back(line.substr(begin, end - begin - 1));
+			begin = end + operation.length() + 1;
+			end = line.length();
+			inputs.push_back(line.substr(begin, end - begin));
+        }
+
 		size_t IOStrLen(){
 			size_t len = 0;
 			for(std::string input : inputs){
@@ -22,8 +37,30 @@ class Component{
 			return len;
 		}
 	public:
-		virtual std::string toString() = 0;
-		virtual std::string getID() = 0;
+		virtual std::string toString(){
+			std::string toReturn;
+            bool sign = this->isSigned();
+			//[S]<cName> #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n
+			size_t len = 26
+                + this->componentName.length() 
+				+ this->IOStrLen()
+				+ this->getID().length()
+				+ std::to_string(this->getWidth()).length();
+			toReturn.resize(len);
+			char* str = (char*)malloc(len + 1);
+			sprintf(str, "%s #(.DATAWIDTH(%d)) %s (%s, %s, %s);\n",
+                    this->componentName.c_str(), this->getWidth(), 
+                    this->getID().c_str(), inputs[0].c_str(), inputs[1].c_str(),
+					outputs[0].c_str());
+			toReturn.assign(str);
+			free(str);
+			return (sign ? "S" : "") + toReturn;
+        }
+		
+        std::string getID(){
+            return idName + std::to_string(id);
+        }
+
 		int getWidth(){
 			int toReturn = 0;
 			for(std::string input : inputs){
