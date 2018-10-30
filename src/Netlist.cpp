@@ -63,21 +63,52 @@ void Netlist::addComponent(std::string line){
 	}
 	tokens.push_back(line.substr(begin, end));
 
-	if(tokens.size() < 3){
-		//ERROR
+	if(tokens.size() < 3){//error
+        return 1;
 	}
 	else if(tokens.size() == 3){//equals operator
 
 	}
 	else if(tokens.size() < 6){//2 in, 1 out operation
+        if(!tokens.at(3).compare("+")){//add
 
+        }
+        else if(!tokens.at(3).compare("-")){//subtract
+
+        }
+        else if(!tokens.at(3).compare("*")){//multiply
+
+        }
+        else if(!tokens.at(3).compare("/")){//divide
+
+        }
+        else if(!tokens.at(3).compare("%")){//modulo
+
+        }
+        else if(!tokens.at(3).compare("==")){//comp equal to
+
+        }
+        else if(!tokens.at(3).compare(">")){//comp greater than
+
+        }
+        else if(!tokens.at(3).compare("<")){//comp less than
+
+        }
+        else if(!tokens.at(3).compare("<<")){//shift left
+
+        }
+        else if(!tokens.at(3).compare(">>")){//shift right
+
+        }
+        else{//error
+            return 1;
+        }
 	}
-	else if(tokens.size() == 7){//switch
+	else if(tokens.size() == 7){//multiplexor
 
 	}
 	else{//error
-
+        return 1;
 	}
-
-
+	return 0;
 }

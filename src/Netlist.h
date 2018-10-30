@@ -13,15 +13,15 @@ class Netlist{
 	public:
 		Netlist();
 		void addVariable(std::string line);
-		void addComponent(std::string line);
+		int addComponent(std::string line);
 		std::vector<Variable> getInputs(){
-			return inputs;	
+			return inputs;
 		}
 		std::vector<Variable> getOutputs(){
-			return outputs;	
+			return outputs;
 		}
 		std::vector<Variable> getWires(){
-			return wires;	
+			return wires;
 		}
 };
 
