@@ -18,8 +18,13 @@ int main(int argc, char *argv[]) {
 	ifstream inFile;
 	ofstream outFile;
 	inFile.open(argv[1]);
+    if(!inFile.is_open()){
+        cout << argv[1] << " Read errors" << endl;
+    }
 	outFile.open(argv[2]);
-
+	if(!outFile.is_open()){
+        cout << argv[2] << " Read errors" << endl;
+    }
 	netlist Netlist = Reader(inFile);
 	inFile.close;
 	Printer(outFile, Netlist);

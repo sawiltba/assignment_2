@@ -29,12 +29,12 @@ void Netlist::addVariable(std::string line){
 	//tokens is {"<input/output/wire>", "[U]Int#", "name1", ...}
 	bool sign = tokens[1][0] == 'I'; //If signed, sign is true
 	size_t numLoc = tokens[1].find("t") + 1;
-	int width = std::stoi(tokens[1].substr(numLoc, 
+	int width = std::stoi(tokens[1].substr(numLoc,
 				std::string::npos));
 
 	std::vector<Variable> newVars;
 	for(unsigned i = 2; i < tokens.size(); i++){
-		newVars.push_back(Variable{tokens[i], 
+		newVars.push_back(Variable{tokens[i],
 				tokens[0], width, sign});
 	}
 
@@ -51,5 +51,33 @@ void Netlist::addVariable(std::string line){
 }
 
 void Netlist::addComponent(std::string line){
+    std::vector<std::string> tokens;
+
+    //Split string on spaces into tokens
+	size_t begin = 0, end = line.find(" "), len = end - begin;
+	while(end != std::string::npos){
+		tokens.push_back(line.substr(begin, len));
+		begin = end + 1;
+		end = line.find(" ", begin);
+		len = end - begin;
+	}
+	tokens.push_back(line.substr(begin, end));
+
+	if(tokens.size() < 3){
+		//ERROR
+	}
+	else if(tokens.size() == 3){//equals operator
+
+	}
+	else if(tokens.size() < 6){//2 in, 1 out operation
+
+	}
+	else if(tokens.size() == 7){//switch
+
+	}
+	else{//error
+
+	}
+
 
 }

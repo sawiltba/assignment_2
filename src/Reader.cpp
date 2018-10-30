@@ -5,14 +5,16 @@
 
 Netlist read(ifstream inFile){
     Netlist net;
-    ifstream progfile;
     string line;
+    comment = -1;
 
-    progfile.open(inFile);
-    if(!progfile.is_open()){
-        cout << inFile << "Read errors" << endl;
-    }
-    while(getline(progfile, line)){
+    while(getline(inFile, line)){
+        //remove any comments if found
+        comment = line.find("//");
+        if(comment != -1){
+            line.resize(comment);
+        }
+
         if(!line.compare("\0")){
             //ignore only newline
         }
@@ -23,7 +25,5 @@ Netlist read(ifstream inFile){
             net.addVariable(line);
         }
     }
-    progfile.close();
-
     return net;
 }
