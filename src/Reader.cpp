@@ -21,14 +21,14 @@ Netlist read(ifstream &inFile, int* error){
         }
         else if(line.find("=") != -1){//equals found, component parser
 			if (net.addComponent(line) == 1) {
-				cout << "add component errors in line" << line << endl;
+				cout << "add component errors in line " << line << endl;
 				*error = 1;
 				return net;
 			 }
         }
         else{//no equals, variable parser
 			if (net.addVariable(line) == 1) {
-				cout << "Add Variable errors" << line << endl;
+				cout << "Add Variable errors " << line << endl;
 				*error == 1;
 				return net;
 			}

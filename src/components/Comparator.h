@@ -5,7 +5,7 @@
 class comp: public Component {
 	private:
 		static int number;
-		void calcIOs(std::string operation, std::string line) override {
+		void calcIOs_comp(std::string operation, std::string line) {
 			size_t begin = 0, end = 0;
 			end = line.find("=");
 			std::string output = line.substr(begin, end - 1);
@@ -38,11 +38,11 @@ class comp: public Component {
 			this->idName = "c";
 			number++;
 			if(line.find(">") != std::string::npos){
-				this->calcIOs(">", line);
+				this->calcIOs_comp(">", line);
 			} else if(line.find("==") != std::string::npos){
-				this->calcIOs("==", line);
+				this->calcIOs_comp("==", line);
 			} else if(line.find("<") != std::string::npos){
-				this->calcIOs("<", line);
+				this->calcIOs_comp("<", line);
 			}
 		}
 

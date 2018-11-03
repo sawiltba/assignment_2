@@ -38,44 +38,26 @@ class Component{
 			return len;
 		}
 	public:
-		virtual std::string toString(){
-			std::string toReturn;
-            bool sign = this->isSigned();
-			//[S]<cName> #(.DATAWIDTH(<width>)) <id> (a, b, sum);\n
-			size_t len = 26
-                + this->componentName.length() 
-				+ this->IOStrLen()
-				+ this->getID().length()
-				+ std::to_string(this->getWidth()).length();
-			toReturn.resize(len);
-			char* str = (char*)malloc(len + 1);
-			sprintf(str, "%s #(.DATAWIDTH(%d)) %s (%s, %s, %s);\n",
-                    this->componentName.c_str(), this->getWidth(), 
-                    this->getID().c_str(), inputs[0].c_str(), inputs[1].c_str(),
-					outputs[0].c_str());
-			toReturn.assign(str);
-			free(str);
-			return (sign ? "S" : "") + toReturn;
-        }
+		virtual std::string toString() = 0;
 		
         virtual std::string getID(){
             return idName + std::to_string(id);
         }
 
 		void checkRegisters(){
-			std::vector<Component> regs = this->netlist->getComponents();
-			for(Component reg : regs){
-				if(reg.componentName.find("REG") == std::string::npos){
+			std::vector<std::shared_ptr<Component>> regs = this->netlist->getComponents();
+			for(std::shared_ptr<Component> reg : regs){
+				if(reg->componentName.find("REG") == std::string::npos){
 					return;
 				}
 				for(int i = 0; i < inputs.size(); i++){
-					if(inputs[i] == reg.idName){
-						inputs[i] = reg.outputs[0];
+					if(inputs[i] == reg->idName){
+						inputs[i] = reg->outputs[0];
 					}
 				}
 				for(int i = 0; i < outputs.size(); i++){
-					if(outputs[i] == reg.idName){
-						outputs[i] = reg.inputs[2];
+					if(outputs[i] == reg->idName){
+						outputs[i] = reg->inputs[2];
 					}
 				}
 			}

@@ -43,14 +43,16 @@ int Netlist::addRegister(std::string line){
 				std::string::npos));
 
 	std::vector<Variable> newVars;
-	std::vector<Component> newRegs;
+	std::vector<std::shared_ptr<Component>> newRegs;
 	for(unsigned i = 2; i < tokens.size(); i++){
 		newVars.push_back(Variable{tokens[i] + "_in",
 				"wire", width, sign});
 		newVars.push_back(Variable{tokens[i] + "_out",
 				"wire", width, sign});
-		newRegs.push_back(
-				reg(this, tokens[0] + " " + tokens[1] + " " + tokens[i]));
+		std::shared_ptr<reg> a = std::shared_ptr<reg>{
+			new reg{this, tokens[0] + " " + tokens[1] + " " + tokens[i]}
+		};
+		newRegs.push_back(a);
 	}
 
 	wires.insert(wires.end(), newVars.begin(), newVars.end());
@@ -111,29 +113,30 @@ int Netlist::addComponent(std::string line){
 	if(line.find("register") != std::string::npos){
 		return this->addRegister(line);
 	} else if(line.find("<<") != std::string::npos){
-		shl a{this, line};
+		std::shared_ptr<shl> a = std::shared_ptr<shl>{new shl{this, line}};
 		operations.push_back(a);
 	} else if(line.find(">>") != std::string::npos){
-		shr a{this, line};
+		std::shared_ptr<shr> a = std::shared_ptr<shr>{new shr{this, line}};
 		operations.push_back(a);
 	} else if(line.find("<") != std::string::npos ||
 			line.find(">") != std::string::npos ||
 			line.find("==") != std::string::npos){
-		comp a{this, line};
+		std::shared_ptr<comp> a = std::shared_ptr<comp>{new comp{this, line}};
 		operations.push_back(a);
 	} else if(line.find("+") != std::string::npos){
-		add a{this, line};
+		std::shared_ptr<add> a = std::shared_ptr<add>{new add{this, line}};
 		operations.push_back(a);
 	} else if(line.find("-") != std::string::npos){
-		sub a{this, line};
+		std::shared_ptr<sub> a = std::shared_ptr<sub>{new sub{this, line}};
 		operations.push_back(a);
 	} else if(line.find("*") != std::string::npos){
-		mult a{this, line};
+		std::shared_ptr<mult> a = std::shared_ptr<mult>{new mult{this, line}};
 		operations.push_back(a);
 	} else if(line.find("?") != std::string::npos){
-		mux a{this, line};
+		std::shared_ptr<mux> a = std::shared_ptr<mux>{new mux{this, line}};
 		operations.push_back(a);
-	} else {
+	} else if(line.find("=") != std::string::npos){
+
 		return 1; //ERROR
 	}
 	return 0;

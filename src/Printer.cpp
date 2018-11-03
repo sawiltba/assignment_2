@@ -17,7 +17,7 @@ void Printer(ofstream &outFile, Netlist netlist) {
 		}
 		outFile << v.getName() << ";" << endl;
 	}
-	
+
 	for(Variable v : netlist.getOutputs()){
 		outFile << "output ";
 		if(v.getWidth() > 1){
@@ -25,7 +25,7 @@ void Printer(ofstream &outFile, Netlist netlist) {
 		}
 		outFile << v.getName() << ";" << endl;
 	}
-	
+
 	for(Variable v : netlist.getWires()){
 		outFile << "wire ";
 		if(v.getWidth() > 1){
@@ -34,8 +34,8 @@ void Printer(ofstream &outFile, Netlist netlist) {
 		outFile << v.getName() << ";" << endl;
 	}
 
-	for(Component c : netlist.getComponents()){
-		outFile << c.toString();
+	for(shared_ptr<Component> c : netlist.getComponents()){
+		outFile << c->toString();
 	}
 
 	//IOW.insert(IOW.end(), netlist.getInputs().begin(), netlist.getInputs().end());
@@ -52,8 +52,8 @@ void Printer(ofstream &outFile, Netlist netlist) {
 
 void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 	string  In1, In2, In8, In16, In32, In64,
-		Out1, Out2, Out8, Out16, Out32, Out64,
-		Wire1, Wire2, Wire8, Wire16, Wire32, Wire64;
+			Out1, Out2, Out8, Out16, Out32, Out64,
+			Wire1, Wire2, Wire8, Wire16, Wire32, Wire64;
 
 	for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
 		if (it->getType().compare("input") == 0) { // Inputs
@@ -85,52 +85,52 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 		if (it->getType().compare("output") == 0) { // Outputs
 			switch (int i = it->getWidth())
 			{
-			case 1:
-				Out1 += " " + it->getName() + ",";
-				break;
-			case 2:
-				Out2 += " " + it->getName() + ",";
-				break;
-			case 8:
-				Out8 += " " + it->getName() + ",";
-				break;
-			case 16:
-				Out16 += " " + it->getName() + ",";
-				break;
-			case 32:
-				Out32 += " " + it->getName() + ",";
-				break;
-			case 64:
-				Out64 += " " + it->getName() + ",";
-				break;
-			default:
-				break;
+				case 1:
+					Out1 += " " + it->getName() + ",";
+					break;
+				case 2:
+					Out2 += " " + it->getName() + ",";
+					break;
+				case 8:
+					Out8 += " " + it->getName() + ",";
+					break;
+				case 16:
+					Out16 += " " + it->getName() + ",";
+					break;
+				case 32:
+					Out32 += " " + it->getName() + ",";
+					break;
+				case 64:
+					Out64 += " " + it->getName() + ",";
+					break;
+				default:
+					break;
 			}
 		}
 
 		if (it->getType().compare("wire") == 0) { // Wires
 			switch (int i = it->getWidth())
 			{
-			case 1:
-				Wire1 += " " + it->getName() + ",";
-				break;
-			case 2:
-				Wire2 += " " + it->getName() + ",";
-				break;
-			case 8:
-				Wire8 += " " + it->getName() + ",";
-				break;
-			case 16:
-				Wire16 += " " + it->getName() + ",";
-				break;
-			case 32:
-				Wire32 += " " + it->getName() + ",";
-				break;
-			case 64:
-				Wire64 += " " + it->getName() + ",";
-				break;
-			default:
-				break;
+				case 1:
+					Wire1 += " " + it->getName() + ",";
+					break;
+				case 2:
+					Wire2 += " " + it->getName() + ",";
+					break;
+				case 8:
+					Wire8 += " " + it->getName() + ",";
+					break;
+				case 16:
+					Wire16 += " " + it->getName() + ",";
+					break;
+				case 32:
+					Wire32 += " " + it->getName() + ",";
+					break;
+				case 64:
+					Wire64 += " " + it->getName() + ",";
+					break;
+				default:
+					break;
 			}
 
 
@@ -219,12 +219,12 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 	return;
 }
 
-void PrintComponent(ofstream &outFile, vector<Component> component) {
-	for (vector<Component>::iterator it = component.begin(); it != component.end(); ++it) {
-		outFile << it->toString() << endl;
-	}
+/*void PrintComponent(ofstream &outFile, vector<Component> component) {
+  for (vector<Component>::iterator it = component.begin(); it != component.end(); ++it) {
+  outFile << it->toString() << endl;
+  }
 
-	return;
+  return;
 
-}
+  }*/
 

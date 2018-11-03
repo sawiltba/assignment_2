@@ -4,14 +4,14 @@
 
 #include <iostream>
 #include <vector>
+#include <memory>
 #include "Variable.h"
 #include "Netlist.h"
-using namespace std;
 
-void Printer(ofstream &outFile, Netlist Netlist); // DOUBLE CHECK WHEN NETLIST CLASS IS WRITTEN
+void Printer(std::ofstream &outFile, Netlist Netlist); // DOUBLE CHECK WHEN NETLIST CLASS IS WRITTEN
 
-void PrintIOW(ofstream &outFile, vector<Variable> IOW);
-void PrintComponent(ofstream &outFile, vector<Component> component);
+void PrintIOW(std::ofstream &outFile, std::vector<Variable> IOW);
+void PrintComponent(std::ofstream &outFile, std::vector<std::shared_ptr<Component>> component);
 
 
 #endif

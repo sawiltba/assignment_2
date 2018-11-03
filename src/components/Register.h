@@ -31,7 +31,7 @@ class reg: public Component {
 
 		std::string toString() override {
 			std::string toReturn;
-			//[S]REG #(.DATAWIDTH(<width>)) <id> (clk, rst, d, q);\n
+			//REG #(.DATAWIDTH(<width>)) <id> (clk, rst, d, q);\n
 			size_t len = 31 
 				+ this->IOStrLen()
 				+ this->getID().length()

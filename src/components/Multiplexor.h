@@ -9,6 +9,8 @@ class mux: public Component {
 	public:
 		mux(Netlist* netlist, std::string line){
 			this->netlist = netlist;
+			this->idName = "mux";
+			this->componentName = "MUX2x1";
 			size_t begin = 0, end = 0;
 			id = number;
 			number++;
@@ -46,9 +48,6 @@ class mux: public Component {
 			free(str);
 			return toReturn;
 		}
-
-		
-
 };
 
 int mux::number = 0;

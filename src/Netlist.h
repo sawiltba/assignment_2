@@ -5,13 +5,14 @@
 
 #include <vector>
 #include <string>
+#include <memory>
 
 class Component;
 
 class Netlist{
 	private:
 		std::vector<Variable> inputs, outputs, wires;
-		std::vector<Component> operations;
+		std::vector<std::shared_ptr<Component>> operations;
 	public:
 		Netlist();
 		int addVariable(std::string line);
@@ -26,7 +27,7 @@ class Netlist{
 		std::vector<Variable> getWires(){
 			return wires;
 		}
-		std::vector<Component> getComponents() {
+		std::vector<std::shared_ptr<Component>> getComponents() {
 			return operations;
 		}
 };
