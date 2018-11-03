@@ -1,6 +1,7 @@
 #ifndef __MULT_H
 #define __MULT_H
 #include "Component.h"
+#include "..\Netlist.h"
 
 class mult: public Component {
 	private:

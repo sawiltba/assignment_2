@@ -1,6 +1,7 @@
 #ifndef __MUX_H
 #define __MUX_H
 #include "Component.h"
+#include "..\Netlist.h"
 
 class mux: public Component {
 	private:
@@ -54,6 +55,6 @@ class mux: public Component {
 
 };
 
-mux::number = 0;
+int mux::number = 0;
 
 #endif
