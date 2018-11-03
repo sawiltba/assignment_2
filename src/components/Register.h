@@ -3,7 +3,31 @@
 #include "Component.h"
 
 class reg: public Component {
+	private:
+		static int number;
 	public:
+		reg(Netlist *netlist, std::string line, int a){
+			this->netlist = netlist;
+			std::vector<std::string> tokens;
+			size_t begin = 0, end = line.find(" ");
+			while(end != std::string::npos){
+				tokens.push_back(line.substr(begin, end - begin));
+				begin = end + 1;
+				end = line.find(" ", begin);
+			}
+			tokens.push_back(line.substr(begin, end));
+			//Tokens is {output, =, input}
+
+			
+			this->inputs.push_back("clk");
+			this->inputs.push_back("rst");
+			this->inputs.push_back(tokens[2]);
+			this->outputs.push_back(tokens[0]);
+			this->componentName = "REG";
+			this->id = number;
+			this->idName = "reg" + std::to_string(number);
+			number++;
+		}
 		reg(Netlist *netlist, std::string line){
 			this->netlist = netlist;
 			std::vector<std::string> tokens;
@@ -22,7 +46,7 @@ class reg: public Component {
 			this->inputs.push_back(tokens[2] + "_in");
 			this->outputs.push_back(tokens[2] + "_out");
 			this->componentName = "REG";
-			this->id = 0;
+			this->id = -1;
 		}
 
 		std::string getID() override {
@@ -49,4 +73,5 @@ class reg: public Component {
 		}
 };
 
+int reg::number = 0;
 #endif

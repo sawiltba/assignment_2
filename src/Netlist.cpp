@@ -136,7 +136,9 @@ int Netlist::addComponent(std::string line){
 		std::shared_ptr<mux> a = std::shared_ptr<mux>{new mux{this, line}};
 		operations.push_back(a);
 	} else if(line.find("=") != std::string::npos){
-
+		std::shared_ptr<reg> a = std::shared_ptr<reg>{new reg{this, line, 1}};
+		operations.push_back(a);
+	} else {
 		return 1; //ERROR
 	}
 	return 0;
