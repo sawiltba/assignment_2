@@ -2,6 +2,8 @@
 #define __VARIABLE_H
 
 #include <string>
+#include <cstdio>
+#include <cstdlib>
 
 class Variable{
 	private:
@@ -25,7 +27,7 @@ class Variable{
 				sprintf(widthStr, " [%d:0]", width - 1);
 			}
 			char* str = (char*)malloc(len + 1);
-			sprintf(str, "%s%s %s;\n", type.c_str(), 
+			sprintf(str, "%s%s %s;\n", type.c_str(),
 					widthStr, name.c_str());
 			std::string toReturn{str};
 			return toReturn;
