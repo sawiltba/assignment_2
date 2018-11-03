@@ -1,6 +1,8 @@
 #ifndef __VARIABLE_H
 #define __VARIABLE_H
 
+#include <string>
+
 class Variable{
 	private:
 		std::string name, type;
