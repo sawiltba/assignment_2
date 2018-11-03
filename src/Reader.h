@@ -2,7 +2,7 @@
 #define READER_H
 
 #include "Netlist.h"
-#include "Component.h"
+#include "components/Component.h"
 #include <iostream>
 #include <vector>
 
