@@ -68,12 +68,12 @@ class Component{
 				if(reg.componentName.find("REG") == std::string::npos){
 					return;
 				}
-				for(int i = 0; i < inputs.length(); i++){
+				for(int i = 0; i < (signed) this->netlist->getInputs().size(); i++){
 					if(inputs[i] == reg.idName){
 						inputs[i] = reg.outputs[0];
 					}
 				}
-				for(int i = 0; i < outputs.length(); i++){
+				for(int i = 0; i < (signed) this->netlist->getOutputs().size(); i++){
 					if(outputs[i] == reg.idName){
 						outputs[i] = reg.inputs[2];
 					}
