@@ -50,7 +50,7 @@ void Netlist::addVariable(std::string line){
 	}
 }
 
-void Netlist::addComponent(std::string line){
+int Netlist::addComponent(std::string line){
     std::vector<std::string> tokens;
 
     //Split string on spaces into tokens
