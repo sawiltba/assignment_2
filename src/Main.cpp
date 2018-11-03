@@ -5,13 +5,12 @@
 #include "Netlist.h"
 #include "Reader.h"
 
-
 using namespace std;
 
 int main(int argc, char *argv[]) {
 	// command line parse and check
 	if (argc != 3) {
-		cout << "Invalid command line argument";
+		cout << "Invalid command line argument, format: NETLIST_FILENAME VERILOG_FILENAME" << endl;
 		return 1;
 	}
 	ifstream inFile;
