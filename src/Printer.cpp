@@ -3,101 +3,102 @@
 #include <fstream>
 #include <string>
 #include "Printer.h"
+#include "Variable.h"
 using namespace std;
 
-void Printer(ofstream &outFile, netlist Netlist) {
+void Printer(ofstream &outFile, Netlist Netlist) {
 	// print inputs, outputs, wires
-	vector<variables> IOW;
-	IOW.insert(IOW.end(), Netlist.GetInputs().begin(), Netlist.GetOutputs().end());
-	IOW.insert(IOW.end(), Netlist.GetOutputs().begin(), Netlist.GetOutputs().end());
-	IOW.insert(IOW.end(), Netlist.GetWires().begin(), Netlist.GetWires().end());
+	vector<Variable> IOW;
+	IOW.insert(IOW.end(), Netlist.getInputs().begin(), Netlist.getOutputs().end());
+	IOW.insert(IOW.end(), Netlist.getOutputs().begin(), Netlist.getOutputs().end());
+	IOW.insert(IOW.end(), Netlist.getWires().begin(), Netlist.getWires().end());
 	
 	PrintIOW(outFile, IOW);
 	
 	// print operations
-	PrintComponent(outFile, Netlist.GetComponents());
+	PrintComponent(outFile, Netlist.getComponents());
 
 
 }
 
-void PrintIOW(ofstream& outFile, vector<variables> IOW) {
+void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 	string  In1, In2, In8, In16, In32, In64,
 		Out1, Out2, Out8, Out16, Out32, Out64,
 		Wire1, Wire2, Wire8, Wire16, Wire32, Wire64;
 
-	for (vector<variables>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
-		if (strcmp(it.GetDirectionType(), "input") == 0) { // Inputs
+	for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
+		if (it->getType().compare("input") == 0) { // Inputs
 			switch (int i = 0) 
 			{
 				case 1:
-					In1 += " " + it.GetName() + ",";
+					In1 += " " + it->getName() + ",";
 					break;
 				case 2:
-					In2 += " " + it.GetName() + ",";
+					In2 += " " + it->getName() + ",";
 					break;
 				case 8:
-					In8 += " " + it.GetName() + ",";
+					In8 += " " + it->getName() + ",";
 					break;
 				case 16:
-					In16 += " " + it.GetName() + ",";
+					In16 += " " + it->getName() + ",";
 					break;
 				case 32:
-					In32 += " " + it.GetName() + ",";
+					In32 += " " + it->getName() + ",";
 					break;
 				case 64:
-					In64 += " " + it.GetName() + ",";
+					In64 += " " + it->getName() + ",";
 					break;
 				default:
 					break;
 			}
 		}
 
-		if (strcmp(it.GetDirectionType(), "output") == 0) { // Outputs
+		if (it->getType().compare("output") == 0) { // Outputs
 			switch (int i = 0)
 			{
 			case 1:
-				Out1 += " " + it.GetName() + ",";
+				Out1 += " " + it->getName() + ",";
 				break;
 			case 2:
-				Out2 += " " + it.GetName() + ",";
+				Out2 += " " + it->getName() + ",";
 				break;
 			case 8:
-				Out8 += " " + it.GetName() + ",";
+				Out8 += " " + it->getName() + ",";
 				break;
 			case 16:
-				Out16 += " " + it.GetName() + ",";
+				Out16 += " " + it->getName() + ",";
 				break;
 			case 32:
-				Out32 += " " + it.GetName() + ",";
+				Out32 += " " + it->getName() + ",";
 				break;
 			case 64:
-				Out64 += " " + it.GetName() + ",";
+				Out64 += " " + it->getName() + ",";
 				break;
 			default:
 				break;
 			}
 		}
 
-		if (strcmp(it.GetDirectionType(), "wire") == 0) { // Wires
+		if (it->getType().compare("wire") == 0) { // Wires
 			switch (int i = 0)
 			{
 			case 1:
-				Wire1 += " " + it.GetName() + ",";
+				Wire1 += " " + it->getName() + ",";
 				break;
 			case 2:
-				Wire2 += " " + it.GetName() + ",";
+				Wire2 += " " + it->getName() + ",";
 				break;
 			case 8:
-				Wire8 += " " + it.GetName() + ",";
+				Wire8 += " " + it->getName() + ",";
 				break;
 			case 16:
-				Wire16 += " " + it.GetName() + ",";
+				Wire16 += " " + it->getName() + ",";
 				break;
 			case 32:
-				Wire32 += " " + it.GetName() + ",";
+				Wire32 += " " + it->getName() + ",";
 				break;
 			case 64:
-				Wire64 += " " + it.GetName() + ",";
+				Wire64 += " " + it->getName() + ",";
 				break;
 			default:
 				break;
@@ -189,9 +190,9 @@ void PrintIOW(ofstream& outFile, vector<variables> IOW) {
 	return;
 }
 
-void PrintComponent(ofstream &outFile, vector<components> component) {
-	for (vector<string>::iterator it = component.begin(); it != component.end(); ++it) {
-		outFile << it.ToString() << endl;
+void PrintComponent(ofstream &outFile, vector<Component> component) {
+	for (vector<Component>::iterator it = component.begin(); it != component.end(); ++it) {
+		outFile << it->toString() << endl;
 	}
 
 	return;
