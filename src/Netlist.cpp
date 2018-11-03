@@ -4,7 +4,7 @@ Netlist::Netlist(){
 
 }
 
-void Netlist::addVariable(std::string line){
+int Netlist::addVariable(std::string line){
 	std::vector<std::string> tokens;
 	//Get rid of commas
 	while(line.find(",") != std::string::npos){

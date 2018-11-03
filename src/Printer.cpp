@@ -13,13 +13,11 @@ void Printer(ofstream &outFile, Netlist Netlist) {
 	IOW.insert(IOW.end(), Netlist.getInputs().begin(), Netlist.getOutputs().end());
 	IOW.insert(IOW.end(), Netlist.getOutputs().begin(), Netlist.getOutputs().end());
 	IOW.insert(IOW.end(), Netlist.getWires().begin(), Netlist.getWires().end());
-	
+
 	PrintIOW(outFile, IOW);
-	
+
 	// print operations
 	PrintComponent(outFile, Netlist.getComponents());
-
-
 }
 
 void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
@@ -29,7 +27,7 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 
 	for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
 		if (it->getType().compare("input") == 0) { // Inputs
-			switch (int i = it->getWidth()) 
+			switch (int i = it->getWidth())
 			{
 				case 1:
 					In1 += " " + it->getName() + ",";
@@ -196,5 +194,7 @@ void PrintComponent(ofstream &outFile, vector<Component> component) {
 		outFile << it->toString() << endl;
 	}
 
-	return;
+	return();
+
 }
+
