@@ -4,7 +4,9 @@
 #include "Netlist.h"
 #include "components/Component.h"
 #include <iostream>
+#include <fstream>
 #include <vector>
+#include <string>
 
 using namespace std;
 
