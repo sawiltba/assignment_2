@@ -20,10 +20,10 @@ Netlist read(ifstream inFile){
             //ignore only newline
         }
         else if(line.find("=") != -1){//equals found, component parser
-            net.addComponent(line);
+            net.addComponent(net, line);
         }
         else{//no equals, variable parser
-            net.addVariable(line);
+            net.addVariable(net, line);
         }
     }
     return net;
