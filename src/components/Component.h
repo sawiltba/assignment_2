@@ -3,12 +3,13 @@
 #include <vector>
 #include <string>
 #include "../Netlist.h"
+
 //class Netlist;
 
 class Component{
 	protected:
-		Netlist *netlist;
 		int id;
+		Netlist *netlist;
         std::string idName;
         std::string componentName;
 		std::vector<std::string> inputs;
