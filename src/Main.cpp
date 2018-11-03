@@ -20,12 +20,18 @@ int main(int argc, char *argv[]) {
         cout << argv[1] << " Read errors" << endl;
 		return 1;
     }
-	outFile.open(argv[2]);
-	if(!outFile.is_open()){
-        cout << argv[2] << " Read errors" << endl;
+	
+	int error = 0;
+	Netlist netlist = read(inFile, &error);
+	if (error == 1) {
+		inFile.close();
 		return 1;
-    }
-	Netlist netlist = read(inFile);
+	}
+	outFile.open(argv[2]);
+	if (!outFile.is_open()) {
+		cout << argv[2] << " Read errors" << endl;
+		return 1;
+	}
 	inFile.close();
 	Printer(outFile, netlist);
 	outFile.close();

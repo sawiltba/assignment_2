@@ -1,8 +1,10 @@
+#include <iostream>
 #include "Reader.h"
+
 
 using namespace std;
 
-Netlist read(ifstream &inFile){
+Netlist read(ifstream &inFile, int* error){
     Netlist net;
     string line;
     int comment = -1;
@@ -18,11 +20,20 @@ Netlist read(ifstream &inFile){
             //ignore only newline
         }
         else if(line.find("=") != -1){//equals found, component parser
-            net.addComponent(line);
+			if (net.addComponent(line) == 1) {
+				cout << "add component errors in line" << line << endl;
+				*error = 1;
+				return net;
+			 }
         }
         else{//no equals, variable parser
-            net.addVariable(line);
+			if (net.addVariable(line) == 1) {
+				cout << "Add Variable errors" << line << endl;
+				*error == 1;
+				return net;
+			}
         }
+		
     }
     return net;
 }
