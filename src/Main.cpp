@@ -24,9 +24,9 @@ int main(int argc, char *argv[]) {
 	if(!outFile.is_open()){
         cout << argv[2] << " Read errors" << endl;
     }
-	Netlist Netlist = read(inFile);
+	Netlist netlist = read(inFile);
 	inFile.close;
-	Printer(outFile, Netlist);
+	Printer(outFile, netlist);
 	outFile.close;
 
 	return 1;
