@@ -64,4 +64,6 @@ class comp: public Component {
 		}
 };
 
+int comp::number = 0;
+
 #endif
