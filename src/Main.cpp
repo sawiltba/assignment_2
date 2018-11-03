@@ -29,5 +29,5 @@ int main(int argc, char *argv[]) {
 	Printer(outFile, Netlist);
 	outFile.close;
 
-	return;
+	return 1;
 }

@@ -196,7 +196,7 @@ void PrintComponent(ofstream &outFile, vector<Component> component) {
 		outFile << it->toString() << endl;
 	}
 
-	return();
+	return;
 
 }
 
