@@ -111,21 +111,28 @@ int Netlist::addComponent(std::string line){
 	if(line.find("register") != std::string::npos){
 		return this->addRegister(line);
 	} else if(line.find("<<") != std::string::npos){
-		operations.push_back(shl (this, line));
+		shl a{this, line};
+		operations.push_back(a);
 	} else if(line.find(">>") != std::string::npos){
-		operations.push_back(shr(this, line));
+		shr a{this, line};
+		operations.push_back(a);
 	} else if(line.find("<") != std::string::npos ||
 			line.find(">") != std::string::npos ||
 			line.find("==") != std::string::npos){
-		operations.push_back(comp(this, line));
+		comp a{this, line};
+		operations.push_back(a);
 	} else if(line.find("+") != std::string::npos){
-		operations.push_back(add(this, line));
+		add a{this, line};
+		operations.push_back(a);
 	} else if(line.find("-") != std::string::npos){
-		operations.push_back(sub (this, line));
+		sub a{this, line};
+		operations.push_back(a);
 	} else if(line.find("*") != std::string::npos){
-		operations.push_back(mult (this, line));
+		mult a{this, line};
+		operations.push_back(a);
 	} else if(line.find("?") != std::string::npos){
-		operations.push_back(mux(this, line));
+		mux a{this, line};
+		operations.push_back(a);
 	} else {
 		return 1; //ERROR
 	}
