@@ -67,26 +67,26 @@ int Netlist::addComponent(std::string line){
         return 1;
 	}
 	else if(tokens.size() == 3){//equals operator (register)
-
+        reg(this, line);
 	}
 	else if(tokens.size() < 6){//2 in, 1 out operation
         if(!tokens.at(3).compare("+")){//add
-            add(netlist, line);
+            add(this, line);
         }
         else if(!tokens.at(3).compare("-")){//subtract
-            sub(netlist, line);
+            sub(this, line);
         }
         else if(!tokens.at(3).compare("*")){//multiply
-            sub(netlist, line);
+            sub(this, line);
         }
         else if(!tokens.at(3).compare("==")){//comp equal to
-
+            comp(this, line);
         }
         else if(!tokens.at(3).compare(">")){//comp greater than
-
+            comp(this, line);
         }
         else if(!tokens.at(3).compare("<")){//comp less than
-
+            comp(this, line);
         }
         else if(!tokens.at(3).compare("<<")){//shift left
             shl(this, line);
@@ -99,7 +99,7 @@ int Netlist::addComponent(std::string line){
         }
 	}
 	else if(tokens.size() == 7){//multiplexor
-        mux(netlist, line);
+        mux(this, line);
 	}
 	else{//error
         return 1;
