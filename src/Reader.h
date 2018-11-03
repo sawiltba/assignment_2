@@ -10,7 +10,7 @@
 
 using namespace std;
 
-Netlist read(ifstream inFile);
+Netlist read(ifstream &inFile);
 
 #endif
 
