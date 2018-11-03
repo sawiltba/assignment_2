@@ -4,7 +4,7 @@ Netlist::Netlist(){
 
 }
 
-void Netlist::addVariable(std::string line){
+int Netlist::addVariable(std::string line){
 	std::vector<std::string> tokens;
 	//Get rid of commas
 	while(line.find(",") != std::string::npos){
@@ -23,6 +23,7 @@ void Netlist::addVariable(std::string line){
 
 	if(tokens.size() < 3){
 		//ERROR
+		return 1;
 	}
 
 	//tokens is {"<input/output/wire>", "[U]Int#", "name1", ...}
@@ -45,8 +46,9 @@ void Netlist::addVariable(std::string line){
 		outputs.insert(outputs.end(), newVars.begin(), newVars.end());
 	} else {
 		//ERROR
-		return(1);
+		return 1;
 	}
+	return 0;
 }
 
 

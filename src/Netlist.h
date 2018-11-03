@@ -12,7 +12,7 @@ class Netlist{
 		std::vector<Component> operations;
 	public:
 		Netlist();
-		void addVariable(std::string line);
+		int addVariable(std::string line);
 		int addComponent(std::string line);
 		std::vector<Variable> getInputs(){
 			return inputs;
