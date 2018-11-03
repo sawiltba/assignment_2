@@ -13,7 +13,7 @@ class Netlist{
 	public:
 		Netlist();
 		void addVariable(std::string line);
-		int addComponent(Netlist* netlist, std::string line);
+		int addComponent(std::string line);
 		std::vector<Variable> getInputs(){
 			return inputs;
 		}

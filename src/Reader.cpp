@@ -1,7 +1,5 @@
 #include "Reader.h"
-#include <iostream>
-#include <fstream>
-#include <string>
+
 using namespace std;
 
 Netlist read(ifstream inFile){
@@ -20,10 +18,10 @@ Netlist read(ifstream inFile){
             //ignore only newline
         }
         else if(line.find("=") != -1){//equals found, component parser
-            net.addComponent(net, line);
+            net.addComponent(line);
         }
         else{//no equals, variable parser
-            net.addVariable(net, line);
+            net.addVariable(line);
         }
     }
     return net;
