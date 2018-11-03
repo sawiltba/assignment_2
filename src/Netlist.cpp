@@ -89,10 +89,10 @@ int Netlist::addComponent(std::string line){
 
         }
         else if(!tokens.at(3).compare("<<")){//shift left
-            shl(netlist, line);
+            shl(this, line);
         }
         else if(!tokens.at(3).compare(">>")){//shift right
-            shr(netlist, line);
+            shr(this, line);
         }
         else{//error
             return 1;
