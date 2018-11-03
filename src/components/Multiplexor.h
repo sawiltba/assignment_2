@@ -48,10 +48,7 @@ class mux: public Component {
 			return toReturn;
 		}
 
-		std::string getID() override{
-			std::string toReturn = "mux" + std::to_string(id);
-			return toReturn;
-		}
+		
 
 };
 
