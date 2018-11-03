@@ -13,15 +13,17 @@ int main(int argc, char *argv[]) {
 		cout << "Invalid command line argument, format: NETLIST_FILENAME VERILOG_FILENAME" << endl;
 		return 1;
 	}
-	ifstream inFile;
-	ofstream outFile;
+	ifstream inFile; 
+	ofstream outFile;	
 	inFile.open(argv[1]);
     if(!inFile.is_open()){
         cout << argv[1] << " Read errors" << endl;
+		return 1;
     }
 	outFile.open(argv[2]);
 	if(!outFile.is_open()){
         cout << argv[2] << " Read errors" << endl;
+		return 1;
     }
 	Netlist netlist = read(inFile);
 	inFile.close();
