@@ -12,7 +12,7 @@ int main(int argc, char *argv[]) {
 	// command line parse and check
 	if (argc != 3) {
 		cout << "Invalid command line argument";
-		return;
+		return 1;
 	}
 	ifstream inFile;
 	ofstream outFile;
@@ -25,9 +25,9 @@ int main(int argc, char *argv[]) {
         cout << argv[2] << " Read errors" << endl;
     }
 	Netlist netlist = read(inFile);
-	inFile.close;
+	inFile.close();
 	Printer(outFile, netlist);
-	outFile.close;
+	outFile.close();
 
 	return 0;
 }
