@@ -19,7 +19,7 @@
 // 
 //////////////////////////////////////////////////////////////////////////////////
 
-module REG #(parameter DATAWIDTH = 32)(clk, rst, d, q);
+module REG #(parameter DATAWIDTH = 32)(d, clk, rst, q);
     input clk, rst;
     input [DATAWIDTH-1:0] d;
     reg [DATAWIDTH-1:0] store;

@@ -20,22 +20,22 @@
 //////////////////////////////////////////////////////////////////////////////////
 // MM will do
 
-module comp #(parameter DATAWIDTH = 64)(a,b,gt,lt,eq);
+module COMP #(parameter DATAWIDTH = 64)(a,b,gt,lt,eq);
     input [DATAWIDTH-1:0]           a,b;
     output reg                      gt,lt,eq;
     
     always@(*) begin
-        if (a > b) begin
+        if ($unsigned(a) > $unsigned(b)) begin
             gt = 1;
         end else begin
             gt = 0;
         end
-        if (a < b) begin
+        if ($unsigned(a) < $unsigned(b)) begin
             lt = 1;
         end else begin
             lt = 0;
         end
-        if (a == b) begin
+        if ($unsigned(a) == $unsigned(b)) begin
             eq = 1;
         end else begin
             eq = 0;

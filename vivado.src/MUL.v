@@ -20,12 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 // MM will do
 
-module mul #(parameter DATAWIDTH = 64)(a,b,prod);
+module MUL #(parameter DATAWIDTH = 64)(a,b,prod);
     input [DATAWIDTH-1:0]           a,b;
     output reg [2*DATAWIDTH-1:0]    prod;
     
     always@(*) begin
-        prod = a * b;
+        prod = $unsigned( a * b);
     end
 
 endmodule

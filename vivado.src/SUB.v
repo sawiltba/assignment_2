@@ -20,12 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module sub #(parameter DATAWIDTH = 8)(a,b,diff);
+module SUB #(parameter DATAWIDTH = 8)(a,b,diff);
     input [DATAWIDTH-1:0] a,b;
     output reg [DATAWIDTH-1:0] diff;
     
     always@(a,b) begin
-        diff = a-b;
+        diff <= $unsigned($unsigned(a)- $unsigned(b));
     end
 
 endmodule

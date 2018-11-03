@@ -20,12 +20,12 @@
 //////////////////////////////////////////////////////////////////////////////////
 
 
-module add #(parameter DATAWIDTH = 8)(a,b,sum);
+module ADD #(parameter DATAWIDTH = 8)(a,b,sum);
     input [DATAWIDTH-1:0] a,b;
     output reg [DATAWIDTH-1:0] sum;
     
     always@(a,b) begin
-        sum <= a+b;
+        sum <= $unsigned($unsigned(a)+ $unsigned(b));
     end
 
 
