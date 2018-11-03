@@ -16,6 +16,7 @@ class Netlist{
 		Netlist();
 		int addVariable(std::string line);
 		int addComponent(std::string line);
+		int addRegister(std::string line);
 		std::vector<Variable> getInputs(){
 			return inputs;
 		}

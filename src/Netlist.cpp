@@ -14,6 +14,51 @@ Netlist::Netlist(){
 
 }
 
+int Netlist::addRegister(std::string line){
+	std::vector<std::string> tokens;
+	//Get rid of commas
+	while(line.find(",") != std::string::npos){
+		line.erase(line.find(","), 1);
+	}
+
+	//Split string on spaces into tokens
+	size_t begin = 0, end = line.find(" "), len = end - begin;
+	while(end != std::string::npos){
+		tokens.push_back(line.substr(begin, len));
+		begin = end + 1;
+		end = line.find(" ", begin);
+		len = end - begin;
+	}
+	tokens.push_back(line.substr(begin, end));
+
+	if(tokens.size() < 3){
+		//ERROR
+		return 1;
+	}
+
+	//tokens is {"register", "[U]Int#", "name1", ...}
+	bool sign = tokens[1][0] == 'I'; //If signed, sign is true
+	size_t numLoc = tokens[1].find("t") + 1;
+	int width = std::stoi(tokens[1].substr(numLoc,
+				std::string::npos));
+
+	std::vector<Variable> newVars;
+	std::vector<Component> newRegs;
+	for(unsigned i = 2; i < tokens.size(); i++){
+		newVars.push_back(Variable{tokens[i] + "_in",
+				"wire", width, sign});
+		newVars.push_back(Variable{tokens[i] + "_out",
+				"wire", width, sign});
+		newRegs.push_back(
+				reg(this, tokens[0] + " " + tokens[1] + " " + tokens[i]);
+	}
+
+	wires.insert(wires.end(), newVars.begin(), newVars.end());
+	operations.insert(operations.end(), newRegs.begin(), newRegs.end());
+	return 0;
+
+}
+
 int Netlist::addVariable(std::string line){
 	std::vector<std::string> tokens;
 	//Get rid of commas
@@ -63,58 +108,26 @@ int Netlist::addVariable(std::string line){
 
 
 int Netlist::addComponent(std::string line){
-    std::vector<std::string> tokens;
-
-    //Split string on spaces into tokens
-	size_t begin = 0, end = line.find(" "), len = end - begin;
-	while(end != std::string::npos){
-		tokens.push_back(line.substr(begin, len));
-		begin = end + 1;
-		end = line.find(" ", begin);
-		len = end - begin;
-	}
-	tokens.push_back(line.substr(begin, end));
-
-	if(tokens.size() < 3){//error
-        return 1;
-	}
-	else if(tokens.size() == 3){//equals operator (register)
-        reg reg_o(this, line);
-	}
-	else if(tokens.size() < 6){//2 in, 1 out operation
-        if(!tokens.at(3).compare("+")){//add
-            add add_o(this, line);
-        }
-        else if(!tokens.at(3).compare("-")){//subtract
-            sub sub_o(this, line);
-        }
-        else if(!tokens.at(3).compare("*")){//multiply
-            mult mult_o(this, line);
-        }
-        else if(!tokens.at(3).compare("==")){//comp equal to
-            comp comp_o(this, line);
-        }
-        else if(!tokens.at(3).compare(">")){//comp greater than
-            comp comp_o(this, line);
-        }
-        else if(!tokens.at(3).compare("<")){//comp less than
-            comp comp_o(this, line);
-        }
-        else if(!tokens.at(3).compare("<<")){//shift left
-            shl shl_o(this, line);
-        }
-        else if(!tokens.at(3).compare(">>")){//shift right
-            shr shr_o(this, line);
-        }
-        else{//error
-            return 1;
-        }
-	}
-	else if(tokens.size() == 7){//multiplexor
-        mux mux_o(this, line);
-	}
-	else{//error
-        return 1;
+	if(line.find("register") != std::string::npos){
+		return this->addRegister(line);
+	} else if(line.find("<<") != std::string::npos){
+		operations.push_back(shl a{this, line});
+	} else if(line.find(">>") != std::string::npos){
+		operations.push_back(shr a{this, line});
+	} else if(line.find("<") != std::string::npos ||
+			line.find(">") != std::string::npos ||
+			line.find("==") != std::string::npos){
+		operations.push_back(comp a{this, line});
+	} else if(line.find("+") != std::string::npos){
+		operations.push_back(add a{this, line});
+	} else if(line.find("-") != std::string::npos){
+		operations.push_back(sub a{this, line});
+	} else if(line.find("*") != std::string::npos){
+		operations.push_back(mult a{this, line});
+	} else if(line.find("?") != std::string::npos){
+		operations.push_back(mux a{this, line});
+	} else {
+		return 1; //ERROR
 	}
 	return 0;
 }

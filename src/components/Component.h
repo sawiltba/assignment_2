@@ -58,9 +58,28 @@ class Component{
 			return (sign ? "S" : "") + toReturn;
         }
 		
-        std::string getID(){
+        virtual std::string getID(){
             return idName + std::to_string(id);
         }
+
+		void checkRegisters(){
+			std::vector<Component> regs = this->netlist->getComponents();
+			for(Component reg : regs){
+				if(reg.componentName.find("REG") == std::string::npos){
+					return;
+				}
+				for(int i = 0; i < inputs.length(); i++){
+					if(inputs[i] == reg.idName){
+						inputs[i] = reg.outputs[0];
+					}
+				}
+				for(int i = 0; i < outputs.length(); i++){
+					if(outputs[i] == reg.idName){
+						outputs[i] = reg.inputs[2];
+					}
+				}
+			}
+		}
 
 		int getWidth(){
 			int toReturn = 0;
