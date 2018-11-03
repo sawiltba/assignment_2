@@ -2,7 +2,7 @@
 
 using namespace std;
 
-Netlist read(ifstream inFile){
+Netlist read(ifstream &inFile){
     Netlist net;
     string line;
     int comment = -1;
