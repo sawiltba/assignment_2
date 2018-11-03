@@ -7,17 +7,45 @@
 #include "components/Component.h"
 using namespace std;
 
-void Printer(ofstream &outFile, Netlist Netlist) {
+void Printer(ofstream &outFile, Netlist netlist) {
 	// print inputs, outputs, wires
 	vector<Variable> IOW;
-	IOW.insert(IOW.end(), Netlist.getInputs().begin(), Netlist.getOutputs().end());
-	IOW.insert(IOW.end(), Netlist.getOutputs().begin(), Netlist.getOutputs().end());
-	IOW.insert(IOW.end(), Netlist.getWires().begin(), Netlist.getWires().end());
+	for(Variable v : netlist.getInputs()){
+		outFile << "input ";
+		if(v.getWidth() > 1){
+			outFile << "[" << v.getWidth() - 1 << ":0] ";
+		}
+		outFile << v.getName() << ";" << endl;
+	}
+	
+	for(Variable v : netlist.getOutputs()){
+		outFile << "output ";
+		if(v.getWidth() > 1){
+			outFile << "[" << v.getWidth() - 1 << ":0] ";
+		}
+		outFile << v.getName() << ";" << endl;
+	}
+	
+	for(Variable v : netlist.getWires()){
+		outFile << "wire ";
+		if(v.getWidth() > 1){
+			outFile << "[" << v.getWidth() - 1 << ":0] ";
+		}
+		outFile << v.getName() << ";" << endl;
+	}
 
-	PrintIOW(outFile, IOW);
+	for(Component c : netlist.getComponents()){
+		outFile << c.toString();
+	}
+
+	//IOW.insert(IOW.end(), netlist.getInputs().begin(), netlist.getInputs().end());
+	//IOW.insert(IOW.end(), netlist.getOutputs().begin(), netlist.getOutputs().end());
+	//IOW.insert(IOW.end(), netlist.getWires().begin(), netlist.getWires().end());
+
+	//PrintIOW(outFile, IOW);
 
 	// print operations
-	PrintComponent(outFile, Netlist.getComponents());
+	//PrintComponent(outFile, netlist.getComponents());
 
 	return;
 }

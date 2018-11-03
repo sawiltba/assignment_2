@@ -34,6 +34,8 @@ class comp: public Component {
 		comp(Netlist* netlist, std::string line){
 			this->netlist = netlist;
 			this->id = number;
+			this->componentName = "COMP";
+			this->idName = "c";
 			number++;
 			if(line.find(">") != std::string::npos){
 				this->calcIOs(">", line);
