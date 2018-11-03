@@ -1,7 +1,6 @@
 #ifndef __ADDER_H
 #define __ADDER_H
 #include "Component.h"
-#include "..\Netlist.h"
 
 class add: public Component {
 	private:

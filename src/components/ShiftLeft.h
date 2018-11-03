@@ -1,7 +1,6 @@
 #ifndef __SHL_H
 #define __SHL_H
 #include "Component.h"
-#include "..\Netlist.h"
 
 class shl: public Component {
     private:

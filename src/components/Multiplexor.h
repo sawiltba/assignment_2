@@ -1,7 +1,6 @@
 #ifndef __MUX_H
 #define __MUX_H
 #include "Component.h"
-#include "..\Netlist.h"
 
 class mux: public Component {
 	private:

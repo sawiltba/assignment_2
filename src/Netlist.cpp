@@ -1,5 +1,5 @@
 #include "Netlist.h"
-#include "components\Component.h"
+#include "components/Component.h"
 #include "components/Adder.h"
 #include "components/Comparator.h"
 #include "components/Component.h"
