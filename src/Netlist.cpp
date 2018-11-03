@@ -52,7 +52,7 @@ int Netlist::addVariable(std::string line){
 }
 
 
-int Netlist::addComponent(Netlist* netlist, std::string line){
+int Netlist::addComponent(std::string line){
     std::vector<std::string> tokens;
 
     //Split string on spaces into tokens
@@ -69,39 +69,39 @@ int Netlist::addComponent(Netlist* netlist, std::string line){
         return 1;
 	}
 	else if(tokens.size() == 3){//equals operator (register)
-        reg(this, line);
+        reg reg_o(this, line);
 	}
 	else if(tokens.size() < 6){//2 in, 1 out operation
         if(!tokens.at(3).compare("+")){//add
-            add(this, line);
+            add add_o(this, line);
         }
         else if(!tokens.at(3).compare("-")){//subtract
-            sub(this, line);
+            sub sub_o(this, line);
         }
         else if(!tokens.at(3).compare("*")){//multiply
-            sub(this, line);
+            mult mult_o(this, line);
         }
         else if(!tokens.at(3).compare("==")){//comp equal to
-            comp(this, line);
+            comp comp_o(this, line);
         }
         else if(!tokens.at(3).compare(">")){//comp greater than
-            comp(this, line);
+            comp comp_o(this, line);
         }
         else if(!tokens.at(3).compare("<")){//comp less than
-            comp(this, line);
+            comp comp_o(this, line);
         }
         else if(!tokens.at(3).compare("<<")){//shift left
-            shl(this, line);
+            shl shl_o(this, line);
         }
         else if(!tokens.at(3).compare(">>")){//shift right
-            shr(this, line);
+            shr shr_o(this, line);
         }
         else{//error
             return 1;
         }
 	}
 	else if(tokens.size() == 7){//multiplexor
-        mux(this, line);
+        mux mux_o(this, line);
 	}
 	else{//error
         return 1;

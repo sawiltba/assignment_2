@@ -2,6 +2,7 @@
 #define __SUB_H
 
 #include "Component.h"
+#include "..\Netlist.h"
 
 class sub: public Component {
 	private:

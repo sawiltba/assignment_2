@@ -1,6 +1,7 @@
 #ifndef __MUX_H
 #define __MUX_H
 #include "Component.h"
+#include "..\Netlist.h"
 
 class mux: public Component {
 	private:
@@ -47,13 +48,10 @@ class mux: public Component {
 			return toReturn;
 		}
 
-		std::string getID() override{
-			std::string toReturn = "mux" + std::to_string(id);
-			return toReturn;
-		}
+		
 
 };
 
-mux::number = 0;
+int mux::number = 0;
 
 #endif
