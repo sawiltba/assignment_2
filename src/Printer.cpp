@@ -18,6 +18,8 @@ void Printer(ofstream &outFile, Netlist Netlist) {
 
 	// print operations
 	PrintComponent(outFile, Netlist.getComponents());
+
+	return;
 }
 
 void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
