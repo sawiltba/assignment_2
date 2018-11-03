@@ -1,5 +1,4 @@
 #include "Netlist.h"
-#include "components/Component.h"
 
 Netlist::Netlist(){
 
@@ -46,11 +45,12 @@ void Netlist::addVariable(std::string line){
 		outputs.insert(outputs.end(), newVars.begin(), newVars.end());
 	} else {
 		//ERROR
-		//Throw some error
+		return(1);
 	}
 }
 
-void Netlist::addComponent(std::string line){
+
+int Netlist::addComponent(std::string line){
     std::vector<std::string> tokens;
 
     //Split string on spaces into tokens
@@ -66,24 +66,18 @@ void Netlist::addComponent(std::string line){
 	if(tokens.size() < 3){//error
         return 1;
 	}
-	else if(tokens.size() == 3){//equals operator
+	else if(tokens.size() == 3){//equals operator (register)
 
 	}
 	else if(tokens.size() < 6){//2 in, 1 out operation
         if(!tokens.at(3).compare("+")){//add
-
+            add(netlist, line);
         }
         else if(!tokens.at(3).compare("-")){//subtract
-
+            sub(netlist, line);
         }
         else if(!tokens.at(3).compare("*")){//multiply
-
-        }
-        else if(!tokens.at(3).compare("/")){//divide
-
-        }
-        else if(!tokens.at(3).compare("%")){//modulo
-
+            sub(netlist, line);
         }
         else if(!tokens.at(3).compare("==")){//comp equal to
 
@@ -95,17 +89,17 @@ void Netlist::addComponent(std::string line){
 
         }
         else if(!tokens.at(3).compare("<<")){//shift left
-
+            shl(this, line);
         }
         else if(!tokens.at(3).compare(">>")){//shift right
-
+            shr(this, line);
         }
         else{//error
             return 1;
         }
 	}
 	else if(tokens.size() == 7){//multiplexor
-
+        mux(netlist, line);
 	}
 	else{//error
         return 1;

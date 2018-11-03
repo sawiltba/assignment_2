@@ -4,6 +4,7 @@
 #include <string>
 #include "Printer.h"
 #include "Variable.h"
+#include "components/Component.h"
 using namespace std;
 
 void Printer(ofstream &outFile, Netlist Netlist) {
@@ -28,7 +29,7 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 
 	for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
 		if (it->getType().compare("input") == 0) { // Inputs
-			switch (int i = 0) 
+			switch (int i = it->getWidth()) 
 			{
 				case 1:
 					In1 += " " + it->getName() + ",";
@@ -54,7 +55,7 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 		}
 
 		if (it->getType().compare("output") == 0) { // Outputs
-			switch (int i = 0)
+			switch (int i = it->getWidth())
 			{
 			case 1:
 				Out1 += " " + it->getName() + ",";
@@ -80,7 +81,7 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 		}
 
 		if (it->getType().compare("wire") == 0) { // Wires
-			switch (int i = 0)
+			switch (int i = it->getWidth())
 			{
 			case 1:
 				Wire1 += " " + it->getName() + ",";
@@ -108,81 +109,81 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 		}
 	}
 
-	if (In1.size != 0) {
+	if (In1.size() != 0) {
 		In1.pop_back();
-		outFile << "input [1]" << In1 << endl;
+		outFile << "input " << In1 << endl;
 	}
-	if (In2.size != 0) {
+	if (In2.size() != 0) {
 		In2.pop_back();
-		outFile << "input [2]" << In2 << endl;
+		outFile << "input [1:0]" << In2 << endl;
 	}
-	if (In8.size != 0) {
+	if (In8.size() != 0) {
 		In8.pop_back();
-		outFile << "input [8]" << In8 << endl;
+		outFile << "input [7:0]" << In8 << endl;
 	}
-	if (In16.size != 0) {
+	if (In16.size() != 0) {
 		In16.pop_back();
-		outFile << "input [16]" << In16 << endl;
+		outFile << "input [15:0]" << In16 << endl;
 	}
-	if (In32.size != 0) {
+	if (In32.size() != 0) {
 		In32.pop_back();
-		outFile << "input [32]" << In32 << endl;
+		outFile << "input [31:0]" << In32 << endl;
 	}
-	if (In64.size != 0) {
+	if (In64.size() != 0) {
 		In64.pop_back();
-		outFile << "input [64]" << In64 << endl;
+		outFile << "input [63:0]" << In64 << endl;
 	}
 
-	if (Out1.size != 0) {
+	if (Out1.size() != 0) {
 		Out1.pop_back();
-		outFile << "output [1]" << Out1 << endl;
+		outFile << "output reg" << Out1 << endl;
 	}
-	if (Out2.size != 0) {
+	if (Out2.size() != 0) {
 		Out2.pop_back();
-		outFile << "output [2]" << Out2 << endl;
+		outFile << "output reg [1:0]" << Out2 << endl;
 	}
-	if (Out8.size != 0) {
+	if (Out8.size() != 0) {
 		Out8.pop_back();
-		outFile << "output [8]" << Out8 << endl;
+		outFile << "output reg [7:0]" << Out8 << endl;
 	}
-	if (Out16.size != 0) {
+	if (Out16.size() != 0) {
 		Out16.pop_back();
-		outFile << "output [16]" << Out16 << endl;
+		outFile << "output [15:0]" << Out16 << endl;
 	}
-	if (Out32.size != 0) {
+	if (Out32.size() != 0) {
 		Out32.pop_back();
-		outFile << "output [32]" << Out32 << endl;
+		outFile << "output [31:0]" << Out32 << endl;
 	}
-	if (Out64.size != 0) {
+	if (Out64.size() != 0) {
 		Out64.pop_back();
-		outFile << "output [64]" << Out64 << endl;
+		outFile << "output [63:0]" << Out64 << endl;
 	}
 
 	cout << endl;
 
-	if (Wire1.size != 0) {
+	if (Wire1.size() != 0) {
 		Wire1.pop_back();
-		outFile << "output [1]" << Wire1 << endl;
+		outFile << "wire " << Wire1 << endl;
 	}
-	if (Wire2.size != 0) {
+	if (Wire2.size() != 0) {
 		Wire2.pop_back();
-		outFile << "output [2]" << Wire2 << endl;
+		outFile << "wire [1:0]" << Wire2 << endl;
 	}
-	if (Wire8.size != 0) {
+	if (Wire8.size() != 0) {
 		Wire8.pop_back();
-		outFile << "output [8]" << Wire8 << endl;
+		outFile << "wire [7:0]" << Wire8 << endl;
 	}
-	if (Wire16.size != 0) {
+	if (Wire16.size() != 0) {
 		Wire16.pop_back();
-		outFile << "output [16]" << Wire16 << endl;
+		outFile << "wire [15:0]" << Wire16 << endl;
 	}
-	if (Wire32.size != 0) {
+	if (Wire32.size() != 0) {
 		Wire32.pop_back();
-		outFile << "output [32]" << Wire32 << endl;
+		outFile << "wire [31:0]" << Wire32 << endl;
 	}
-	if (Wire64.size != 0) {
+	if (Wire64.size() != 0) {
 		Wire64.pop_back();
-		outFile << "output [64]" << Wire64 << endl;
+		outFile << "wire [63:0]" << Wire64 << endl;
 	}
 
 	cout << endl;
