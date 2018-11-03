@@ -23,6 +23,7 @@ int Netlist::addVariable(std::string line){
 
 	if(tokens.size() < 3){
 		//ERROR
+		return 1;
 	}
 
 	//tokens is {"<input/output/wire>", "[U]Int#", "name1", ...}
@@ -45,8 +46,9 @@ int Netlist::addVariable(std::string line){
 		outputs.insert(outputs.end(), newVars.begin(), newVars.end());
 	} else {
 		//ERROR
-		return(1);
+		return 1;
 	}
+	return 0;
 }
 
 
