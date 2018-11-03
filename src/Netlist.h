@@ -23,6 +23,9 @@ class Netlist{
 		std::vector<Variable> getWires(){
 			return wires;
 		}
+		std::vector<Component> getComponents() {
+			return operations;
+		}
 };
 
 #endif

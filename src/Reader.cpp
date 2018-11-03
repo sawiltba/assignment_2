@@ -6,7 +6,7 @@
 Netlist read(ifstream inFile){
     Netlist net;
     string line;
-    comment = -1;
+    int comment = -1;
 
     while(getline(inFile, line)){
         //remove any comments if found
