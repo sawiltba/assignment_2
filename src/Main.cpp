@@ -33,7 +33,7 @@ int main(int argc, char *argv[]) {
 		return 1;
 	}
 	inFile.close();
-	Printer(outFile, netlist);
+	Printer(std::string{argv[2]}, outFile, netlist);
 	outFile.close();
 
 	return 0;

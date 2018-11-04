@@ -5,6 +5,7 @@
 class reg: public Component {
 	private:
 		static int number;
+        bool foundReg = false;
 	public:
 		reg(Netlist *netlist, std::string line, int a){
 			this->netlist = netlist;
@@ -15,18 +16,19 @@ class reg: public Component {
 				begin = end + 1;
 				end = line.find(" ", begin);
 			}
-			tokens.push_back(line.substr(begin, end));
+			tokens.push_back(line.substr(begin, end - begin));
 			//Tokens is {output, =, input}
 
 			
+			this->inputs.push_back(tokens[2]);
 			this->inputs.push_back("clk");
 			this->inputs.push_back("rst");
-			this->inputs.push_back(tokens[2]);
 			this->outputs.push_back(tokens[0]);
 			this->componentName = "REG";
 			this->id = number;
 			this->idName = "reg" + std::to_string(number);
 			number++;
+            this->checkRegisters();
 		}
 		reg(Netlist *netlist, std::string line){
 			this->netlist = netlist;
@@ -41,13 +43,35 @@ class reg: public Component {
 			//Tokens is {"register", "[U]Int#", "name"}
 
 			this->idName = tokens[2];
+			this->inputs.push_back(tokens[2] + "_in");
 			this->inputs.push_back("clk");
 			this->inputs.push_back("rst");
-			this->inputs.push_back(tokens[2] + "_in");
 			this->outputs.push_back(tokens[2] + "_out");
 			this->componentName = "REG";
 			this->id = -1;
 		}
+        
+        void checkRegisters() override {
+			std::vector<std::shared_ptr<Component>> regs = this->netlist->getComponents();
+			for(std::shared_ptr<Component> reg : regs){
+				if(reg->getComponentName().find("REG") == std::string::npos || reg->getID() != this->outputs[0]){
+					continue;
+				}
+                for(std::shared_ptr<Component> elem : regs){
+                    for(unsigned i = 0; i < elem->getOutputs().size(); i++){
+                        if(this->inputs[0] == elem->getOutputs()[i]){
+                            elem->setOutput(i, reg->getInputs()[0]);
+                            this->foundReg = true;
+                            number -= 1;
+                        }
+                    }
+                }
+			}
+        }
+
+        bool foundRegister(){
+            return this->foundReg;
+        }
 
 		std::string getID() override {
 			return idName;

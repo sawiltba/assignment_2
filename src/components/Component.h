@@ -8,7 +8,7 @@
 
 class Component{
 	protected:
-		int id;
+		int id, width = -1;
 		Netlist *netlist;
         std::string idName;
         std::string componentName;
@@ -24,12 +24,41 @@ class Component{
 			inputs.push_back(line.substr(begin, end - begin - 1));
 			begin = end + operation.length() + 1;
 			end = line.length();
+            if(line.find(" ", begin) < end){
+                end = line.find(" ", begin);
+            }
 			inputs.push_back(line.substr(begin, end - begin));
+            this->checkWidths();
+        }
+
+        virtual void checkWidths(){
+            this->getWidth();
+			for(unsigned i = 0; i < inputs.size(); i++){
+				for(Variable v : this->netlist->getInputs()){
+					if(inputs[i] == v.getName() && v.getWidth() < this->width && !v.isSigned()){
+						inputs[i] = "$signed({1'b0, " + inputs[i] + "})";
+					} else if(inputs[i] == v.getName() && v.getWidth() > this->width){
+                        char width[16] = "";
+                        sprintf(width, "[%d:0]", this->width - 1);
+                        inputs[i] = inputs[i] + std::string{width};
+                    }
+				}
+				for(Variable v : this->netlist->getWires()){
+					if(inputs[i] == v.getName() && v.getWidth() < this->width && !v.isSigned()){
+						inputs[i] = "$signed({1'b0, " + inputs[i] + "})";
+					} else if(inputs[i] == v.getName() && v.getWidth() > this->width){
+                        char width[16] = "";
+                        sprintf(width, "[%d:0]", this->width - 1);
+                        inputs[i] = inputs[i] + std::string{width};
+                    }
+				}
+			}
         }
 
 		size_t IOStrLen(){
 			size_t len = 0;
 			for(std::string input : inputs){
+
 				len += input.length();
 			}
 			for(std::string output : outputs){
@@ -44,7 +73,7 @@ class Component{
             return idName + std::to_string(id);
         }
 
-		void checkRegisters(){
+		virtual void checkRegisters(){
 			std::vector<std::shared_ptr<Component>> regs = this->netlist->getComponents();
 			for(std::shared_ptr<Component> reg : regs){
 				if(reg->componentName.find("REG") == std::string::npos){
@@ -63,20 +92,15 @@ class Component{
 			}
 		}
 
-		int getWidth(){
+        std::string getComponentName(){
+            return componentName;
+        }
+
+		virtual int getWidth(){
+            if(this->width != -1){
+                return this->width;
+            }
 			int toReturn = 0;
-			for(std::string input : inputs){
-				for(Variable v : this->netlist->getInputs()){
-					if(input == v.getName() && v.getWidth() > toReturn){
-						toReturn = v.getWidth();
-					}
-				}
-				for(Variable v : this->netlist->getWires()){
-					if(input == v.getName() && v.getWidth() > toReturn){
-						toReturn = v.getWidth();
-					}
-				}
-			}
 			for(std::string output : outputs){
 				for(Variable v : this->netlist->getOutputs()){
 					if(output == v.getName() && v.getWidth() > toReturn){
@@ -89,6 +113,7 @@ class Component{
 					}
 				}
 			}
+            this->width = toReturn;
 			return toReturn;
 		}
 		virtual bool isSigned(){
@@ -106,6 +131,19 @@ class Component{
 			}
 			return false;
 		}
+
+        std::vector<std::string> getInputs(){
+            return this->inputs;
+        }
+        std::vector<std::string> getOutputs(){
+            return this->outputs;
+        }
+        void setInput(int index, std::string value){
+            this->inputs[index] = value;
+        }
+        void setOutput(int index, std::string value){
+            this->outputs[index] = value;
+        }
 };
 
 #endif

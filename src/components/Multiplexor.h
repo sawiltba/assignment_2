@@ -23,7 +23,7 @@ class mux: public Component {
 			end = line.find(":");
 			inputs.push_back(line.substr(begin, end - begin - 1));
 			begin = end + 2;
-			end = line.length();
+			end = line.find(" ", begin);
 			inputs.push_back(line.substr(begin, end - begin));
 		}
 

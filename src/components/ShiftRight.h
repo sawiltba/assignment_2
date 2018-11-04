@@ -12,6 +12,7 @@ class shr: public Component {
 			this->componentName = "SHR";
 			this->calcIOs(">>", line);
 			id = number++;
+            this->checkRegisters();
 		}
 
 		std::string toString(){

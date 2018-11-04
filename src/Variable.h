@@ -4,6 +4,7 @@
 #include <string>
 #include <cstdio>
 #include <cstdlib>
+#include <cstring>
 
 class Variable{
 	private:
@@ -20,12 +21,18 @@ class Variable{
 		std::string toString(){
 			//<dir> <width> <name>;
 			size_t len = 2 + name.length() + type.length();
-			char widthStr[16] = "";
+			char widthStr[32] = "";
+            char signedStr[8] = "";
+            if(this->Signed){
+                sprintf(signedStr, "%s", " signed");
+                len += 7;
+            }
 			if(width > 1){
 				// [w-1:0]
 				len += 5 + std::to_string(width - 1).length();
-				sprintf(widthStr, " [%d:0]", width - 1);
+				sprintf(widthStr, "%s [%d:0]", signedStr, width - 1);
 			}
+            
 			char* str = (char*)malloc(len + 1);
 			sprintf(str, "%s%s %s;\n", type.c_str(),
 					widthStr, name.c_str());

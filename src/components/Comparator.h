@@ -1,19 +1,31 @@
 #ifndef __COMP_H
 #define __COMP_H
 #include "Component.h"
+#include "../Variable.h"
 
 class comp: public Component {
 	private:
 		static int number;
 		void calcIOs_comp(std::string operation, std::string line) {
-			size_t begin = 0, end = 0;
+            std::vector<Variable> wires = this->netlist->getWires();
+            bool hasNull = false;
+            for(Variable &v : wires){
+                if(v.getName() == "null"){
+                    hasNull = true;
+                }
+            }
+            if(!hasNull){
+                this->netlist->addVariable("wire UInt1 null");
+            }
+            
+            size_t begin = 0, end = 0;
 			end = line.find("=");
 			std::string output = line.substr(begin, end - 1);
 			begin = end + 2;
 			end = line.find(operation);
 			inputs.push_back(line.substr(begin, end - begin - 1));
 			begin = end + operation.length() + 1;
-			end = line.length();
+			end = line.find(" ", begin);
 			inputs.push_back(line.substr(begin, end - begin));
 			if(operation == ">"){
 				outputs.push_back(output);
@@ -28,7 +40,29 @@ class comp: public Component {
 				outputs.push_back(output);
 				outputs.push_back("null");
 			}
+            this->checkWidths();
 		}
+
+        int getWidth() override {
+            if(this->width != -1){
+                return this->width;
+            }
+            int toReturn = 0;
+			for(std::string input : inputs){
+				for(Variable v : this->netlist->getInputs()){
+					if(input == v.getName() && v.getWidth() > toReturn){
+						toReturn = v.getWidth();
+					}
+				}
+				for(Variable v : this->netlist->getWires()){
+					if(input == v.getName() && v.getWidth() > toReturn){
+						toReturn = v.getWidth();
+					}
+				}
+			}
+            this->width = toReturn;
+            return toReturn;
+        }
 	public:
 		//comp #(.DATAWIDTH(8)) c0 (in1, in2, gt, lt, eq)
 		comp(Netlist* netlist, std::string line){
