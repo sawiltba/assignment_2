@@ -18,13 +18,14 @@ class Netlist{
 		int addVariable(std::string line);
 		int addComponent(std::string line);
 		int addRegister(std::string line);
-		std::vector<Variable> getInputs(){
+        std::vector<std::string> tokenize(std::string line);
+		std::vector<Variable>& getInputs(){
 			return inputs;
 		}
-		std::vector<Variable> getOutputs(){
+		std::vector<Variable>& getOutputs(){
 			return outputs;
 		}
-		std::vector<Variable> getWires(){
+		std::vector<Variable>& getWires(){
 			return wires;
 		}
 		std::vector<std::shared_ptr<Component>> getComponents() {

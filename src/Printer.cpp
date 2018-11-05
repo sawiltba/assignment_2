@@ -12,7 +12,9 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
     outFile << "`timescale 1ns / 1ps" << endl;
     outFile << "module " << base << "(clk, rst, ";
     for(unsigned i = 0; i < netlist.getInputs().size(); i++){
-        outFile << netlist.getInputs()[i].getName() << ", ";
+        if(netlist.getInputs()[i].getName() != "clk" && netlist.getInputs()[i].getName() != "rst"){
+            outFile << netlist.getInputs()[i].getName() << ", ";
+        }
     }
 
     for(unsigned i = 0; i < netlist.getOutputs().size() - 1; i++){
@@ -23,10 +25,12 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
 
     outFile << "\tinput clk;" << endl;
     outFile << "\tinput rst;" << endl;
-    
+
     // print inputs, outputs, wires
     for(Variable v : netlist.getInputs()){
-        outFile << "\t" << v.toString();
+        if(v.getName() != "clk" && v.getName() != "rst"){
+            outFile << "\t" << v.toString();
+        }
     }
 
     for(Variable v : netlist.getOutputs()){
@@ -34,7 +38,9 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
     }
 
     for(Variable v : netlist.getWires()){
-        outFile << "\t" << v.toString();
+        if(v.isUsed()){
+            outFile << "\t" << v.toString();
+        }
     }
 
     for(shared_ptr<Component> c : netlist.getComponents()){

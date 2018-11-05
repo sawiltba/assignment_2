@@ -9,8 +9,8 @@ class mult: public Component {
 	public:
 		mult(Netlist* netlist, std::string line){
 			this->netlist = netlist;
-			this->componentName = "MULT";
-			this->idName = "mult";
+			this->componentName = "MUL";
+			this->idName = "mul";
 			id = number;
 			number++;
 			this->calcIOs("*", line);

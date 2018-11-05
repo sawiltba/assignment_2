@@ -5,12 +5,14 @@
 #include <cstdio>
 #include <cstdlib>
 #include <cstring>
+#include <sstream>
 
 class Variable{
 	private:
 		std::string name, type;
 		int width;
 		bool Signed;
+        bool used = false;
 	public:
 		Variable(std::string name, std::string type, int width, bool sign){
 			this->name = name;
@@ -20,25 +22,38 @@ class Variable{
 		}
 		std::string toString(){
 			//<dir> <width> <name>;
-			size_t len = 2 + name.length() + type.length();
-			char widthStr[32] = "";
-            char signedStr[8] = "";
+            std::stringstream toReturn;
+			//size_t len = 2 + name.length() + type.length();
+			//char widthStr[32] = "";
+            //char signedStr[8] = "";
+            toReturn << type;
             if(this->Signed){
-                sprintf(signedStr, "%s", " signed");
-                len += 7;
+                //sprintf(signedStr, "%s", " signed");
+                //len += 7;
+                toReturn << " signed";
             }
 			if(width > 1){
 				// [w-1:0]
-				len += 5 + std::to_string(width - 1).length();
-				sprintf(widthStr, "%s [%d:0]", signedStr, width - 1);
+				//len += 5 + std::to_string(width - 1).length();
+				//sprintf(widthStr, "%s [%d:0]", signedStr, width - 1);
+                toReturn << " [" << width - 1 << ":0]";
 			}
             
-			char* str = (char*)malloc(len + 1);
-			sprintf(str, "%s%s %s;\n", type.c_str(),
-					widthStr, name.c_str());
-			std::string toReturn{str};
-			return toReturn;
+			//char* str = (char*)malloc(len + 1);
+			//sprintf(str, "%s%s %s;\n", type.c_str(),
+			//		widthStr, name.c_str());
+			//std::string toReturn{str};
+            toReturn << " " << name << ";\n";
+			return toReturn.str();
 		}
+
+        bool isUsed(){
+            return used;
+        }
+
+        void setUsed(){
+            used = true;
+        }
 
 		std::string getType(){
 			return type;

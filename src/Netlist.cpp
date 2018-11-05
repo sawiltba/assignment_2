@@ -15,8 +15,8 @@ Netlist::Netlist(){
 }
 
 int Netlist::addRegister(std::string line){
-    std::vector<std::string> tokens;
-    //Get rid of commas
+    std::vector<std::string> tokens = this->tokenize(line);
+    /*//Get rid of commas
     while(line.find(",") != std::string::npos){
         line.erase(line.find(","), 1);
     }
@@ -41,7 +41,7 @@ int Netlist::addRegister(std::string line){
     }
     if(token.size() > 0){
         tokens.push_back(token);
-    }
+    }*/
 
     if(tokens.size() < 3){
         //ERROR
@@ -74,8 +74,8 @@ int Netlist::addRegister(std::string line){
 }
 
 int Netlist::addVariable(std::string line){
-    std::vector<std::string> tokens;
-    //Get rid of commas
+    std::vector<std::string> tokens = this->tokenize(line);
+    /*//Get rid of commas
     while(line.find(",") != std::string::npos){
         line.erase(line.find(","), 1);
     }
@@ -100,7 +100,7 @@ int Netlist::addVariable(std::string line){
     }
     if(token.size() > 0){
         tokens.push_back(token);
-    }
+    }*/
 
     if(tokens.size() < 3){
         //ERROR
@@ -132,8 +132,39 @@ int Netlist::addVariable(std::string line){
     return 0;
 }
 
+std::vector<std::string> Netlist::tokenize(std::string line){
+    std::vector<std::string> tokens;
+    //Get rid of commas
+    while(line.find(",") != std::string::npos){
+        line.erase(line.find(","), 1);
+    }
+
+    size_t begin = 0, end = line.find_first_of(" \t\n"), len = end - begin;
+    while(end != std::string::npos){
+        std::string token = line.substr(begin, len);
+        while(token.find_first_of(" \t\n") != std::string::npos){
+            token.erase(token.find_first_of(" \t\n"), 1);
+        }
+        if(token.size() > 0){
+            tokens.push_back(token);
+        }
+        begin = end + 1;
+        end = line.find_first_of(" \t\n", begin);
+        len = end - begin;
+    }
+    std::string token = line.substr(begin, end);
+    while(token.find_first_of(" \t\n") != std::string::npos){
+        token.erase(token.find_first_of(" \t\n"), 1);
+    }
+    if(token.size() > 0){
+        tokens.push_back(token);
+    }
+    return tokens;
+}
+
 
 int Netlist::addComponent(std::string line){
+    std::vector<std::string> tokens = this->tokenize(line);
     if(line.find("register") != std::string::npos){
         return this->addRegister(line);
     } else if(line.find("<<") != std::string::npos){
@@ -159,7 +190,7 @@ int Netlist::addComponent(std::string line){
     } else if(line.find("?") != std::string::npos){
         std::shared_ptr<mux> a = std::shared_ptr<mux>{new mux{this, line}};
         operations.push_back(a);
-    } else if(line.find("=") != std::string::npos){
+    } else if(line.find("=") != std::string::npos && tokens.size() == 3){
         std::shared_ptr<reg> a = std::shared_ptr<reg>{new reg{this, line, 1}};
         if(!a->foundRegister()){
             operations.push_back(a);

@@ -2,6 +2,7 @@
 #define __COMPONENT_H
 #include <vector>
 #include <string>
+#include <stdexcept>
 #include "../Netlist.h"
 
 //class Netlist;
@@ -28,14 +29,56 @@ class Component{
                 end = line.find(" ", begin);
             }
 			inputs.push_back(line.substr(begin, end - begin));
+            this->checkRegisters();
+            this->checkConnections(line);
             this->checkWidths();
         }
 
+        virtual void checkConnections(std::string line){
+            size_t len = inputs.size() + outputs.size();
+            std::vector<bool> connections;
+            connections.resize(len, false);
+            for(unsigned i = 0; i < inputs.size(); i++){
+                for(Variable &v : netlist->getInputs()){
+                    if(v.getName() == inputs[i]){
+                        connections[i] = true;
+                        v.setUsed();
+                    }
+                }
+                for(Variable &v : netlist->getWires()){
+                    if(v.getName() == inputs[i]){
+                        connections[i] = true;
+                        v.setUsed();
+                    }
+                }
+            }
+            for(unsigned i = 0; i < outputs.size(); i++){
+                for(Variable &v : netlist->getOutputs()){
+                    if(v.getName() == outputs[i]){
+                        connections[i + inputs.size()] = true;
+                        v.setUsed();
+                    }
+                }
+                for(Variable &v : netlist->getWires()){
+                    if(v.getName() == outputs[i]){
+                        connections[i + inputs.size()] = true;
+                        v.setUsed();
+                    }
+                }
+            }
+            for(unsigned i = 0; i < connections.size(); i++){
+                if(!connections[i]){
+                    throw std::length_error{"Missing connection! At line: " + line};
+                }
+            }
+        }
+
         virtual void checkWidths(){
+            bool sign = this->isSigned();
             this->getWidth();
 			for(unsigned i = 0; i < inputs.size(); i++){
 				for(Variable v : this->netlist->getInputs()){
-					if(inputs[i] == v.getName() && v.getWidth() < this->width && !v.isSigned()){
+					if(inputs[i] == v.getName() && v.getWidth() < this->width && !v.isSigned() && sign){
 						inputs[i] = "$signed({1'b0, " + inputs[i] + "})";
 					} else if(inputs[i] == v.getName() && v.getWidth() > this->width){
                         char width[16] = "";
@@ -44,7 +87,7 @@ class Component{
                     }
 				}
 				for(Variable v : this->netlist->getWires()){
-					if(inputs[i] == v.getName() && v.getWidth() < this->width && !v.isSigned()){
+					if(inputs[i] == v.getName() && v.getWidth() < this->width && !v.isSigned() && sign){
 						inputs[i] = "$signed({1'b0, " + inputs[i] + "})";
 					} else if(inputs[i] == v.getName() && v.getWidth() > this->width){
                         char width[16] = "";
@@ -96,7 +139,7 @@ class Component{
             return componentName;
         }
 
-		virtual int getWidth(){
+		virtual int getWidth() {
             if(this->width != -1){
                 return this->width;
             }
@@ -114,6 +157,9 @@ class Component{
 				}
 			}
             this->width = toReturn;
+            if(this->width <= 0){
+                throw std::length_error("Width of component must be greater than zero!");
+            }
 			return toReturn;
 		}
 		virtual bool isSigned(){
