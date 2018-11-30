@@ -16,33 +16,6 @@ Netlist::Netlist(){
 
 int Netlist::addRegister(std::string line){
     std::vector<std::string> tokens = this->tokenize(line);
-    /*//Get rid of commas
-    while(line.find(",") != std::string::npos){
-        line.erase(line.find(","), 1);
-    }
-
-    //Split string on spaces into tokens
-    size_t begin = 0, end = line.find(" "), len = end - begin;
-    while(end != std::string::npos){
-        std::string token = line.substr(begin, len);
-        while(token.find(" ") != std::string::npos){
-            token.erase(token.find(" "), 1);
-        }
-        if(token.size() > 0){
-            tokens.push_back(token);
-        }
-        begin = end + 1;
-        end = line.find(" ", begin);
-        len = end - begin;
-    }
-    std::string token = line.substr(begin, end);
-    while(token.find(" ") != std::string::npos){
-        token.erase(token.find(" "), 1);
-    }
-    if(token.size() > 0){
-        tokens.push_back(token);
-    }*/
-
     if(tokens.size() < 3){
         //ERROR
         return 1;
@@ -75,32 +48,6 @@ int Netlist::addRegister(std::string line){
 
 int Netlist::addVariable(std::string line){
     std::vector<std::string> tokens = this->tokenize(line);
-    /*//Get rid of commas
-    while(line.find(",") != std::string::npos){
-        line.erase(line.find(","), 1);
-    }
-
-    //Split string on spaces into tokens
-    size_t begin = 0, end = line.find(" "), len = end - begin;
-    while(end != std::string::npos){
-        std::string token = line.substr(begin, len);
-        while(token.find(" ") != std::string::npos){
-            token.erase(token.find(" "), 1);
-        }
-        if(token.size() > 0){
-            tokens.push_back(token);
-        }
-        begin = end + 1;
-        end = line.find(" ", begin);
-        len = end - begin;
-    }
-    std::string token = line.substr(begin, end);
-    while(token.find(" ") != std::string::npos){
-        token.erase(token.find(" "), 1);
-    }
-    if(token.size() > 0){
-        tokens.push_back(token);
-    }*/
 
     if(tokens.size() < 3){
         //ERROR

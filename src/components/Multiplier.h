@@ -14,6 +14,7 @@ class mult: public Component {
 			id = number;
 			number++;
 			this->calcIOs("*", line);
+			this->latency = 2;
 		}
 
 		std::string toString(){

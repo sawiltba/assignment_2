@@ -9,7 +9,7 @@
 
 class Component{
 	protected:
-		int id, width = -1, startTime, endTime;
+		int id, width = -1, startTime = -1, endTime = -1, latency = 1;
 		std::vector<Component> younglings;
 		std::vector<Component> masters;
 		Netlist *netlist;
@@ -113,6 +113,56 @@ class Component{
 		}
 	public:
 		virtual std::string toString() = 0;
+
+		virtual int calcTimeFrame(int maxLatency){
+			if(younglings.size() == 0){
+				startTime = maxLatency - latency + 1;
+				endTime = maxLatency;
+				return startTime;
+			}
+			int earliestYoungStart = maxLatency;
+			for(auto itr = younglings.begin(); itr != younglings.end(); itr++){
+				int currStart = itr->calcTimeFrame(maxLatency);
+				if(currStart < earliestYoungStart){
+					earliestYoungStart = currStart;
+				}
+			}
+			startTime = earliestYoungStart - latency;
+			endTime = earliestYoungStart - 1;
+			return startTime;
+		}
+
+		virtual int getStartTime(){
+			return startTime;
+		}
+
+		virtual int getEndTime(){
+			return endTime;
+		}
+
+		virtual int getLatency(){
+			return latency;
+		}
+
+		virtual void addYoungling(std::shared_ptr<Component> youngling){
+			for(auto itr = younglings.rbegin(); itr != younglings.rend(); itr++){
+				if(*itr == youngling){
+					return;
+				}
+			}
+			younglings.push_back(youngling);
+			youngling->addMaster(std::shared_ptr<Component>{this});
+		}
+
+		virtual void addMaster(std::shared_ptr<Component> master){
+			for(auto itr = masters.rbegin(); itr != masters.rend(); itr++){
+				if(*itr == master){
+					return;
+				}
+			}
+			masters.push_back(master);
+			master->addYoungling(std::shared_ptr<Component>{this});
+		}
 		
         virtual std::string getID(){
             return idName + std::to_string(id);
