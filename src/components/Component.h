@@ -9,7 +9,9 @@
 
 class Component{
 	protected:
-		int id, width = -1;
+		int id, width = -1, startTime, endTime;
+		std::vector<Component> younglings;
+		std::vector<Component> masters;
 		Netlist *netlist;
         std::string idName;
         std::string componentName;
