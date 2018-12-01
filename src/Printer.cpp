@@ -62,20 +62,20 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
     
     outFile << ") begin\n";
     outFile << "case(state)\n";
-    outFile << "\t32'd0: begin\n;
+    outFile << "\t32'd0: begin\n";
     outFile << "\tdone <= 0;\n";
     outFile << "\tif(start) begin\n";
     outFile << "\tstateNext <= 1;\n";
     outFile << "\tend\n";
-    outFile << "\telse begin\n
-    outFile << "\tstateNext <= 0;\n
+	outFile << "\telse begin\n";
+	outFile << "\tstateNext <= 0;\n";
     outFile << "\tend\n\tend\n";
     
     for(int i = 1; i < /*need to find max states*/; i++){
-        outFile << "\t32'd" << i << ": begin\n
+		outFile << "\t32'd" << i << ": begin\n";
     outFile << "\t";
       for(shared_ptr<Component> c: netlist.getComponents()){
-          if(i == c->id) {
+          if(i == c->cmpID) {
               outFile << c->toString() << "\n\t";
           }
       }
@@ -124,7 +124,7 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
     In1 += " start,";
     //NEED to find number of bits state needs
     Wire32 += " state,";
-    Out1 += " done,"
+	Out1 += " done,";
     for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
         if (it->getType().compare("input") == 0) { // Inputs
             switch (int i = it->getWidth())
