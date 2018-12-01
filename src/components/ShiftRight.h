@@ -12,6 +12,7 @@ class shr: public Component {
 			this->componentName = "SHR";
 			this->calcIOs(">>", line);
 			id = number++;
+			cmpID = componentNumber++;
             this->checkRegisters();
 		}
 

@@ -13,6 +13,7 @@ class sub: public Component {
 			netlist = net;
 			id = number;
 			number++;
+			cmpID = componentNumber++;
 			this->calcIOs("-", line);
 		}
 

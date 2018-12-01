@@ -13,6 +13,8 @@ class add: public Component {
 			this->componentName = "ADD";
 			id = number;
 			number++;
+			cmpID = componentNumber;
+			componentNumber++;
 			this->calcIOs("+", line);
 		}
 

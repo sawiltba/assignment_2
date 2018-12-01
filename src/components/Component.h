@@ -113,6 +113,8 @@ class Component{
 			return len;
 		}
 	public:
+		int cmpID;
+		static int componentNumber;
 		virtual std::string toString() = 0;
 
 		virtual int calcTimeFrame(int maxLatency){
@@ -248,5 +250,7 @@ class Component{
             this->outputs[index] = value;
         }
 };
+
+int Component::componentNumber = 1;
 
 #endif

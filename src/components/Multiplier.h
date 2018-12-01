@@ -13,6 +13,8 @@ class mult: public Component {
 			this->idName = "mul";
 			id = number;
 			number++;
+			cmpID = componentNumber;
+			componentNumber++;
 			this->calcIOs("*", line);
 			this->latency = 2;
 		}

@@ -12,6 +12,7 @@ class shl: public Component {
 			this->componentName = "SHL";
 			this->calcIOs("<<", line);
 			id = number++;
+			cmpID = componentNumber++;
             this->checkRegisters();
 		}
 

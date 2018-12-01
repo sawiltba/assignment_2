@@ -14,6 +14,8 @@ class mux: public Component {
 			size_t begin = 0, end = 0;
 			id = number;
 			number++;
+			cmpID = componentNumber;
+			componentNumber++;
 			end = line.find("=");
 			outputs.push_back(line.substr(begin, end - 1));
 			begin = end + 2;

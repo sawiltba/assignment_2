@@ -19,6 +19,14 @@ Netlist read(ifstream &inFile, int* error){
         if(!line.compare("\0")){
             //ignore only newline
         }
+		else if(line.find("if") != -1){
+			shared_ptr<ifelse> newIf = shared_ptr<ifelse>{new ifelse{}};
+			newIf.addTrue(read(inFile, error));
+
+		}
+		else if(line.find("}") != -1){
+
+		}
         else if(line.find("=") != -1 || line.find("register") != -1 || line.find("if") != -1){//equals found, component parser
 			if (net.addComponent(line) == 1) {
 				cout << "add component errors in line " << line << endl;

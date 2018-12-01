@@ -72,6 +72,8 @@ class comp: public Component {
 			this->componentName = "COMP";
 			this->idName = "c";
 			number++;
+			cmpID = componentNumber;
+			componentNumber++;
 			if(line.find(">") != std::string::npos){
 				this->calcIOs_comp(">", line);
 			} else if(line.find("==") != std::string::npos){

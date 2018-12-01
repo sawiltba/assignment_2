@@ -27,6 +27,7 @@ class reg: public Component {
                 begin = end + 1;
                 end = line.find(" ", begin);
             }
+			cmpID = componentNumber++;
             tokens.push_back(line.substr(begin, end - begin));
             //Tokens is {output, =, input}
 
