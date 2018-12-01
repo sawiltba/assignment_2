@@ -123,6 +123,9 @@ class Component{
 				endTime = maxLatency;
 				return startTime;
 			}
+			if(startTime != -1){
+				return startTime;
+			}
 			int earliestYoungStart = maxLatency;
 			for(auto itr = younglings.begin(); itr != younglings.end(); itr++){
 				int currStart = (*itr)->calcTimeFrame(maxLatency);
@@ -165,6 +168,14 @@ class Component{
 			}
 			masters.push_back(master);
 			master->addYoungling(std::shared_ptr<Component>{this});
+		}
+
+		virtual std::vector<std::shared_ptr<Component>> getMasters(){
+			return masters;
+		}
+		
+		virtual std::vector<std::shared_ptr<Component>> getYounglings(){
+			return younglings;
 		}
 		
         virtual std::string getID(){
