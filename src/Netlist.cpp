@@ -68,7 +68,7 @@ int Netlist::addVariable(std::string line){
 
     if(tokens[0] == "input"){
         inputs.insert(inputs.end(), newVars.begin(), newVars.end());
-    } else if(tokens[0] == "wire"){
+    } else if(tokens[0] == "variable"){
         wires.insert(wires.end(), newVars.begin(), newVars.end());
     } else if(tokens[0] == "output"){
         outputs.insert(outputs.end(), newVars.begin(), newVars.end());
