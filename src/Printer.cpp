@@ -62,8 +62,14 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
     
     outFile << ") begin\n";
     outFile << "case(state)\n";
-    outFile << "\t32'd0: begin\n
-    outFile << "\tdone <= 0;\n\tend";
+    outFile << "\t32'd0: begin\n;
+    outFile << "\tdone <= 0;\n";
+    outFile << "\tif(start) begin\n";
+    outFile << "\tstateNext <= 1;\n";
+    outFile << "\tend\n";
+    outFile << "\telse begin\n
+    outFile << "\tstateNext <= 0;\n
+    outFile << "\tend\n\tend\n";
     
     for(int i = 1; i < ; i++){
         outFile << "\t32'd" << i << ": begin\n
