@@ -42,10 +42,6 @@ class ifelse: public Component {
                 loop++;
 		    }
 		    loop = 0;
-
-		    this->checkRegisters();
-            this->checkConnections("ifelse");
-            this->checkWidths();
         }
 
 		int getNumber(){
