@@ -3,6 +3,7 @@
 #include <vector>
 #include <string>
 #include <stdexcept>
+#include <memory>
 #include "../Netlist.h"
 
 //class Netlist;
@@ -10,8 +11,8 @@
 class Component{
 	protected:
 		int id, width = -1, startTime = -1, endTime = -1, latency = 1;
-		std::vector<Component> younglings;
-		std::vector<Component> masters;
+		std::vector<std::shared_ptr<Component>> younglings;
+		std::vector<std::shared_ptr<Component>> masters;
 		Netlist *netlist;
         std::string idName;
         std::string componentName;
@@ -122,7 +123,7 @@ class Component{
 			}
 			int earliestYoungStart = maxLatency;
 			for(auto itr = younglings.begin(); itr != younglings.end(); itr++){
-				int currStart = itr->calcTimeFrame(maxLatency);
+				int currStart = (*itr)->calcTimeFrame(maxLatency);
 				if(currStart < earliestYoungStart){
 					earliestYoungStart = currStart;
 				}
@@ -185,6 +186,10 @@ class Component{
 					}
 				}
 			}
+		}
+
+		virtual bool foundRegister(){
+			return false;
 		}
 
         std::string getComponentName(){
