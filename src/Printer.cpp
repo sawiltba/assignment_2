@@ -43,9 +43,39 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
         }
     }
 
-    for(shared_ptr<Component> c : netlist.getComponents()){
+    /*for(shared_ptr<Component> c : netlist.getComponents()){
         outFile << "\t" << c->toString();
+    }*/
+    
+    outFile << "always @(posedge clk) begin\n";
+    outFile << "if(rst == 1) begin\nstate <= 0;\nend\n";
+    outFile << "else begin\nstate <= stateNext;\nend";
+    outFile << "end\n";
+    
+    outFile << "always@(state, ";
+    
+    for(Variable v : netlist.getInputs()){
+        if(v.getName() != "clk" && v.getName() != "rst"){
+            outFile << "\t" << v.toString();
+        }
     }
+    
+    outFile << ") begin\n";
+    outFile << "case(state)\n";
+    outFile << "\t32'd0: begin\n
+    outFile << "\tdone <= 0;\n\tend";
+    
+    for(int i = 1; i < ; i++){
+        outFile << "\t32'd" << i << ": begin\n
+    outFile << "\t";
+      for(shared_ptr<Component> c: netlist.getComponents()){
+          if(i == c->id) {
+              outFile << c->toString() << "\n\t";
+          }
+      }
+        outFile << "end";
+    }
+    
 
     outFile << "endmodule" << endl;
 
