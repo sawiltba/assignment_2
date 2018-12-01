@@ -7,23 +7,15 @@ class ifelse: public Component {
 		static int number;
 
 	public:
-	    std::vector<Component> if_branch;
-	    std::vector<Component> else_branch;
+	    Netlist if_branch;
+	    Netlist else_branch;
 
-		ifelse(Netlist* netlist, std::string line){
+		ifelse(Netlist* netlist){
 			this->netlist = netlist;
 			this->idName = "ifelse";
 			this->componentName = "IFELSE";
 			id = number;
 			number++;
-		}
-
-		void addIfElseComponent(int tf, std::string line){
-            //copy of add component minus the section of the ifelse
-
-            //add inputs for all sub components
-
-            //add outputs for all sub components
 		}
 
 		int getNumber(){
