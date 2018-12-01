@@ -152,7 +152,6 @@ void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
 				for (int k = 0; k < operations.at(j)->getOutputs().size(); k++) {
 					if (cmpt->getInputs().at(i).compare(operations.at(j)->getOutputs().at(k)) == 0) {
 						cmpt->addMaster(operations.at(j));
-						operations.at(j)->addYoungling(cmpt);
 					}
 				}
 			}
