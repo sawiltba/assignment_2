@@ -17,6 +17,14 @@ int *ListR(Netlist *netlist)
 	Candidates[1] = LogCandidates;
 	Candidates[2] = MulCandidates;
 
+	Unscheduled = netlist->getComponents();
+	std::vector<std::shared_ptr<Component>>JediCouncil;
+	for (auto it = Unscheduled.begin(); it != Unscheduled.end(); ++it) {
+		//if ((*it)->getMasters().empty()) {
+			
+		}
+	}
+
 	while (!done) {
 		
 		std::vector<int>ALUSlacks;
@@ -31,9 +39,7 @@ int *ListR(Netlist *netlist)
 
 		// Determine candidate operations	FIXME
 		for (std::vector<std::shared_ptr<Component>>::iterator it = netlist->getComponents().begin(); it != netlist->getComponents().end(); ++it) {
-			if (/*it is valid and ALU*/) { Candidates[0].push_back(*it); }
-			if (/*it is valid and Logic*/) { Candidates[1].push_back(*it); }
-			if (/*it is valid and Mul*/) { Candidates[2].push_back(*it); }
+			
 		}
 		
 		for (int k = 0; k <= 2; k++) {
