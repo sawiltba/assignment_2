@@ -22,7 +22,7 @@ Netlist read(ifstream &inFile, int* error){
 		else if(line.find("if") != -1){
 			shared_ptr<ifelse> newIf = shared_ptr<ifelse>{new ifelse{}};
 			newIf.addTrue(read(inFile, error));
-
+			
 		}
 		else if(line.find("}") != -1){
 

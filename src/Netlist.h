@@ -28,7 +28,7 @@ class Netlist{
 		std::vector<Variable>& getWires(){
 			return wires;
 		}
-		std::vector<std::shared_ptr<Component>> getComponents() {
+		std::vector<std::shared_ptr<Component>>& getComponents() {
 			return operations;
 		}
 };
