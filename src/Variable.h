@@ -26,7 +26,12 @@ class Variable{
 			//size_t len = 2 + name.length() + type.length();
 			//char widthStr[32] = "";
             //char signedStr[8] = "";
-            toReturn << type;
+            if (type.compare("variable")) {
+		toReturn << "reg";
+	    }
+	    else {
+		toReturn << type;
+	    }
             if(this->Signed){
                 //sprintf(signedStr, "%s", " signed");
                 //len += 7;

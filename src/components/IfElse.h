@@ -5,12 +5,13 @@
 class ifelse: public Component {
 	private:
 		static int number;
+		std::string condition;
 
 	public:
-	    std::vector<Component> if_branch;
-	    std::vector<Component> else_branch;
+	    Netlist if_branch;
+	    Netlist else_branch;
 
-		ifelse(Netlist* netlist, std::string line){
+		ifelse(Netlist* netlist){
 			this->netlist = netlist;
 			this->idName = "ifelse";
 			this->componentName = "IFELSE";
@@ -18,13 +19,30 @@ class ifelse: public Component {
 			number++;
 		}
 
-		void addIfElseComponent(int tf, std::string line){
-            //copy of add component minus the section of the ifelse
+		void calcIOsIfElse(){
+		    int loop = 0;
+		    while(loop < if_branch.inputs.size()){
+                outputs.push_back(if_branch.inputs.at(loop);
+                loop++;
+		    }
+		    loop = 0;
+		    while(loop < if_branch.outputs.size()){
+                outputs.push_back(if_branch.outputs.at(loop);
+                loop++;
+		    }
+		    loop = 0;
 
-            //add inputs for all sub components
-
-            //add outputs for all sub components
-		}
+		    while(loop < else_branch.inputs.size()){
+                outputs.push_back(else_branch.inputs.at(loop);
+                loop++;
+		    }
+		    loop = 0;
+		    while(loop < else_branch.outputs.at(loop)){
+                inputs.push_back(else_branch.inputs.at(loop));
+                loop++;
+		    }
+		    loop = 0;
+        }
 
 		int getNumber(){
 			return number;

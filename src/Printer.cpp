@@ -10,7 +10,7 @@ using namespace std;
 void Printer(string filename, ofstream &outFile, Netlist netlist) {
     string base = getBaseName(filename);
     outFile << "`timescale 1ns / 1ps" << endl;
-    outFile << "module " << base << "(clk, rst, ";
+    outFile << "module " << base << "(clk, rst,start,done, ";
     for(unsigned i = 0; i < netlist.getInputs().size(); i++){
         if(netlist.getInputs()[i].getName() != "clk" && netlist.getInputs()[i].getName() != "rst"){
             outFile << netlist.getInputs()[i].getName() << ", ";
@@ -43,9 +43,45 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
         }
     }
 
-    for(shared_ptr<Component> c : netlist.getComponents()){
+    /*for(shared_ptr<Component> c : netlist.getComponents()){
         outFile << "\t" << c->toString();
+    }*/
+    
+    outFile << "always @(posedge clk) begin\n";
+    outFile << "if(rst == 1) begin\nstate <= 0;\nend\n";
+    outFile << "else begin\nstate <= stateNext;\nend";
+    outFile << "end\n";
+    
+    outFile << "always@(state, ";
+    
+    for(Variable v : netlist.getInputs()){
+        if(v.getName() != "clk" && v.getName() != "rst"){
+            outFile << "\t" << v.toString();
+        }
     }
+    
+    outFile << ") begin\n";
+    outFile << "case(state)\n";
+    outFile << "\t32'd0: begin\n;
+    outFile << "\tdone <= 0;\n";
+    outFile << "\tif(start) begin\n";
+    outFile << "\tstateNext <= 1;\n";
+    outFile << "\tend\n";
+    outFile << "\telse begin\n
+    outFile << "\tstateNext <= 0;\n
+    outFile << "\tend\n\tend\n";
+    
+    for(int i = 1; i < /*need to find max states*/; i++){
+        outFile << "\t32'd" << i << ": begin\n
+    outFile << "\t";
+      for(shared_ptr<Component> c: netlist.getComponents()){
+          if(i == c->id) {
+              outFile << c->toString() << "\n\t";
+          }
+      }
+        outFile << "end";
+    }
+    
 
     outFile << "endmodule" << endl;
 
@@ -84,7 +120,11 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
     string  In1, In2, In8, In16, In32, In64,
             Out1, Out2, Out8, Out16, Out32, Out64,
             Wire1, Wire2, Wire8, Wire16, Wire32, Wire64;
-
+    
+    In1 += " start,";
+    //NEED to find number of bits state needs
+    Wire32 += " state,";
+    Out1 += " done,"
     for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
         if (it->getType().compare("input") == 0) { // Inputs
             switch (int i = it->getWidth())
@@ -137,8 +177,9 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
                     break;
             }
         }
-
-        if (it->getType().compare("wire") == 0) { // Wires
+        
+        
+        if (it->getType().compare("variable") == 0) { // Wires
             switch (int i = it->getWidth())
             {
                 case 1:
@@ -221,27 +262,27 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 
     if (Wire1.size() != 0) {
         Wire1.pop_back();
-        outFile << "wire " << Wire1 << endl;
+        outFile << "reg " << Wire1 << endl;
     }
     if (Wire2.size() != 0) {
         Wire2.pop_back();
-        outFile << "wire [1:0]" << Wire2 << endl;
+        outFile << "reg [1:0]" << Wire2 << endl;
     }
     if (Wire8.size() != 0) {
         Wire8.pop_back();
-        outFile << "wire [7:0]" << Wire8 << endl;
+        outFile << "reg [7:0]" << Wire8 << endl;
     }
     if (Wire16.size() != 0) {
         Wire16.pop_back();
-        outFile << "wire [15:0]" << Wire16 << endl;
+        outFile << "reg [15:0]" << Wire16 << endl;
     }
     if (Wire32.size() != 0) {
         Wire32.pop_back();
-        outFile << "wire [31:0]" << Wire32 << endl;
+        outFile << "reg [31:0]" << Wire32 << endl;
     }
     if (Wire64.size() != 0) {
         Wire64.pop_back();
-        outFile << "wire [63:0]" << Wire64 << endl;
+        outFile << "reg [63:0]" << Wire64 << endl;
     }
 
     cout << endl;
