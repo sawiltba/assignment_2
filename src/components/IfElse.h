@@ -5,6 +5,7 @@
 class ifelse: public Component {
 	private:
 		static int number;
+		std::string condition;
 
 	public:
 	    Netlist if_branch;
@@ -17,6 +18,35 @@ class ifelse: public Component {
 			id = number;
 			number++;
 		}
+
+		void calcIOsIfElse(){
+		    int loop = 0;
+		    while(loop < if_branch.inputs.size()){
+                outputs.push_back(if_branch.inputs.at(loop);
+                loop++;
+		    }
+		    loop = 0;
+		    while(loop < if_branch.outputs.size()){
+                outputs.push_back(if_branch.outputs.at(loop);
+                loop++;
+		    }
+		    loop = 0;
+
+		    while(loop < else_branch.inputs.size()){
+                outputs.push_back(else_branch.inputs.at(loop);
+                loop++;
+		    }
+		    loop = 0;
+		    while(loop < else_branch.outputs.at(loop)){
+                inputs.push_back(else_branch.inputs.at(loop));
+                loop++;
+		    }
+		    loop = 0;
+
+		    this->checkRegisters();
+            this->checkConnections("ifelse");
+            this->checkWidths();
+        }
 
 		int getNumber(){
 			return number;
