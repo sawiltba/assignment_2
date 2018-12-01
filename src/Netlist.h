@@ -18,6 +18,7 @@ class Netlist{
 		int addVariable(std::string line);
 		int addComponent(std::string line);
 		int addRegister(std::string line);
+		void findDependencies(std::shared_ptr<Component> cmpt);
         std::vector<std::string> tokenize(std::string line);
 		std::vector<Variable>& getInputs(){
 			return inputs;
