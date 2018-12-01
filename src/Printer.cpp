@@ -71,7 +71,7 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
     outFile << "\tstateNext <= 0;\n
     outFile << "\tend\n\tend\n";
     
-    for(int i = 1; i < ; i++){
+    for(int i = 1; i < /*need to find max states*/; i++){
         outFile << "\t32'd" << i << ": begin\n
     outFile << "\t";
       for(shared_ptr<Component> c: netlist.getComponents()){
@@ -122,7 +122,8 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
             Wire1, Wire2, Wire8, Wire16, Wire32, Wire64;
     
     In1 += " start,";
-    Wire32 += " State,";
+    //NEED to find number of bits state needs
+    Wire32 += " state,";
     Out1 += " done,"
     for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
         if (it->getType().compare("input") == 0) { // Inputs
