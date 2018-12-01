@@ -84,7 +84,10 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
     string  In1, In2, In8, In16, In32, In64,
             Out1, Out2, Out8, Out16, Out32, Out64,
             Wire1, Wire2, Wire8, Wire16, Wire32, Wire64;
-
+    
+    In1 += " start,";
+    Wire32 += " State,";
+    Out1 += " done,"
     for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
         if (it->getType().compare("input") == 0) { // Inputs
             switch (int i = it->getWidth())
@@ -138,7 +141,7 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
             }
         }
         
-        Wire32 += " State,";
+        
         if (it->getType().compare("variable") == 0) { // Wires
             switch (int i = it->getWidth())
             {
