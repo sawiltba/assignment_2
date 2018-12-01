@@ -88,7 +88,7 @@ class reg: public Component {
             }
         }
 
-        bool foundRegister(){
+        bool foundRegister() override{
             return this->foundReg;
         }
 

@@ -10,7 +10,7 @@ using namespace std;
 void Printer(string filename, ofstream &outFile, Netlist netlist) {
     string base = getBaseName(filename);
     outFile << "`timescale 1ns / 1ps" << endl;
-    outFile << "module " << base << "(clk, rst, ";
+    outFile << "module " << base << "(clk, rst,start,done, ";
     for(unsigned i = 0; i < netlist.getInputs().size(); i++){
         if(netlist.getInputs()[i].getName() != "clk" && netlist.getInputs()[i].getName() != "rst"){
             outFile << netlist.getInputs()[i].getName() << ", ";
@@ -84,7 +84,10 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
     string  In1, In2, In8, In16, In32, In64,
             Out1, Out2, Out8, Out16, Out32, Out64,
             Wire1, Wire2, Wire8, Wire16, Wire32, Wire64;
-
+    
+    In1 += " start,";
+    Wire32 += " State,";
+    Out1 += " done,"
     for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
         if (it->getType().compare("input") == 0) { // Inputs
             switch (int i = it->getWidth())
@@ -137,8 +140,9 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
                     break;
             }
         }
-
-        if (it->getType().compare("wire") == 0) { // Wires
+        
+        
+        if (it->getType().compare("variable") == 0) { // Wires
             switch (int i = it->getWidth())
             {
                 case 1:
@@ -221,27 +225,27 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
 
     if (Wire1.size() != 0) {
         Wire1.pop_back();
-        outFile << "wire " << Wire1 << endl;
+        outFile << "reg " << Wire1 << endl;
     }
     if (Wire2.size() != 0) {
         Wire2.pop_back();
-        outFile << "wire [1:0]" << Wire2 << endl;
+        outFile << "reg [1:0]" << Wire2 << endl;
     }
     if (Wire8.size() != 0) {
         Wire8.pop_back();
-        outFile << "wire [7:0]" << Wire8 << endl;
+        outFile << "reg [7:0]" << Wire8 << endl;
     }
     if (Wire16.size() != 0) {
         Wire16.pop_back();
-        outFile << "wire [15:0]" << Wire16 << endl;
+        outFile << "reg [15:0]" << Wire16 << endl;
     }
     if (Wire32.size() != 0) {
         Wire32.pop_back();
-        outFile << "wire [31:0]" << Wire32 << endl;
+        outFile << "reg [31:0]" << Wire32 << endl;
     }
     if (Wire64.size() != 0) {
         Wire64.pop_back();
-        outFile << "wire [63:0]" << Wire64 << endl;
+        outFile << "reg [63:0]" << Wire64 << endl;
     }
 
     cout << endl;
