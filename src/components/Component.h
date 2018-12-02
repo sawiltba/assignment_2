@@ -14,6 +14,7 @@ class Component{
 		std::vector<std::shared_ptr<Component>> younglings;
 		std::vector<std::shared_ptr<Component>> masters;
 		Netlist *netlist;
+        bool scheduled = false;
         std::string idName;
         std::string componentName;
 		std::vector<std::string> inputs;
@@ -149,6 +150,25 @@ class Component{
 		virtual int getLatency(){
 			return latency;
 		}
+
+        virtual bool canSchedule(){
+            for(auto m : masters){
+                if(!m->isScheduled()){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        virtual void schedule(int cycle){
+            startTime = cycle;
+            endTime = cycle + latency - 1;
+            scheduled = true;
+        }
+
+        virtual bool isScheduled(){
+            return scheduled;
+        }
 
 		virtual void addYoungling(std::shared_ptr<Component> youngling){
 			for(auto itr = younglings.rbegin(); itr != younglings.rend(); itr++){

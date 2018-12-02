@@ -109,6 +109,14 @@ std::vector<std::string> Netlist::tokenize(std::string line){
     return tokens;
 }
 
+void Netlist::insertComponents(std::vector<std::shared_ptr<Component>> toInsert){
+    operations.insert(operations.end(), toInsert.begin(), toInsert.end());
+}
+
+void Netlist::pushComponent(std::shared_ptr<Component> toAdd){
+    operations.push_back(toAdd);
+}
+
 
 int Netlist::addComponent(std::string line){
     std::vector<std::string> tokens = this->tokenize(line);
