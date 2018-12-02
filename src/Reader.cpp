@@ -1,8 +1,23 @@
 #include <iostream>
+#include <algorithm>
 #include "Reader.h"
 
 
 using namespace std;
+
+void addDependencies(vector<shared_ptr<Component>> branch_ops, vector<shared_ptr<Component>> net_ops){
+    for(auto branchOp : branch_ops){
+        while(branchOp->missingMaster()){
+            string unlinkedInput = branchOp->getUnlinkedInput();
+            for(auto net_itr = net_ops.rbegin(); net_itr != net_ops.rend(); net_itr++){
+                if(find((*net_itr)->getOutputs().begin(), (*net_itr)->getOutputs().end(), unlinkedInput) != (*net_itr)->getOutputs().end()){
+                    branchOp->addMaster(*net_itr);
+                    break;
+                }
+            }
+        }
+    }
+}
 
 Netlist read(ifstream &inFile, int* error){
     Netlist net;
@@ -20,14 +35,37 @@ Netlist read(ifstream &inFile, int* error){
             //ignore only newline
         }
 		else if(line.find("if") != -1){
-			shared_ptr<ifelse> newIf = shared_ptr<ifelse>{new ifelse{}};
-			newIf.addTrue(read(inFile, error));
-			
+            //if ( t ) {...
+            auto tokens = net.tokenize(line);
+			shared_ptr<ifelse> newIf = shared_ptr<ifelse>{new ifelse{&net, tokens[2]}};
+			Netlist trueBranch = read(inFile, error);
+            Netlist falseBranch;
+            auto loc = inFile.tellg();
+            string next;
+            getline(inFile, next);
+            if(next.find("else") != -1){
+                falseBranch = read(inFile, error);
+            } else {
+                inFile.seekg(loc);
+            }
+			auto trueOps = trueBranch.getComponents();
+            auto falseOps = falseBranch.getComponents();
+            for(auto op : trueOps){
+                op->addMaster(newIf);
+            }
+            for(auto op : falseOps){
+                op->addMaster(newIf);
+            }
+            addDependencies(trueOps, net.getComponents());
+            addDependencies(falseOps, net.getComponents());
+            net.pushComponent(newIf);
+            net.insertComponents(trueOps);
+            net.insertComponents(falseOps);
 		}
 		else if(line.find("}") != -1){
-
+            return net;
 		}
-        else if(line.find("=") != -1 || line.find("register") != -1 || line.find("if") != -1){//equals found, component parser
+        else if(line.find("=") != -1 || line.find("register") != -1){//equals found, component parser
 			if (net.addComponent(line) == 1) {
 				cout << "add component errors in line " << line << endl;
 				*error = 1;

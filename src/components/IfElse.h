@@ -11,7 +11,9 @@ class ifelse: public Component {
 	    Netlist if_branch;
 	    Netlist else_branch;
 
-		ifelse(Netlist* netlist){
+		ifelse(Netlist* netlist, std::string input){
+            this->condition = input;
+            this->inputs.push_back(input);
 			this->netlist = netlist;
 			this->idName = "ifelse";
 			this->componentName = "IFELSE";

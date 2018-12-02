@@ -118,6 +118,27 @@ class Component{
 		static int componentNumber;
 		virtual std::string toString() = 0;
 
+        virtual bool missingMaster(){
+            return this->getUnlinkedInput() != "";
+        }
+
+        virtual std::string getUnlinkedInput(){
+            for(std::string input : inputs){
+                bool found = false;
+                for(auto master : masters){
+                    if(std::find(master->getOutputs().begin(), 
+                                master->getOutputs().end(), input) != master->getOutputs().end()){
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    return input;
+                }
+            }
+            return "";
+        }
+
 		virtual int calcTimeFrame(int maxLatency){
 			if(younglings.size() == 0){
 				startTime = maxLatency - latency + 1;
