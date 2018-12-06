@@ -95,20 +95,36 @@ class ifelse: public Component {
 
 		void setIfElseMaster(){
 		    if(this->if_branch.getComponents().size()){
-                this->addMaster(this->if_branch.getComponents().front().getMasters());
+                this->addMaster(this->if_branch.getComponents().front()->getMasters());
 		    }
 		    else{
-                this->addMaster(this->else_branch.getComponents().front().getMasters());
+                this->addMaster(this->else_branch.getComponents().front()->getMasters());
 		    }
 		}
 
 		void setIfElseYounglings(){
 		    if(this->if_branch.getComponents().size()){
-                this->addYoungling(this->if_branch.getComponents().back().getYounglings());
+                this->addYoungling(this->if_branch.getComponents().back()->getYounglings());
 		    }
 		    else{
-                this->addYoungling(this->else_branch.getComponents().back().getYounglings());
+                this->addYoungling(this->else_branch.getComponents().back()->getYounglings());
 		    }
+		}
+
+		void setTrue(){
+		    int loop = 0;
+            while(loop < this->if_branch.getComponents().size()){
+                this->if_branch.getComponents().at(loop)->getIfBranches().push_back(true);
+                loop++;
+            }
+		}
+
+		void setFalse(){
+		    int loop = 0;
+            while(loop < this->if_branch.getComponents().size()){
+                this->else_branch.getComponents().at(loop)->getIfBranches().push_back(false);
+                loop++;
+            }
 		}
 
 		std::string toString() override{
