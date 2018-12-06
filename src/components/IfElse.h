@@ -17,7 +17,7 @@ class ifelse: public Component {
 			this->netlist = netlist;
 			this->idName = "ifelse";
 			this->componentName = "IFELSE";
-			this->latency = 1;
+			this->latency = 0;
 			id = number;
 			number++;
 		}
@@ -91,6 +91,24 @@ class ifelse: public Component {
 
 		int getNumber(){
 			return number;
+		}
+
+		void setIfElseMaster(){
+		    if(this->if_branch.getComponents().size()){
+                this->addMaster(this->if_branch.getComponents().front().getMasters());
+		    }
+		    else{
+                this->addMaster(this->else_branch.getComponents().front().getMasters());
+		    }
+		}
+
+		void setIfElseYounglings(){
+		    if(this->if_branch.getComponents().size()){
+                this->addYoungling(this->if_branch.getComponents().back().getYounglings());
+		    }
+		    else{
+                this->addYoungling(this->else_branch.getComponents().back().getYounglings());
+		    }
 		}
 
 		std::string toString() override{

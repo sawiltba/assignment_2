@@ -19,6 +19,7 @@ class Component{
         std::string componentName;
 		std::vector<std::string> inputs;
 		std::vector<std::string> outputs;
+		std::vector<bool> ifBranches;
 
         virtual void calcIOs(std::string operation, std::string line){
 			size_t begin = 0, end = 0;
@@ -126,7 +127,7 @@ class Component{
             for(std::string input : inputs){
                 bool found = false;
                 for(auto master : masters){
-                    if(std::find(master->getOutputs().begin(), 
+                    if(std::find(master->getOutputs().begin(),
                                 master->getOutputs().end(), input) != master->getOutputs().end()){
                         found = true;
                         break;
@@ -214,11 +215,11 @@ class Component{
 		virtual std::vector<std::shared_ptr<Component>> getMasters(){
 			return masters;
 		}
-		
+
 		virtual std::vector<std::shared_ptr<Component>> getYounglings(){
 			return younglings;
 		}
-		
+
         virtual std::string getID(){
             return idName + std::to_string(id);
         }
