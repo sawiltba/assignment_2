@@ -181,10 +181,7 @@ std::vector<Cycle> Netlist::getCycles(int latency, int* error) {
 				return std::vector<Cycle>();
 			}
 		}
-		if (newCycle.createStates()) {
-			*error = 1;
-			return std::vector<Cycle>();
-		}
+		newCycle.createStates();
 		cycles.push_back(newCycle);
 	}
 

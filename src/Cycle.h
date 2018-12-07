@@ -25,7 +25,7 @@ class Cycle{
 			operations.push_back(cmp);
 		}
 
-		bool createStates(){
+		void createStates(){
 			unsigned maxlen = 0;
 			for(std::shared_ptr<Component> cmp : operations){
 				if(cmp->getBranch().size() > maxlen){

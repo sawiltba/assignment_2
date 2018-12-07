@@ -27,7 +27,7 @@ class State{
 			branch.resize(len, false);
 			unsigned position = 1 << (len - 1);
 			for(unsigned i = 0; i < len; i++){
-				branch[i] = position && (binary != 0);
+				branch[i] = (position & binary) != 0;
 				position  = position >> 1;
 			}
 		}
