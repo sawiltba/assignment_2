@@ -52,6 +52,7 @@ class ifelse: public Component {
         }
 
 		int latencyIfElse(){
+			/*
             int lat = this->latency;
             int lat_if = alap(if_branch);
             int lat_else = alap(else_branch);
@@ -62,6 +63,7 @@ class ifelse: public Component {
                 lat += lat_else;
             }
             return lat;
+			*/
 		}
 
 		void calcIOsIfElse(){

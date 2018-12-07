@@ -32,7 +32,7 @@ std::vector<std::shared_ptr<Component>> getCandidates(std::shared_ptr<Component>
     return toReturn;
 }
 
-int *ListR(Netlist *netlist)
+int *ListR(Netlist *netlist, int latency)
 {
     int a[3] = { 1 }; // Initialize vector a so all entries have value of 1
     // Start times of all vectors already computed
@@ -54,7 +54,7 @@ int *ListR(Netlist *netlist)
     for (auto it = Unscheduled.begin(); it != Unscheduled.end(); ++it) {
         if ((*it)->getMasters().empty()) {
             JediCouncil.push_back(*it);
-            (*it)->calcTimeFrame();
+            (*it)->calcTimeFrame(latency);
         }
     }
 
