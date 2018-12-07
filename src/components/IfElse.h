@@ -133,26 +133,12 @@ class ifelse: public Component {
 			//if ('condition')
 			toReturn += "if ( ";
 			toReturn += this->condition;
-			toReturn += " )\n";
-			toReturn += "begin\n";
-
-            while(loop < if_branch.operations.size()){
-                //if_branch.getComponents().at(loop)->getComponentName();
-                toReturn += if_branch.getComponents().at(loop)->toString();
-                toReturn += "\n";
-                loop++;
-            }
-            loop = 0;
+			toReturn += " ) begin\n";
+			toReturn += this->nextState[0];
             toReturn += "end\n";
-
-            while(loop < else_branch.operations.size()){
-                toReturn += else_branch.getComponents().at(loop)->toString();
-                toReturn += "\n";
-                loop++;
-            }
-            loop = 0;
+			toReturn += "else begin\n";
+			toReturn += this->nextState[1];
             toReturn += "end\n";
-
 			return toReturn;
 		}
 };
