@@ -167,8 +167,8 @@ void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
 	}
 }
 
-vector<Cycle> Netlist::getCycles(int latency, int* error) {
-	vector<Cycle> cycles;
+std::vector<Cycle> Netlist::getCycles(int latency, int* error) {
+	std::vector<Cycle> cycles;
 
 	for (int j = 1; j <= latency; j++) {
 		Cycle newCycle();
@@ -178,14 +178,14 @@ vector<Cycle> Netlist::getCycles(int latency, int* error) {
 			}
 			else if (operations.at(i)->getStartTime() > latency) {
 				*error = 1;
-				return vector<Cycle>;
+				return std::vector<Cycle>();
 			}
 		}
 		if (newCycle.createStates()) {
 			*error = 1;
-			return vector<Cycle>;
+			return std::vector<Cycle>();
 		}
-		cycles.pushBack(newCycle);
+		cycles.push_back(newCycle);
 	}
 
 	return cycles;
