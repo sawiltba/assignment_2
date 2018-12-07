@@ -109,6 +109,14 @@ std::vector<std::string> Netlist::tokenize(std::string line){
     return tokens;
 }
 
+void Netlist::insertComponents(std::vector<std::shared_ptr<Component>> toInsert){
+    operations.insert(operations.end(), toInsert.begin(), toInsert.end());
+}
+
+void Netlist::pushComponent(std::shared_ptr<Component> toAdd){
+    operations.push_back(toAdd);
+}
+
 
 int Netlist::addComponent(std::string line){
     std::vector<std::string> tokens = this->tokenize(line);
@@ -140,6 +148,45 @@ int Netlist::addComponent(std::string line){
     } else {
         return 1; //ERROR
     }
+	findDependencies(cmpt);
     operations.push_back(cmpt);
     return 0;
+}
+
+void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
+	for (int i = 0; i < cmpt->getInputs().size(); i++) {
+		for (int j = 0; j < operations.size(); j++) {
+			if(std::find(cmpt->getMasters().begin(), cmpt->getMasters().end(), operations.at(j)) != cmpt->getMasters().end()) {
+				for (int k = 0; k < operations.at(j)->getOutputs().size(); k++) {
+					if (cmpt->getInputs().at(i).compare(operations.at(j)->getOutputs().at(k)) == 0) {
+						cmpt->addMaster(operations.at(j));
+					}
+				}
+			}
+		}
+	}
+}
+
+vector<Cycle> Netlist::getCycles(int latency, int* error) {
+	vector<Cycle> cycles;
+
+	for (int j = 1; j <= latency; j++) {
+		Cycle newCycle();
+		for (int i = 0; i < operations.size(); i++) {
+			if (operations.at(i)->getStartTime() == j) {
+				newCycle.pushComponent(std::shared_ptr<Component> operations.at(i));
+			}
+			else if (operations.at(i)->getStartTime() > latency) {
+				*error = 1;
+				return vector<Cycle>;
+			}
+		}
+		if (newCycle.createStates()) {
+			*error = 1;
+			return vector<Cycle>;
+		}
+		cycles.pushBack(newCycle);
+	}
+
+	return cycles;
 }

@@ -14,10 +14,12 @@ class Component{
 		std::vector<std::shared_ptr<Component>> younglings;
 		std::vector<std::shared_ptr<Component>> masters;
 		Netlist *netlist;
+        bool scheduled = false;
         std::string idName;
         std::string componentName;
 		std::vector<std::string> inputs;
 		std::vector<std::string> outputs;
+		std::vector<bool> ifBranches;
 
         virtual void calcIOs(std::string operation, std::string line){
 			size_t begin = 0, end = 0;
@@ -117,6 +119,27 @@ class Component{
 		static int componentNumber;
 		virtual std::string toString() = 0;
 
+        virtual bool missingMaster(){
+            return this->getUnlinkedInput() != "";
+        }
+
+        virtual std::string getUnlinkedInput(){
+            for(std::string input : inputs){
+                bool found = false;
+                for(auto master : masters){
+                    if(std::find(master->getOutputs().begin(),
+                                master->getOutputs().end(), input) != master->getOutputs().end()){
+                        found = true;
+                        break;
+                    }
+                }
+                if(!found){
+                    return input;
+                }
+            }
+            return "";
+        }
+
 		virtual int calcTimeFrame(int maxLatency){
 			if(younglings.size() == 0){
 				startTime = maxLatency - latency + 1;
@@ -150,6 +173,25 @@ class Component{
 			return latency;
 		}
 
+        virtual bool canSchedule(){
+            for(auto m : masters){
+                if(!m->isScheduled()){
+                    return false;
+                }
+            }
+            return true;
+        }
+
+        virtual void schedule(int cycle){
+            startTime = cycle;
+            endTime = cycle + latency - 1;
+            scheduled = true;
+        }
+
+        virtual bool isScheduled(){
+            return scheduled;
+        }
+
 		virtual void addYoungling(std::shared_ptr<Component> youngling){
 			for(auto itr = younglings.rbegin(); itr != younglings.rend(); itr++){
 				if(*itr == youngling){
@@ -173,11 +215,11 @@ class Component{
 		virtual std::vector<std::shared_ptr<Component>> getMasters(){
 			return masters;
 		}
-		
+
 		virtual std::vector<std::shared_ptr<Component>> getYounglings(){
 			return younglings;
 		}
-		
+
         virtual std::string getID(){
             return idName + std::to_string(id);
         }
@@ -260,6 +302,10 @@ class Component{
         void setOutput(int index, std::string value){
             this->outputs[index] = value;
         }
+
+        virtual std::vector<std::shared_ptr<bool>> getIfBranches(){
+			return ifBranches;
+		}
 };
 
 int Component::componentNumber = 1;

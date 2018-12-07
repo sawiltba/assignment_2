@@ -11,11 +11,13 @@ class ifelse: public Component {
 	    Netlist if_branch;
 	    Netlist else_branch;
 
-		ifelse(Netlist* netlist){
+		ifelse(Netlist* netlist, std::string input){
+            this->condition = input;
+            this->inputs.push_back(input);
 			this->netlist = netlist;
 			this->idName = "ifelse";
 			this->componentName = "IFELSE";
-			this->latency = 1;
+			this->latency = 0;
 			id = number;
 			number++;
 		}
@@ -89,6 +91,40 @@ class ifelse: public Component {
 
 		int getNumber(){
 			return number;
+		}
+
+		void setIfElseMaster(){
+		    if(this->if_branch.getComponents().size()){
+                this->addMaster(this->if_branch.getComponents().front()->getMasters());
+		    }
+		    else{
+                this->addMaster(this->else_branch.getComponents().front()->getMasters());
+		    }
+		}
+
+		void setIfElseYounglings(){
+		    if(this->if_branch.getComponents().size()){
+                this->addYoungling(this->if_branch.getComponents().back()->getYounglings());
+		    }
+		    else{
+                this->addYoungling(this->else_branch.getComponents().back()->getYounglings());
+		    }
+		}
+
+		void setTrue(){
+		    int loop = 0;
+            while(loop < this->if_branch.getComponents().size()){
+                this->if_branch.getComponents().at(loop)->getIfBranches().push_back(true);
+                loop++;
+            }
+		}
+
+		void setFalse(){
+		    int loop = 0;
+            while(loop < this->if_branch.getComponents().size()){
+                this->else_branch.getComponents().at(loop)->getIfBranches().push_back(false);
+                loop++;
+            }
 		}
 
 		std::string toString() override{
