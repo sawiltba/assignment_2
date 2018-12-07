@@ -67,18 +67,18 @@ class ifelse: public Component {
 		void calcIOsIfElse(){
 		    int loop = 0;
 		    while(loop < if_branch.inputs.size()){
-                outputs.push_back(if_branch.inputs.at(loop);
+                outputs.push_back(if_branch.inputs.at(loop));
                 loop++;
 		    }
 		    loop = 0;
 		    while(loop < if_branch.outputs.size()){
-                outputs.push_back(if_branch.outputs.at(loop);
+                outputs.push_back(if_branch.outputs.at(loop));
                 loop++;
 		    }
 		    loop = 0;
 
 		    while(loop < else_branch.inputs.size()){
-                outputs.push_back(else_branch.inputs.at(loop);
+                outputs.push_back(else_branch.inputs.at(loop));
                 loop++;
 		    }
 		    loop = 0;

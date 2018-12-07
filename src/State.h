@@ -12,6 +12,7 @@ class State{
 		std::vector<std::shared_ptr<Component>> operations;
 		static int id;
 		int stateNum;
+		std::vector<State> nextStates;
 	public:
 		State(){
 			stateNum = id;
@@ -59,7 +60,7 @@ class State{
 					hasIf = true;
 			}
 			if(!hasIf){
-				toReturn += "stateNext = " + std::to_string(stateNext) + "\n";
+				toReturn += "stateNext <= " + nextStates.at(0).getStateNum() +"\n";
 			}
 			return toReturn;
 		}
