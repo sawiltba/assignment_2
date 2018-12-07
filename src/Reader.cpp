@@ -75,7 +75,7 @@ Netlist read(ifstream &inFile, int* error){
         else{//no equals, variable parser
 			if (net.addVariable(line) == 1) {
 				cout << "Add Variable errors " << line << endl;
-				*error == 1;
+				*error = 1;
 				return net;
 			}
         }

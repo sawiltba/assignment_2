@@ -74,13 +74,13 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
     outFile << "\t\tend\n\tend\n";
     
     for(int i = 1; i < state.size(); i++){
-		outFile << "\t32'd" << state.at(i).getId(); << ": begin\n";
+		outFile << "\t32'd" << state.at(i).getStateNum(); << ": begin\n";
 		outFile << "\t\t";
 		state.toString();
         outFile << "end\n";
     }
 
-	outFile << "\t32'd" << state.size() << " begin\n";
+	outFile << "\t32'd" << state.size() + 1 << " begin\n";
 	outFile << "\t\tdone <= 1;\n";
 	outFile << "stateNext <= 0;"
 	outFile << "\tend";
