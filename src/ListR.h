@@ -7,7 +7,6 @@
 #include "Netlist.h"
 #include "components/Component.h"
 
-
 enum class RES {
     ALU,
     MULT,
@@ -16,6 +15,5 @@ enum class RES {
 
 std::vector<std::shared_ptr<Component>> getCandidates(std::shared_ptr<Component> root, std::string type);
 int *ListR(Netlist netlist);
-
 
 #endif

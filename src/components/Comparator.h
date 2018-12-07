@@ -101,6 +101,7 @@ class comp: public Component {
 			free(str);
 			return (sign ? "S" : "") + toReturn;
 		}
+
 };
 
 int comp::number = 0;
