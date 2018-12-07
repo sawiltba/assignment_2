@@ -19,7 +19,7 @@ class Component{
         std::string componentName;
 		std::vector<std::string> inputs;
 		std::vector<std::string> outputs;
-		std::vector<bool> ifBranches;
+		std::vector<bool> branch;
 
         virtual void calcIOs(std::string operation, std::string line){
 			size_t begin = 0, end = 0;
@@ -250,6 +250,14 @@ class Component{
         std::string getComponentName(){
             return componentName;
         }
+
+		std::vector<bool> getBranch(){
+			return branch;
+		}
+
+		virtual void addBranch(bool a){
+			branch.insert(branch.begin(), a);
+		}
 
 		virtual int getWidth() {
             if(this->width != -1){
