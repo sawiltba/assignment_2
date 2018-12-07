@@ -37,6 +37,10 @@ class Cycle{
 				}
 			}
 		}
+	
+		std::vector<State>& getStates() {
+			return states;
+		}
 };
 
 #endif

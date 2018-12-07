@@ -9,7 +9,6 @@
 #include "components/ShiftLeft.h"
 #include "components/ShiftRight.h"
 #include "components/Subtractor.h"
-#include "Cycle.h"
 
 Netlist::Netlist(){
 
@@ -168,27 +167,26 @@ void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
 	}
 }
 
-vector<Cycle> getCycles(int latency, int* error) {
+vector<Cycle> Netlist::getCycles(int latency, int* error) {
 	vector<Cycle> cycles;
-	int countComponents = 0;
 
 	for (int j = 1; j <= latency; j++) {
 		Cycle newCycle();
 		for (int i = 0; i < operations.size(); i++) {
 			if (operations.at(i)->getStartTime() == j) {
 				newCycle.pushComponent(std::shared_ptr<Component> operations.at(i));
-				countComponents += 1;
 			}
 			else if (operations.at(i)->getStartTime() > latency) {
 				*error = 1;
 				return vector<Cycle>;
 			}
 		}
-		newCycle.createStates();
+		if (newCycle.createStates()) {
+			*error = 1;
+			return vector<Cycle>;
+		}
 		cycles.pushBack(newCycle);
 	}
-
-	
 
 	return cycles;
 }
