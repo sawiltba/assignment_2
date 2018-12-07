@@ -35,6 +35,13 @@ class shr: public Component {
 			return toReturn;
 		}
 
+		std::string printString() {
+			std::string toPrint;
+			std::vector<std::string> outputs = this->getOutputs();
+			std::vector<std::string> inputs = this->getInputs();
+			toPrint = outputs.at(0) + " >> " + inputs.at(0) + " + " + inputs.at(1);
+			return(toPrint);
+		};
 };
 
 int shr::number = 0;
