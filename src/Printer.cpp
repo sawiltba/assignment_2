@@ -5,9 +5,10 @@
 #include "Printer.h"
 #include "Variable.h"
 #include "components/Component.h"
+#include "states.h"
 using namespace std;
 
-void Printer(string filename, ofstream &outFile, Netlist netlist) {
+void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> states ) {
     string base = getBaseName(filename);
     outFile << "`timescale 1ns / 1ps" << endl;
     outFile << "module " << base << "(clk, rst,start,done, ";
@@ -48,8 +49,9 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
     }*/
     
     outFile << "always @(posedge clk) begin\n";
-    outFile << "if(rst == 1) begin\nstate <= 0;\nend\n";
-    outFile << "else begin\nstate <= stateNext;\nend";
+    outFile << "\tif(rst == 1) begin\n"
+	outFile << "\t\tstate <= 0;\nend\n";
+    outFile << "\telse begin\n\t\tstate <= stateNext;\n\tend";
     outFile << "end\n";
     
     outFile << "always@(state, ";
@@ -63,26 +65,27 @@ void Printer(string filename, ofstream &outFile, Netlist netlist) {
     outFile << ") begin\n";
     outFile << "case(state)\n";
     outFile << "\t32'd0: begin\n";
-    outFile << "\tdone <= 0;\n";
-    outFile << "\tif(start) begin\n";
-    outFile << "\tstateNext <= 1;\n";
-    outFile << "\tend\n";
-	outFile << "\telse begin\n";
-	outFile << "\tstateNext <= 0;\n";
-    outFile << "\tend\n\tend\n";
+    outFile << "\t\tif(start) begin\n";
+	outFile << "\t\tdone <= 0;\n";
+    outFile << "\t\t\tstateNext <= 1;\n";
+    outFile << "\t\tend\n";
+	outFile << "\t\telse begin\n";
+	outFile << "\t\t\tstateNext <= 0;\n";
+    outFile << "\t\tend\n\tend\n";
     
-    for(int i = 1; i < /*need to find max states*/; i++){
-		outFile << "\t32'd" << i << ": begin\n";
-    outFile << "\t";
-      for(shared_ptr<Component> c: netlist.getComponents()){
-          if(i == c->cmpID) {
-              outFile << c->toString() << "\n\t";
-          }
-      }
-        outFile << "end";
+    for(int i = 1; i < state.size(); i++){
+		outFile << "\t32'd" << state.at(i).getId(); << ": begin\n";
+		outFile << "\t\t";
+		state.toString();
+        outFile << "end\n";
     }
-    
 
+	outFile << "\t32'd" << state.size() << " begin\n";
+	outFile << "\t\tdone <= 1;\n";
+	outFile << "stateNext <= 0;"
+	outFile << "\tend";
+    
+	outFile << "end\n";
     outFile << "endmodule" << endl;
 
     //IOW.insert(IOW.end(), netlist.getInputs().begin(), netlist.getInputs().end());
