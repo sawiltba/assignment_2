@@ -30,7 +30,7 @@ int main(int argc, char *argv[]) {
             inFile.close();
             return 1;
         }
-        ListR(netlist);
+        ListR(netlist, *argv[2]);
         outFile.open(argv[2]);
         if (!outFile.is_open()) {
             cout << argv[2] << " Read errors" << endl;
