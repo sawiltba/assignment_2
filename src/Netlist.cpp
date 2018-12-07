@@ -171,7 +171,7 @@ std::vector<Cycle> Netlist::getCycles(int latency, int* error) {
 	std::vector<Cycle> cycles;
 
 	for (int j = 1; j <= latency; j++) {
-		Cycle newCycle;
+		Cycle newCycle(j);
 		for (int i = 0; i < operations.size(); i++) {
 			if (operations.at(i)->getStartTime() == j) {
 				newCycle.pushComponent(operations.at(i));

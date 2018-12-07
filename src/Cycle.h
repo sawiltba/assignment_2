@@ -21,7 +21,11 @@ class Cycle{
 			return num;
 		}
 
-		void createStates(){
+		void pushComponent(std::shared_ptr<Component> cmp){
+			operations.push_back(cmp);
+		}
+
+		bool createStates(){
 			unsigned maxlen = 0;
 			for(std::shared_ptr<Component> cmp : operations){
 				if(cmp->getBranch().size() > maxlen){

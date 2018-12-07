@@ -310,10 +310,6 @@ class Component{
         void setOutput(int index, std::string value){
             this->outputs[index] = value;
         }
-
-        virtual std::vector<std::shared_ptr<bool>> getIfBranches(){
-			return ifBranches;
-		}
 };
 
 int Component::componentNumber = 1;
