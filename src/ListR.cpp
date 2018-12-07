@@ -1,7 +1,6 @@
 #include "ListR.h"
 
-int *ListR(Netlist *netlist)
-{
+int *ListR(Netlist *netlist) {
 	int a[3] = { 1 }; // Initialize vector a so all entries have value of 1
 	// Start times of all vectors already computed
 	int i = 1; // Set time step equal to 1
@@ -22,11 +21,10 @@ int *ListR(Netlist *netlist)
 	for (auto it = Unscheduled.begin(); it != Unscheduled.end(); ++it) {
 		//if ((*it)->getMasters().empty()) {
 			
-		}
+		//}
 	}
 
-	while (!done) {
-		
+	while (!done) {	
 		std::vector<int>ALUSlacks;
 		std::vector<int>LogSlacks;
 		std::vector<int>MulSlacks;
@@ -71,6 +69,5 @@ int *ListR(Netlist *netlist)
 		}
 		i++; // Increment time step
 		if (Unscheduled.empty() && Candidates[0].empty() && Candidates[1].empty() && Candidates[2].empty()) { done = true; } // Check done
-	}
 	return a;
 }

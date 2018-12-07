@@ -6,6 +6,6 @@
 #include "Netlist.h"
 #include "components/Component.h"
 
-int *ListR(Netlist netlist);
+int *ListR(Netlist *netlist);
 
 #endif
