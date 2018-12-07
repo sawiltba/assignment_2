@@ -22,6 +22,13 @@ class ifelse: public Component {
 			number++;
 		}
 
+		void addBranch(bool a) override{
+			branch.insert(branch.begin(), a);
+			for(std::shared_ptr<Component> cmp : younglings){
+				cmp->addBranch(a);
+			}
+		}
+
         int* ListRIfElse(){
             int aIfElse[3];
             int aIf[3] = ListR(if_branch);
