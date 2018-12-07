@@ -51,7 +51,7 @@ class State{
 			bool hasIf = false;
 			for(std::shared_ptr<Component> cmp : operations){
 				toReturn += cmp->toString() + "\n";
-				if(cmp->getType() == "ifelse")
+				if(cmp->getComponentName() == "IFELSE")
 					hasIf = true;
 			}
 			if(!hasIf){
