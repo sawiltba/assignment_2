@@ -10,7 +10,9 @@ void addDependencies(vector<shared_ptr<Component>> branch_ops, vector<shared_ptr
         while(branchOp->missingMaster()){
             string unlinkedInput = branchOp->getUnlinkedInput();
             for(auto net_itr = net_ops.rbegin(); net_itr != net_ops.rend(); net_itr++){
-                if(find((*net_itr)->getOutputs().begin(), (*net_itr)->getOutputs().end(), unlinkedInput) != (*net_itr)->getOutputs().end()){
+                if(find((*net_itr)->getOutputs().begin(), 
+							(*net_itr)->getOutputs().end(), 
+							unlinkedInput) != (*net_itr)->getOutputs().end()){
                     branchOp->addMaster(*net_itr);
                     break;
                 }
@@ -52,9 +54,11 @@ Netlist read(ifstream &inFile, int* error){
             auto falseOps = falseBranch.getComponents();
             for(auto op : trueOps){
                 op->addMaster(newIf);
+				op->addBranch(true);
             }
             for(auto op : falseOps){
                 op->addMaster(newIf);
+				op->addBranch(false);
             }
             addDependencies(trueOps, net.getComponents());
             addDependencies(falseOps, net.getComponents());

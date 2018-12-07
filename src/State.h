@@ -31,6 +31,10 @@ class State{
 			}
 		}
 
+		std::vector<bool> getBranch(){
+			return branch;
+		}
+
 		bool addComponent(std::shared_ptr<Component> toAdd){
 			if(toAdd->getBranch().size() > branch.size())
 				return false;

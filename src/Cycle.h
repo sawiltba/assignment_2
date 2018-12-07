@@ -33,9 +33,33 @@ class Cycle{
 			for(unsigned i = 0; i < states.size(); i++){
 				states[i].setBranch(maxlen, i);
 				for(std::shared_ptr<Component> cmp : operations){
-					states[i].addComponent(cmp); //Only adds if cmp's branch matches the state's branch
+					states[i].addComponent(cmp);
+					//Only adds if cmp's branch matches the state's branch
 				}
 			}
+		}
+
+		std::vector<State> getNextBranchStates(std::vector<bool> branch){
+			std::vector<State> toReturn;
+			if(states.size() == 1 || branch.size() == 0){
+				return states;
+			}
+			unsigned size = branch.size();
+			if(states[0].getBranch().size() < size){
+				size = states[0].getBranch().size();
+			}
+
+			for(State& s : states){
+				bool add = true;
+				for(unsigned i = 0; i < size; i++){
+					add = add && branch[i] == s.getBranch()[i];
+				}
+				if(add){
+					toReturn.push_back(s);
+				}
+			}
+
+			return toReturn;
 		}
 	
 		std::vector<State>& getStates() {
