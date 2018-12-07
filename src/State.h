@@ -25,10 +25,10 @@ class State{
 
 		void setBranch(unsigned len, unsigned binary){
 			branch.resize(len, false);
-			unsigned position = 1 << len - 1;
+			unsigned position = 1 << (len - 1);
 			for(unsigned i = 0; i < len; i++){
-				branch[i] = position & binary != 0;
-				position >> 1;
+				branch[i] = position && (binary != 0);
+				position  = position >> 1;
 			}
 		}
 
