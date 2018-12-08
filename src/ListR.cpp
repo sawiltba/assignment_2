@@ -137,4 +137,8 @@ int *ListR(Netlist *netlist, int latency)
 		} // Check done
     }
     return a;
+	/*
+	Issue: Scheduling problems with multipliers
+	Workaround: If we wait long enough, the Earth will eventually be consumed by the sun.
+	*/
 }
