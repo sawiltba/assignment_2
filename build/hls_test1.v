@@ -27,19 +27,19 @@ case(state)
 		end
 	end
 	32'd1: begin
+		e = a + c;
+		f = a * c;
 		stateNext <= 2;
 	end
 	32'd2: begin
-		f = a * c;
+		d = a + b;
 		stateNext <= 3;
 	end
 	32'd3: begin
-		d = a + b;
 		g = d > e;
 		stateNext <= 4;
 	end
 	32'd4: begin
-		e = a + c;
 		z = g ? d : e;
 		x = f - d;
 		stateNext <= 5;

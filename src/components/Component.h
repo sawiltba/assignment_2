@@ -25,6 +25,9 @@ class Component{
 
         virtual void calcIOs(std::string operation, std::string line){
 			size_t begin = 0, end = 0;
+			while(line[begin] == '\t'){
+				begin++;
+			}
 			end = line.find("=");
 			outputs.push_back(line.substr(begin, end - 1));
 			begin = end + 2;
