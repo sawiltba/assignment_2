@@ -33,7 +33,7 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 
 	outFile << "output reg done;" << endl;
 
-	outFile << "reg [15:0] state, nextState;" << endl;
+	outFile << "reg [31:0] state, nextState;" << endl;
 
     // print inputs, outputs, wires
     for(Variable v : netlist.getInputs()){
