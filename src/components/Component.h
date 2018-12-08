@@ -1,10 +1,11 @@
 #ifndef __COMPONENT_H
 #define __COMPONENT_H
+#include "../Netlist.h"
 #include <vector>
 #include <string>
 #include <stdexcept>
 #include <memory>
-#include "../Netlist.h"
+
 
 //class Netlist;
 
