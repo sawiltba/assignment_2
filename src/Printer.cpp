@@ -66,11 +66,11 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
         }
     }
     
-    outFile << ") begin\n";
-    outFile << "case(state)\n";
-    outFile << "\t32'd0: begin\n";
-    outFile << "\t\tif(start) begin\n";
-    outFile << "\t\t\tstateNext <= 1;\n";
+    outFile << ") begin" << endl;
+    outFile << "case(state)" << endl;
+    outFile << "\t32'd0: begin" << endl;
+    outFile << "\t\tif(start) begin" << endl;
+    outFile << "\t\t\tstateNext <= 1;" << endl;
     outFile << "\t\tend\n";
     outFile << "\tend\n";
     
