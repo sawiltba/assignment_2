@@ -14,12 +14,12 @@ std::vector<std::shared_ptr<Component>> getCandidates(std::shared_ptr<Component>
                 }
                 break;
             case RES::MULT:
-                if(root->getComponentName() == "MULT"){
+                if(root->getComponentName() == "MUL"){
                     toReturn.push_back(root);
                 }
                 break;
             case RES::LOGIC:
-                if(root->getComponentName() != "SUB" && root->getComponentName() != "ADD" && root->getComponentName() != "MULT"){
+                if(root->getComponentName() != "SUB" && root->getComponentName() != "ADD" && root->getComponentName() != "MUL"){
                     toReturn.push_back(root);
                 }
                 break;
@@ -46,6 +46,7 @@ int *ListR(Netlist *netlist, int latency)
     int atemp[3] = { 1 }; // Define a counter
     bool done = false; // define done
     std::vector<std::shared_ptr<Component>>Unscheduled; // Define unscheduled vector
+	std::vector<std::shared_ptr<Component>>scheduled; //scheduled vectors
     std::vector<std::shared_ptr<Component>>ALUCandidates; // Define candidate vectors
     std::vector<std::shared_ptr<Component>>LogCandidates;
     std::vector<std::shared_ptr<Component>>MulCandidates;
@@ -90,9 +91,10 @@ int *ListR(Netlist *netlist, int latency)
 					continue;
 				}
                 if (Candidates[k][j]->getStartTime() - i == 0) {
-						Candidates[k][j]->schedule(i);
-						if (atemp[k] == 0) { a[k]++; }
-						else { atemp[k]--; }
+                    Candidates[k][j]->schedule(i);
+					scheduled.push_back(Candidates[k][j]);
+                    if (atemp[k] == 0) { a[k]++; }
+                    else { atemp[k]--; }
                 }
 				if(!Candidates[k][j]->isScheduled()){
 					toSchedule = true;
@@ -100,7 +102,7 @@ int *ListR(Netlist *netlist, int latency)
             } // Schedule candidate operations with zero slack and update a
             while (atemp[k] > 0 && toSchedule) {
                 int leastSlackIndex = 0;
-                int leastSlack = Candidates[k][leastSlackIndex]->getStartTime() - i;
+                int leastSlack = 100;
                 for(int j = Candidates[k].size() - 1; j >= 0; j--){
                     int currSlack = Candidates[k][j]->getStartTime() - i;
                     if(currSlack < leastSlack){
@@ -111,7 +113,10 @@ int *ListR(Netlist *netlist, int latency)
                 }
                 
                 atemp[k]--;
-                Candidates[k][leastSlackIndex]->schedule(i);
+				if (!(Candidates[k][leastSlackIndex]->isScheduled())) {
+					Candidates[k][leastSlackIndex]->schedule(i);
+					scheduled.push_back(Candidates[k][leastSlackIndex]);
+				}
 				toSchedule = false;
 				for(int j = 0; j < Candidates[k].size(); j++){
 					if(!Candidates[k][j]->isScheduled()){
@@ -137,4 +142,8 @@ int *ListR(Netlist *netlist, int latency)
 		} // Check done
     }
     return a;
+	/*
+	Issue: Scheduling problems with multipliers
+	Workaround: If we wait long enough, the Earth will eventually be consumed by the sun.
+	*/
 }
