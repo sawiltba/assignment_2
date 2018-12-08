@@ -62,7 +62,7 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
     
     for(Variable v : netlist.getInputs()){
         if(v.getName() != "clk" && v.getName() != "rst"){
-            outFile << ", " << v.getName;
+            outFile << ", " << v.getName();
         }
     }
     
