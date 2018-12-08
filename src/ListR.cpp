@@ -64,7 +64,6 @@ int *ListR(Netlist *netlist, int latency)
     }
 
     while (!done) {
-
         std::vector<int>ALUSlacks;
         std::vector<int>LogSlacks;
         std::vector<int>MulSlacks;
@@ -74,11 +73,6 @@ int *ListR(Netlist *netlist, int latency)
         Slacks[2] = MulSlacks;
         int atemp[3]; // Define a counter
         for (int j = 0; j <= 2; j++) { atemp[j] = a[j]; }
-
-        // Determine candidate operations	FIXME
-        //for (std::vector<std::shared_ptr<Component>>::iterator it = netlist->getComponents().begin(); it != netlist->getComponents().end(); ++it) {
-
-        //}
         for(std::shared_ptr<Component> root : JediCouncil){
             auto ALUcand = getCandidates(root, RES::ALU);
             auto LOGcand = getCandidates(root, RES::LOGIC);
@@ -88,25 +82,23 @@ int *ListR(Netlist *netlist, int latency)
             Candidates[1].insert(Candidates[1].end(), LOGcand.begin(), LOGcand.end());            
             Candidates[2].insert(Candidates[2].end(), MULcand.begin(), MULcand.end());            
         }
-
+		
         for (int k = 0; k <= 2; k++) {
+			bool toSchedule = false;
             for (int j = Candidates[k].size() - 1; j >= 0; j--) {
-            //    int temp = (*it)->getStartTime() - i;
-            //    Slacks[k].push_back(temp);
-            //} // Compute the slacks
-
-            //int j = 0;
-            //for (auto it = Slacks[k].begin(); it != Slacks[k].end(); ++it) {
+				if(Candidates[k][j]->isScheduled()){
+					continue;
+				}
                 if (Candidates[k][j]->getStartTime() - i == 0) {
                     Candidates[k][j]->schedule(i);
-                    Candidates[k].erase(Candidates[k].begin() + j);
                     if (atemp[k] == 0) { a[k]++; }
                     else { atemp[k]--; }
                 }
-                //j++;
+				if(!Candidates[k][j]->isScheduled()){
+					toSchedule = true;
+				}
             } // Schedule candidate operations with zero slack and update a
-
-            while (atemp[k] > 0 && Candidates[k].size() > 0) {
+            while (atemp[k] > 0 && toSchedule) {
                 int leastSlackIndex = 0;
                 int leastSlack = Candidates[k][leastSlackIndex]->getStartTime() - i;
                 for(int j = Candidates[k].size() - 1; j >= 0; j--){
@@ -118,30 +110,26 @@ int *ListR(Netlist *netlist, int latency)
 
                 }
                 
-                /*int smallest = 256;
-                int smollest = 0;
-                int j = 0;
-                for (auto it = Slacks[k].begin(); it != Slacks[k].end(); ++it) {
-                    if ((*it) < smallest) { smollest = j; }
-                } // Find smallest slack component*/
-
                 atemp[k]--;
                 Candidates[k][leastSlackIndex]->schedule(i);
-                Candidates[k].erase(Candidates[k].begin() + leastSlackIndex); // Schedule smallest slack component
+				toSchedule = false;
+				for(int j = 0; j < Candidates[k].size(); j++){
+					if(!Candidates[k][j]->isScheduled()){
+						toSchedule = true;
+					}
+				}
+                // Schedule smallest slack component
+
             } // Schedule candidate operations requiring no additional resources
         }
-		for(int num = Unscheduled.size() - 1; num >= 0; num--){
-			if(Unscheduled.size() == 0){
-				break;
-			}
-			if(Unscheduled[num]->isScheduled()){
-				Unscheduled.erase(Unscheduled.begin() + num);
-				std::cout << "Erased " << num << std::endl;
-				std::cout << "Unscheduled: " << Unscheduled.size() << std::endl;
+		bool allScheduled = true;
+		for(int num = 0; num < Unscheduled.size(); num++){
+			if(!Unscheduled[num]->isScheduled()){
+				allScheduled = false;
 			}
 		}
         i++; // Increment time step
-        if (Unscheduled.size() == 0
+        if (allScheduled
 			   	/*&& Candidates[0].empty() 
 				&& Candidates[1].empty() 
 				&& Candidates[2].empty()*/) { 

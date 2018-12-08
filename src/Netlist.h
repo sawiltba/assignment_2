@@ -16,6 +16,7 @@ class Netlist{
 	private:
 		std::vector<Variable> inputs, outputs, wires;
 		std::vector<std::shared_ptr<Component>> operations;
+		std::vector<std::shared_ptr<Cycle>> cycles;
 	public:
 		Netlist();
 		int addVariable(std::string line);
@@ -37,7 +38,7 @@ class Netlist{
 		std::vector<std::shared_ptr<Component>>& getComponents() {
 			return operations;
 		}
-		std::vector<std::shared_ptr<Cycle>> getCycles(int latency, int* error);
+		std::vector<std::shared_ptr<Cycle>>& getCycles(int latency, int* error);
 };
 
 #endif
