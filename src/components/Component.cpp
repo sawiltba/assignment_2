@@ -123,3 +123,5 @@ bool Component::isSigned(){
 	}
 	return false;
 }
+
+int Component::componentNumber = 1;

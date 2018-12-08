@@ -5,15 +5,14 @@
 #include <memory>
 #include "components/Component.h"
 
-
 class State{
 	private:
 		std::vector<bool> branch;
 		std::vector<std::shared_ptr<Component>> operations;
-		static int id;
 		int stateNum;
 		std::vector<State> nextStates;
 	public:
+		static int id;
 		State(){
 			stateNum = id;
 			id++;

@@ -27,7 +27,7 @@ class ifelse: public Component {
 			}
 		}
 
-        int* ListRIfElse(){
+        //int* ListRIfElse(){
 			/*
             int aIfElse[3];
             int aIf[3] = ListR(if_branch);
@@ -56,9 +56,9 @@ class ifelse: public Component {
 
             return aIfElse;
 			*/
-        }
+        //}
 
-		int latencyIfElse(){
+		//int latencyIfElse(){
 			/*
             int lat = this->latency;
             int lat_if = alap(if_branch);
@@ -71,9 +71,9 @@ class ifelse: public Component {
             }
             return lat;
 			*/
-		}
+		//}
 
-		void calcIOsIfElse(){
+		//void calcIOsIfElse(){
 		    /*int loop = 0;
 		    while(loop < if_branch.inputs.size()){
                 outputs.push_back(if_branch.inputs.at(loop));
@@ -96,13 +96,13 @@ class ifelse: public Component {
                 loop++;
 		    }
 		    loop = 0;*/
-        }
+        //}
 
 		int getNumber(){
 			return number;
 		}
 
-		void setIfElseMaster(){
+		//void setIfElseMaster(){
 			/*
 		    if(this->if_branch.getComponents().size()){
                 this->addMaster(this->if_branch.getComponents().front()->getMasters());
@@ -111,34 +111,34 @@ class ifelse: public Component {
                 this->addMaster(this->else_branch.getComponents().front()->getMasters());
 		    }
 			*/
-		}
+		//}
 
-		void setIfElseYounglings(){
+		//void setIfElseYounglings(){
 		    /*if(this->if_branch.getComponents().size()){
                 this->addYoungling(this->if_branch.getComponents().back()->getYounglings());
 		    }
 		    else{
                 this->addYoungling(this->else_branch.getComponents().back()->getYounglings());
 		    }*/
-		}
+		//}
 
-		void setTrue(){
+		//void setTrue(){
 			/*
 		    int loop = 0;
             while(loop < this->if_branch.getComponents().size()){
                 this->if_branch.getComponents().at(loop)->getIfBranches().push_back(true);
                 loop++;
             }*/
-		}
+		//}
 
-		void setFalse(){
+		//void setFalse(){
 			/*
 		    int loop = 0;
             while(loop < this->if_branch.getComponents().size()){
                 this->else_branch.getComponents().at(loop)->getIfBranches().push_back(false);
                 loop++;
             }*/
-		}
+		//}
 
 		std::string toString() override{
 			std::string toReturn;

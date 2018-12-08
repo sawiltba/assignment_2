@@ -13,7 +13,7 @@ enum class RES {
     LOGIC
 };
 
-std::vector<std::shared_ptr<Component>> getCandidates(std::shared_ptr<Component> root, std::string type);
+std::vector<std::shared_ptr<Component>> getCandidates(std::shared_ptr<Component> root, RES type);
 int *ListR(Netlist* netlist, int latency);
 
 #endif

@@ -315,6 +315,5 @@ class Component{
         }
 };
 
-int Component::componentNumber = 1;
-
+//int Component::componentNumber = 1;
 #endif
