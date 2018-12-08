@@ -121,11 +121,11 @@ class Component{
 		static int componentNumber;
 		virtual std::string toString() = 0;
 
-        virtual bool missingMaster(){
-            return this->getUnlinkedInput() != "";
+        virtual bool missingMaster(std::vector<std::string> inputs){
+            return this->getUnlinkedInput(inputs) != "";
         }
 
-        virtual std::string getUnlinkedInput(){
+        virtual std::string getUnlinkedInput(std::vector<std::string> hlsm_inputs){
             for(std::string input : inputs){
                 bool found = false;
                 for(auto master : masters){
@@ -135,6 +135,12 @@ class Component{
                         break;
                     }
                 }
+				for(std::string hlsm_input : hlsm_inputs){
+					if(input == hlsm_input){
+						found = true;
+						break;
+					}
+				}
                 if(!found){
                     return input;
                 }

@@ -6,10 +6,11 @@
 
 using namespace std;
 
-void addDependencies(vector<shared_ptr<Component>> branch_ops, vector<shared_ptr<Component>> net_ops){
+void addDependencies(vector<shared_ptr<Component>> branch_ops, vector<shared_ptr<Component>> net_ops, 
+		vector<string> hlsm_inputs){
     for(auto branchOp : branch_ops){
-        while(branchOp->missingMaster()){
-            string unlinkedInput = branchOp->getUnlinkedInput();
+        while(branchOp->missingMaster(hlsm_inputs)){
+            string unlinkedInput = branchOp->getUnlinkedInput(hlsm_inputs);
             for(auto net_itr = net_ops.rbegin(); net_itr != net_ops.rend(); net_itr++){
                 if(find((*net_itr)->getOutputs().begin(), 
 							(*net_itr)->getOutputs().end(), 
@@ -61,8 +62,12 @@ Netlist read(ifstream &inFile, int* error){
                 op->addMaster(newIf);
 				op->addBranch(false);
             }
-            addDependencies(trueOps, net.getComponents());
-            addDependencies(falseOps, net.getComponents());
+			vector<string> hlsm_inputs;
+			for(Variable v : net.getInputs()){
+				hlsm_inputs.push_back(v.getName());
+			}
+            addDependencies(trueOps, net.getComponents(), hlsm_inputs);
+            addDependencies(falseOps, net.getComponents(), hlsm_inputs);
             net.pushComponent(newIf);
             net.insertComponents(trueOps);
             net.insertComponents(falseOps);

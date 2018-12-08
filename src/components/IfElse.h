@@ -51,11 +51,11 @@ class ifelse: public Component {
 			toReturn += "if ( ";
 			toReturn += this->condition;
 			toReturn += " ) begin\n";
-			toReturn += this->nextStates[0].getStateNum();
-            toReturn += "end\n";
-			toReturn += "else begin\n";
-			toReturn += this->nextStates[1].getStateNum();
-            toReturn += "end\n";
+			toReturn += "\t\t\tstateNext <= " + std::to_string(this->nextStates[0].getStateNum()) + ";\n";
+            toReturn += "\t\tend\n";
+			toReturn += "\t\telse begin\n";
+			toReturn += "\t\t\tstateNext <= " + std::to_string(this->nextStates[1].getStateNum()) + ";\n";
+            toReturn += "\t\tend\n";
 			return toReturn;
 		}
 };
