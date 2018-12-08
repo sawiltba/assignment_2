@@ -11,7 +11,7 @@ using namespace std;
 void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> states ) {
     string base = getBaseName(filename);
     outFile << "`timescale 1ns / 1ps" << endl;
-    outFile << "module " << base << "(clk, rst,start,done, ";
+    outFile << "module " << "HLSM" << "(clk, rst,start,done, ";
     for(unsigned i = 0; i < netlist.getInputs().size(); i++){
         if(netlist.getInputs()[i].getName() != "clk" && netlist.getInputs()[i].getName() != "rst"){
             outFile << netlist.getInputs()[i].getName() << ", ";
@@ -26,6 +26,8 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 
     outFile << "\tinput clk;" << endl;
     outFile << "\tinput rst;" << endl;
+
+	outFile << "output reg done;" << endl;
 
     // print inputs, outputs, wires
     for(Variable v : netlist.getInputs()){
@@ -127,7 +129,6 @@ void PrintIOW(ofstream& outFile, vector<Variable> IOW) {
     In1 += " start,";
     //NEED to find number of bits state needs
     Wire32 += " state,";
-	Out1 += " done,";
     for (vector<Variable>::iterator it = IOW.begin(); it != IOW.end(); ++it) {
         if (it->getType().compare("input") == 0) { // Inputs
             switch (int i = it->getWidth())
