@@ -34,8 +34,12 @@ std::vector<std::shared_ptr<Component>> getCandidates(std::shared_ptr<Component>
 
 int *ListR(Netlist *netlist, int latency)
 {
-    int a[3] = { 1 }; // Initialize vector a so all entries have value of 1
-    // Start times of all vectors already computed
+    int* a = (int*)malloc(3 * sizeof(int)); // Initialize vector a so all entries have value of 1
+    for(int i = 0; i < 3; i++){
+		a[i] = 1;
+	}
+	
+	// Start times of all vectors already computed
     int i = 1; // Set time step equal to 1
 
     int atemp[3] = { 1 }; // Define a counter

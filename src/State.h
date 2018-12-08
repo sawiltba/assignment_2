@@ -3,7 +3,7 @@
 
 #include <vector>
 #include <memory>
-#include "./components/Component.h"
+#include "components/Component.h"
 
 
 class State{

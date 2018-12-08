@@ -1,13 +1,13 @@
 #ifndef __COMPONENT_H
 #define __COMPONENT_H
-#include "../Netlist.h"
+//#include "../Netlist.h"
 #include <vector>
 #include <string>
 #include <stdexcept>
 #include <memory>
 
 
-//class Netlist;
+class Netlist;
 
 class Component{
 	protected:
@@ -40,7 +40,7 @@ class Component{
             this->checkWidths();
         }
 
-        virtual void checkConnections(std::string line){
+        virtual void checkConnections(std::string line); /*{
             size_t len = inputs.size() + outputs.size();
             std::vector<bool> connections;
             connections.resize(len, false);
@@ -77,9 +77,9 @@ class Component{
                     throw std::length_error{"Missing connection! At line: " + line};
                 }
             }
-        }
+        }*/
 
-        virtual void checkWidths(){
+        virtual void checkWidths();/*{
             bool sign = this->isSigned();
             this->getWidth();
 			for(unsigned i = 0; i < inputs.size(); i++){
@@ -102,7 +102,7 @@ class Component{
                     }
 				}
 			}
-        }
+        }*/
 
 		size_t IOStrLen(){
 			size_t len = 0;
@@ -225,7 +225,7 @@ class Component{
             return idName + std::to_string(id);
         }
 
-		virtual void checkRegisters(){
+		virtual void checkRegisters();/*{
 			std::vector<std::shared_ptr<Component>> regs = this->netlist->getComponents();
 			for(std::shared_ptr<Component> reg : regs){
 				if(reg->componentName.find("REG") == std::string::npos){
@@ -242,7 +242,7 @@ class Component{
 					}
 				}
 			}
-		}
+		}*/
 
 		virtual bool foundRegister(){
 			return false;
@@ -260,7 +260,7 @@ class Component{
 			branch.insert(branch.begin(), a);
 		}
 
-		virtual int getWidth() {
+		virtual int getWidth();/* {
             if(this->width != -1){
                 return this->width;
             }
@@ -282,8 +282,9 @@ class Component{
                 throw std::length_error("Width of component must be greater than zero!");
             }
 			return toReturn;
-		}
-		virtual bool isSigned(){
+		}*/
+
+		virtual bool isSigned();/*{
 			for(std::string output : outputs){
 				for(Variable outputVar : this->netlist->getOutputs()){
 					if(output == outputVar.getName() && outputVar.isSigned()){
@@ -297,7 +298,7 @@ class Component{
 				}
 			}
 			return false;
-		}
+		}*/
 
         std::vector<std::string> getInputs(){
             return this->inputs;

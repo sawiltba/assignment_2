@@ -2,13 +2,15 @@
 #define __NETLIST_H
 
 #include "Variable.h"
-#include "Cycle.h"
 
 #include <vector>
 #include <string>
 #include <memory>
 
-class Component;
+//class Component;
+
+#include "Cycle.h"
+
 
 class Netlist{
 	private:
