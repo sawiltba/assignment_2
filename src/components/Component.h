@@ -5,6 +5,7 @@
 #include <string>
 #include <stdexcept>
 #include <memory>
+#include <algorithm>
 
 
 class Netlist;
@@ -128,8 +129,8 @@ class Component{
             for(std::string input : inputs){
                 bool found = false;
                 for(auto master : masters){
-                    if(std::find(master->getOutputs().begin(),
-                                master->getOutputs().end(), input) != master->getOutputs().end()){
+					std::vector<std::string> outputs = master->getOutputs();
+                    if(std::find(outputs.begin(), outputs.end(), input) != outputs.end()){
                         found = true;
                         break;
                     }
