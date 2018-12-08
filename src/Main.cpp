@@ -38,7 +38,7 @@ int main(int argc, char *argv[]) {
 		}
 		vector<State> states;
 		for(int i = 0; i < cycles.size(); i++){
-			
+			states.insert(states.end(), cycles.at(i)->getStates().begin(), cycles.at(i)->getStates().end());
 		}
 
         outFile.open(argv[2]);
