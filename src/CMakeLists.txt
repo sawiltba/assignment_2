@@ -5,4 +5,4 @@ add_subdirectory( components )
 
 file( GLOB SRCS *.cpp *.h )
 
-add_executable ( dpgen ${SRCS} )
+add_executable ( hlsyn ${SRCS} )
