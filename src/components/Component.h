@@ -254,6 +254,27 @@ class Component{
 			return branch;
 		}
 
+		bool branchMatch(std::vector<bool> otherBranch){
+			if(otherBranch.size() != branch.size()){
+				return false;
+			}
+			for(unsigned i = 0; i < branch.size(); i++){
+				if(branch[i] != otherBranch[i]){
+					return false;
+				}
+			}
+			return true;
+		}
+
+		bool branchMatchUpToEnd(std::vector<bool> otherBranch){
+			for(unsigned i = 0; i < branch.size() && i < otherBranch.size(); i++){
+				if(branch[i] != otherBranch[i]){
+					return false;
+				}
+			}
+			return true;
+		}
+
 		virtual void addBranch(bool a){
 			branch.insert(branch.begin(), a);
 		}

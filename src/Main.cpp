@@ -45,13 +45,13 @@ int main(int argc, char *argv[]) {
 			states.insert(states.end(), cycles.at(i)->getStates().begin(), cycles.at(i)->getStates().end());
 		}
 
-        outFile.open(argv[2]);
+        outFile.open(argv[3]);
         if (!outFile.is_open()) {
-            cout << argv[2] << " Read errors" << endl;
+            cout << argv[3] << " Read errors" << endl;
             return 1;
         }
         inFile.close();
-        Printer(std::string{argv[2]}, outFile, netlist, states);
+        Printer(std::string{argv[3]}, outFile, netlist, states);
         outFile.close();
     } catch(length_error &e){
         cout << e.what() << endl;

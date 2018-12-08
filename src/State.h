@@ -36,21 +36,25 @@ class State{
 			return branch;
 		}
 
-		void addNextState(State next){
-			bool branchMatch = false;
-			if(branch.size() == next.getBranch().size()){
-				branchMatch = true;
-				for(unsigned i = 0; i < branch.size(); i++){
-					if(branch[i] != next.getBranch()[i]){
-						branchMatch = false;
-					}
+
+		bool branchMatch(std::vector<bool> otherBranch){
+			if(otherBranch.size() != branch.size()){
+				return false;
+			}
+			for(unsigned i = 0; i < branch.size(); i++){
+				if(branch[i] != otherBranch[i]){
+					return false;
 				}
 			}
-			if(branchMatch){
+			return true;
+		}
+
+		void addNextState(State next){
+			if(this->branchMatch(next.getBranch()){
 				nextStates.push_back(next);
 			} else {
 				for(unsigned i = 0; i < operations.size(); i++){
-					if(operations[i]->getComponentName() == "IFELSE" && operations[i]->){
+					if(operations[i]->getComponentName() == "IFELSE" && operations[i]->branchMatchUpTo){
 						
 					}
 				}
