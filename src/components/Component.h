@@ -192,21 +192,15 @@ class Component{
         }
 
 		virtual void addYoungling(std::shared_ptr<Component> youngling){
-			for(auto itr = younglings.rbegin(); itr != younglings.rend(); itr++){
-				if(*itr == youngling){
-					return;
-				}
-			}
 			younglings.push_back(youngling);
-			youngling->addMaster(std::shared_ptr<Component>{this});
 		}
 
 		virtual void addMaster(std::shared_ptr<Component> master){
-			for(auto itr = masters.rbegin(); itr != masters.rend(); itr++){
+			/*for(auto itr = masters.rbegin(); itr != masters.rend(); itr++){
 				if(*itr == master){
 					return;
 				}
-			}
+			}*/
 			masters.push_back(master);
 			master->addYoungling(std::shared_ptr<Component>{this});
 		}

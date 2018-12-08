@@ -33,19 +33,25 @@ case(state)
 		stateNext <= 3;
 	end
 	32'd3: begin
-		d = a + b;
-		f = a * c;
 		stateNext <= 4;
 	end
 	32'd4: begin
-		e = a + c;
-		g = d > e;
-		z = g ? d : e;
-		x = f - d;
+		f = a * c;
 		stateNext <= 5;
 	end
-	32'd5 begin
+	32'd5: begin
+		d = a + b;
+		g = d > e;
+		stateNext <= 6;
+	end
+	32'd6: begin
+		e = a + c;
+		z = g ? d : e;
+		x = f - d;
+		stateNext <= 7;
+	end
+	32'd7 begin
 		done <= 1;
-stateNext <= 0;	end
+		stateNext <= 0;	end
 end
 endmodule
