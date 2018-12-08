@@ -88,7 +88,7 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 
 	outFile << "\t32'd" << states.size() + 1 << " begin\n";
 	outFile << "\t\tdone <= 1;\n";
-	outFile << "stateNext <= 0;";
+	outFile << "\t\tstateNext <= 0;";
 	outFile << "\tend" << endl;
     
 	outFile << "end\n";
