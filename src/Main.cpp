@@ -36,9 +36,7 @@ int main(int argc, char *argv[]) {
 		if(error == 1){
 			cout << "Error creating cycles with latency " << latency << endl;
 		}
-		for(int i = 0; i < cycles.size(); i++){
 
-		}
         outFile.open(argv[2]);
         if (!outFile.is_open()) {
             cout << argv[2] << " Read errors" << endl;
