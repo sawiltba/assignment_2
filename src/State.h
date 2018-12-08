@@ -10,9 +10,9 @@ class State{
 		std::vector<bool> branch;
 		std::vector<std::shared_ptr<Component>> operations;
 		int stateNum;
+		static int id;
 		std::vector<State> nextStates;
 	public:
-		static int id;
 		State(){
 			stateNum = id;
 			id++;

@@ -36,8 +36,9 @@ int main(int argc, char *argv[]) {
 		if(error == 1){
 			cout << "Error creating cycles with latency " << latency << endl;
 		}
+		vector<State> states;
 		for(int i = 0; i < cycles.size(); i++){
-
+			
 		}
         outFile.open(argv[2]);
         if (!outFile.is_open()) {
@@ -45,7 +46,7 @@ int main(int argc, char *argv[]) {
             return 1;
         }
         inFile.close();
-        Printer(std::string{argv[2]}, outFile, netlist);
+        Printer(std::string{argv[2]}, outFile, netlist, states);
         outFile.close();
     } catch(length_error &e){
         cout << e.what() << endl;
