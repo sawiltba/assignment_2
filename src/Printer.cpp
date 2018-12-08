@@ -58,11 +58,11 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 	outFile << "\tend" << endl;
     outFile << "end\n";
     
-    outFile << "always@(state, ";
+    outFile << "always@(state";
     
     for(Variable v : netlist.getInputs()){
         if(v.getName() != "clk" && v.getName() != "rst"){
-            outFile << "\t" << v.toString();
+            outFile << ", " << v.getName;
         }
     }
     
