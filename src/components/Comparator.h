@@ -40,8 +40,6 @@ class comp: public Component {
 				outputs.push_back(output);
 				outputs.push_back("null");
 			}
-            this->checkConnections(line);
-            this->checkWidths();
 		}
 
         int getWidth() override {

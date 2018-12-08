@@ -36,9 +36,6 @@ class Component{
                 end = line.find(" ", begin);
             }
 			inputs.push_back(line.substr(begin, end - begin));
-            this->checkRegisters();
-            this->checkConnections(line);
-            this->checkWidths();
         }
 
         virtual void checkConnections(std::string line); /*{

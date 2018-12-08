@@ -54,7 +54,10 @@ int main(int argc, char *argv[]) {
     } catch(length_error &e){
         cout << e.what() << endl;
         return 1;
-    }
+    } catch(out_of_range &e){
+		cout << e.what() << endl;
+		return 2;
+	}
 
     return 0;
 }

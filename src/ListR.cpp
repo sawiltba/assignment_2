@@ -1,4 +1,5 @@
 #include "ListR.h"
+#include <iostream>
 
 std::vector<std::shared_ptr<Component>> getCandidates(std::shared_ptr<Component> root, RES type){
     auto toReturn = std::vector<std::shared_ptr<Component>>{};
@@ -129,8 +130,23 @@ int *ListR(Netlist *netlist, int latency)
                 Candidates[k].erase(Candidates[k].begin() + leastSlackIndex); // Schedule smallest slack component
             } // Schedule candidate operations requiring no additional resources
         }
+		for(int num = Unscheduled.size() - 1; num >= 0; num--){
+			if(Unscheduled.size() == 0){
+				break;
+			}
+			if(Unscheduled[num]->isScheduled()){
+				Unscheduled.erase(Unscheduled.begin() + num);
+				std::cout << "Erased " << num << std::endl;
+				std::cout << "Unscheduled: " << Unscheduled.size() << std::endl;
+			}
+		}
         i++; // Increment time step
-        if (Unscheduled.empty() && Candidates[0].empty() && Candidates[1].empty() && Candidates[2].empty()) { done = true; } // Check done
+        if (Unscheduled.size() == 0
+			   	/*&& Candidates[0].empty() 
+				&& Candidates[1].empty() 
+				&& Candidates[2].empty()*/) { 
+			done = true; 
+		} // Check done
     }
     return a;
 }

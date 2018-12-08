@@ -40,10 +40,6 @@ class reg: public Component {
             this->id = number;
             this->idName = "reg" + std::to_string(number);
             number++;
-            this->checkRegisters();
-            if(!this->foundReg){
-                this->checkConnections(line);
-            }
         }
         reg(Netlist *netlist, std::string line){
             this->netlist = netlist;
