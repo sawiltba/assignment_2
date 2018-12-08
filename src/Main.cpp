@@ -40,8 +40,9 @@ int main(int argc, char *argv[]) {
 		}
 		vector<State> states;
 		for(int i = 0; i < cycles.size(); i++){
-			
+			states.insert(states.end(), cycles.at(i)->getStates().begin(), cycles.at(i)->getStates().end());
 		}
+
         outFile.open(argv[2]);
         if (!outFile.is_open()) {
             cout << argv[2] << " Read errors" << endl;
