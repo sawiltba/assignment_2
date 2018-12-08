@@ -102,7 +102,7 @@ class State{
 			}
 			if(!hasIf){
 				std::cout << "State toString" << std::endl;
-				toReturn += "stateNext <= " + std::to_string(nextStates.at(0).getStateNum()) + "\n";
+				toReturn += "stateNext <= " + std::to_string(nextStates.at(0).getStateNum());
 			}
 			return toReturn;
 		}

@@ -156,7 +156,7 @@ int Netlist::addComponent(std::string line){
 void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
 	for (int i = 0; i < cmpt->getInputs().size(); i++) {
 		for (int j = 0; j < operations.size(); j++) {
-			if(cmpt->getMasters().size() != 0){
+			//if(cmpt->getMasters().size() != 0){
 				if (std::find(cmpt->getMasters().begin(), cmpt->getMasters().end(), operations.at(j)) != cmpt->getMasters().end()) {
 					for (int k = 0; k < operations.at(j)->getOutputs().size(); k++) {
 						if (cmpt->getInputs().at(i).compare(operations.at(j)->getOutputs().at(k)) == 0) {
@@ -164,14 +164,14 @@ void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
 						}
 					}
 				}
-			}
-			else{
+			//}
+			/*else{
 				for (int k = 0; k < operations.at(j)->getOutputs().size(); k++) {
 					if (cmpt->getInputs().at(i).compare(operations.at(j)->getOutputs().at(k)) == 0) {
 					cmpt->addMaster(operations.at(j));
 					}
 				}
-			}
+			}*/
 		}
 	}
 }

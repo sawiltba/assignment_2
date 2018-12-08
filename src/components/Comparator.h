@@ -6,6 +6,7 @@
 class comp: public Component {
 	private:
 		static int number;
+		std::string comparison;
 		void calcIOs_comp(std::string operation, std::string line) {
             std::vector<Variable> wires = this->netlist->getWires();
             bool hasNull = false;
@@ -27,19 +28,8 @@ class comp: public Component {
 			begin = end + operation.length() + 1;
 			end = line.find(" ", begin);
 			inputs.push_back(line.substr(begin, end - begin));
-			if(operation == ">"){
-				outputs.push_back(output);
-				outputs.push_back("null");
-				outputs.push_back("null");
-			} else if(operation == "=="){
-				outputs.push_back("null");
-				outputs.push_back("null");
-				outputs.push_back(output);
-			} else if(operation == "<"){
-				outputs.push_back("null");
-				outputs.push_back(output);
-				outputs.push_back("null");
-			}
+			outputs.push_back(output);
+			comparison = operation;
 		}
 
         int getWidth() override {
@@ -82,7 +72,7 @@ class comp: public Component {
 		}
 
 		std::string toString() override {
-			std::string toReturn;
+			/*std::string toReturn;
 			bool sign = this->isSigned();
 			//[S]COMP #(.DATAWIDTH(<width>)) c# (a, b, gt, lt, eq);\n
 			size_t len = 36
@@ -96,8 +86,8 @@ class comp: public Component {
 					this->getID().c_str(), inputs[0].c_str(), inputs[1].c_str(),
 					outputs[0].c_str(), outputs[1].c_str(), outputs[2].c_str());
 			toReturn.assign(str);
-			free(str);
-			return (sign ? "S" : "") + toReturn;
+			free(str);*/
+			return outputs[0] + " = " + inputs[0] + " " + comparison + " " + inputs[1];
 		}
 
 };
