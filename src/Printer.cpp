@@ -5,7 +5,7 @@
 #include "Printer.h"
 #include "Variable.h"
 #include "components/Component.h"
-#include "states.h"
+#include "State.h"
 using namespace std;
 
 void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> states ) {
@@ -49,7 +49,7 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
     }*/
     
     outFile << "always @(posedge clk) begin\n";
-    outFile << "\tif(rst == 1) begin\n"
+	outFile << "\tif(rst == 1) begin\n";
 	outFile << "\t\tstate <= 0;\nend\n";
     outFile << "\telse begin\n\t\tstate <= stateNext;\n\tend";
     outFile << "end\n";
@@ -73,16 +73,16 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 	outFile << "\t\t\tstateNext <= 0;\n";
     outFile << "\t\tend\n\tend\n";
     
-    for(int i = 1; i < state.size(); i++){
-		outFile << "\t32'd" << state.at(i).getStateNum(); << ": begin\n";
+    for(int i = 1; i < states.size(); i++){
+		outFile << "\t32'd" << states.at(i).getStateNum(); << ": begin\n";
 		outFile << "\t\t";
-		state.toString();
+		outFile << states.at(i).toString();
         outFile << "end\n";
     }
 
-	outFile << "\t32'd" << state.size() + 1 << " begin\n";
+	outFile << "\t32'd" << states.size() + 1 << " begin\n";
 	outFile << "\t\tdone <= 1;\n";
-	outFile << "stateNext <= 0;"
+	outFile << "stateNext <= 0;";
 	outFile << "\tend";
     
 	outFile << "end\n";
