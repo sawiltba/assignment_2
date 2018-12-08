@@ -50,12 +50,13 @@ class State{
 		}
 
 		void addNextState(State next){
-			if(this->branchMatch(next.getBranch()){
+			if(this->branchMatch(next.getBranch()) || next.getBranch().size() < branch.size()){
 				nextStates.push_back(next);
 			} else {
 				for(unsigned i = 0; i < operations.size(); i++){
-					if(operations[i]->getComponentName() == "IFELSE" && operations[i]->branchMatchUpTo){
-						
+					if(operations[i]->getComponentName() == "IFELSE" 
+							&& operations[i]->branchMatchUpToEnd(next.getBranch()){
+						operations[i]->addNextState(next);
 					}
 				}
 			}
