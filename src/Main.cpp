@@ -11,8 +11,8 @@ using namespace std;
 
 int main(int argc, char *argv[]) {
     // command line parse and check
-    if (argc != 3) {
-        cout << "Invalid command line argument, format: NETLIST_FILENAME VERILOG_FILENAME" << endl;
+    if (argc != 4) {
+        cout << "Invalid command line arguments, format: NETLIST_FILENAME LATENCY VERILOG_FILENAME" << endl;
         return 1;
     }
     ifstream inFile; 
@@ -30,7 +30,13 @@ int main(int argc, char *argv[]) {
             inFile.close();
             return 1;
         }
-        ListR(netlist, *argv[2]);
+		int latency = stoi(string{argv[2]});
+        ListR(&netlist, latency);
+		vector<shared_ptr<Cycle>> cycles = netlist.getCycles(latency, &error);
+		if(error == 1){
+			cout << "Error creating cycles with latency " << latency << endl;
+		}
+
         outFile.open(argv[2]);
         if (!outFile.is_open()) {
             cout << argv[2] << " Read errors" << endl;

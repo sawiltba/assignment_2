@@ -35,7 +35,7 @@ class Netlist{
 		std::vector<std::shared_ptr<Component>>& getComponents() {
 			return operations;
 		}
-		std::vector<Cycle> getCycles(int latency, int* error);
+		std::vector<std::shared_ptr<Cycle>> getCycles(int latency, int* error);
 };
 
 #endif

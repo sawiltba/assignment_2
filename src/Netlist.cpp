@@ -167,21 +167,21 @@ void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
 	}
 }
 
-std::vector<Cycle> Netlist::getCycles(int latency, int* error) {
-	std::vector<Cycle> cycles;
+std::vector<std::shared_ptr<Cycle>> Netlist::getCycles(int latency, int* error) {
+	std::vector<std::shared_ptr<Cycle>> cycles;
 
 	for (int j = 1; j <= latency; j++) {
-		Cycle newCycle(j);
+		std::shared_ptr<Cycle> newCycle{new Cycle{j}};
 		for (int i = 0; i < operations.size(); i++) {
 			if (operations.at(i)->getStartTime() == j) {
-				newCycle.pushComponent(operations.at(i));
+				newCycle->pushComponent(operations.at(i));
 			}
 			else if (operations.at(i)->getStartTime() > latency) {
 				*error = 1;
-				return std::vector<Cycle>();
+				return std::vector<std::shared_ptr<Cycle>>{};
 			}
 		}
-		newCycle.createStates();
+		newCycle->createStates();
 		cycles.push_back(newCycle);
 	}
 
