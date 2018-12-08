@@ -78,7 +78,6 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
     outFile << "\t\tend\n";
     outFile << "\tend\n";
     
-	std::cout << "here 5" << std::endl;
     for(int i = 0; i < states.size(); i++){
 		std::cout << "i: " << i << " size: " << states.size() << std::endl;  
 		outFile << "\t32'd" << states.at(i).getStateNum() << ": begin\n";
@@ -86,7 +85,7 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 
 		std::cout << "Here, size " << states.size() << std::endl;  
 		outFile << states.at(i).toString();
-        outFile << "end\n";
+        outFile << "\tend\n";
     }
 
 	outFile << "\t32'd" << states.size() + 1 << " begin\n";
