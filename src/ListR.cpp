@@ -90,9 +90,9 @@ int *ListR(Netlist *netlist, int latency)
 					continue;
 				}
                 if (Candidates[k][j]->getStartTime() - i == 0) {
-                    Candidates[k][j]->schedule(i);
-                    if (atemp[k] == 0) { a[k]++; }
-                    else { atemp[k]--; }
+						Candidates[k][j]->schedule(i);
+						if (atemp[k] == 0) { a[k]++; }
+						else { atemp[k]--; }
                 }
 				if(!Candidates[k][j]->isScheduled()){
 					toSchedule = true;
