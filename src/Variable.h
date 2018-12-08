@@ -23,20 +23,16 @@ class Variable{
 		std::string toString(){
 			//<dir> <width> <name>;
             std::stringstream toReturn;
-			//size_t len = 2 + name.length() + type.length();
-			//char widthStr[32] = "";
-            //char signedStr[8] = "";
             if (type.compare("variable")) {
-		toReturn << "reg";
-	    }
-	    else {
-		toReturn << type;
-	    }
-            if(this->Signed){
-                //sprintf(signedStr, "%s", " signed");
-                //len += 7;
-                toReturn << " signed";
-            }
+				toReturn << "reg";
+			}
+			else if (type.compare("output")) {
+				toReturn << "output reg";
+			}
+			else {
+				toReturn << type;
+			}
+            
 			if(width > 1){
 				// [w-1:0]
 				//len += 5 + std::to_string(width - 1).length();
@@ -44,10 +40,6 @@ class Variable{
                 toReturn << " [" << width - 1 << ":0]";
 			}
             
-			//char* str = (char*)malloc(len + 1);
-			//sprintf(str, "%s%s %s;\n", type.c_str(),
-			//		widthStr, name.c_str());
-			//std::string toReturn{str};
             toReturn << " " << name << ";\n";
 			return toReturn.str();
 		}
