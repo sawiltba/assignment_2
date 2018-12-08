@@ -6,6 +6,7 @@
 #include <stdexcept>
 #include <memory>
 #include <algorithm>
+#include "../State.h"
 
 
 class Netlist;
@@ -273,6 +274,10 @@ class Component{
 				}
 			}
 			return true;
+		}
+		
+		virtual void addNextState(State next) {
+
 		}
 
 		virtual void addBranch(bool a){

@@ -19,6 +19,7 @@ class ifelse: public Component {
 			this->latency = 0;
 			id = number;
 			number++;
+			nextStates.resize(2);
 		}
 
 		void addBranch(bool a) override{
@@ -28,8 +29,13 @@ class ifelse: public Component {
 			}
 		}
 
-		void addNextState(State next){
-
+		void addNextState(State next) override {
+			auto b = next.getBranch();
+			if(b[b.size() - 1]){
+				nextStates[0] = next;
+			} else{
+				nextStates[1] = next;
+			}
 		}
 
 		int getNumber(){
@@ -43,10 +49,10 @@ class ifelse: public Component {
 			toReturn += "if ( ";
 			toReturn += this->condition;
 			toReturn += " ) begin\n";
-			toReturn += this->nextState[0];
+			toReturn += this->nextStates[0].getStateNum();
             toReturn += "end\n";
 			toReturn += "else begin\n";
-			toReturn += this->nextState[1];
+			toReturn += this->nextStates[1].getStateNum();
             toReturn += "end\n";
 			return toReturn;
 		}

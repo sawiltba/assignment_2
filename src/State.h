@@ -55,7 +55,7 @@ class State{
 			} else {
 				for(unsigned i = 0; i < operations.size(); i++){
 					if(operations[i]->getComponentName() == "IFELSE" 
-							&& operations[i]->branchMatchUpToEnd(next.getBranch()){
+							&& operations[i]->branchMatchUpToEnd(next.getBranch())){
 						operations[i]->addNextState(next);
 					}
 				}
