@@ -160,7 +160,6 @@ void Netlist::findDependencies(std::shared_ptr<Component> cmpt){
 				if (std::find(cmpt->getMasters().begin(), cmpt->getMasters().end(), operations.at(j)) == cmpt->getMasters().end()) {
 					for (int k = 0; k < operations.at(j)->getOutputs().size(); k++) {
 						if (cmpt->getInputs().at(i).compare(operations.at(j)->getOutputs().at(k)) == 0) {
-							std::cout << "Adding master" << std::endl;
 							cmpt->addMaster(operations.at(j));
 						}
 					}
