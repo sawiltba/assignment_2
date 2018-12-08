@@ -6,9 +6,8 @@
 #include <stdexcept>
 #include <memory>
 #include <algorithm>
-#include "../State.h"
 
-
+class State;
 class Netlist;
 
 class Component{
@@ -276,7 +275,7 @@ class Component{
 			return true;
 		}
 		
-		virtual void addNextState(State next) {
+		virtual void addNextState(State& next) {
 
 		}
 

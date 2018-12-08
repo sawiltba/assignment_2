@@ -29,7 +29,7 @@ class ifelse: public Component {
 			}
 		}
 
-		void addNextState(State next) override {
+		void addNextState(State& next) override {
 			auto b = next.getBranch();
 			if(b[b.size() - 1]){
 				nextStates[0] = next;

@@ -41,7 +41,7 @@ int main(int argc, char *argv[]) {
 		vector<State> states;
 		for(int i = 0; i < cycles.size(); i++){
 			vector<State> cycleStates = cycles.at(i)->getStates();
-
+			
 			states.insert(states.end(), cycles.at(i)->getStates().begin(), cycles.at(i)->getStates().end());
 		}
 
