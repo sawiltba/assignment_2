@@ -12,16 +12,19 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
     string base = getBaseName(filename);
     outFile << "`timescale 1ns / 1ps" << endl;
     outFile << "module " << "HLSM" << "(clk, rst, start, done, ";
-    for(unsigned i = 0; i < netlist.getInputs().size(); i++){
+	std::cout << "here 1" << std::endl;
+	for(unsigned i = 0; i < netlist.getInputs().size(); i++){
         if(netlist.getInputs()[i].getName() != "clk" && netlist.getInputs()[i].getName() != "rst"){
             outFile << netlist.getInputs()[i].getName() << ", ";
         }
     }
-
+	
+	std::cout << "here 2" << std::endl;
     for(unsigned i = 0; i < netlist.getOutputs().size() - 1; i++){
         outFile << netlist.getOutputs()[i].getName() << ", ";
     }
     size_t last = netlist.getOutputs().size() - 1;
+	std::cout << "here 3" << std::endl;
     outFile << netlist.getOutputs()[last].getName() << ");" << endl;
 
     outFile << "\tinput clk;" << endl;
@@ -39,6 +42,7 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
         }
     }
 
+	std::cout << "here 4" << std::endl;
     for(Variable v : netlist.getOutputs()){
         outFile << "\t" << v.toString();
     }
@@ -74,9 +78,13 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
     outFile << "\t\tend\n";
     outFile << "\tend\n";
     
-    for(int i = 1; i < states.size(); i++){
+	std::cout << "here 5" << std::endl;
+    for(int i = 0; i < states.size(); i++){
+		std::cout << "i: " << i << " size: " << states.size() << std::endl;  
 		outFile << "\t32'd" << states.at(i).getStateNum() << ": begin\n";
 		outFile << "\t\t";
+
+		std::cout << "Here, size " << states.size() << std::endl;  
 		outFile << states.at(i).toString();
         outFile << "end\n";
     }
@@ -89,6 +97,8 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 	outFile << "end\n";
     outFile << "endmodule" << endl;
 
+	std::cout << "here 6" << std::endl;
+	
     return;
 }
 
