@@ -4,6 +4,7 @@
 #include <vector>
 #include <memory>
 #include "components/Component.h"
+#include <iostream>
 
 extern int State_id;
 
@@ -38,6 +39,17 @@ class State{
 
 
 		bool branchMatch(std::vector<bool> otherBranch){
+			std::cout << "Branch: ";
+			for(int i = 0; i < branch.size(); i++){
+				std::cout << branch[i] << " ";
+			}
+			std::cout << std::endl;
+			std::cout << "OtherBranch: ";
+			for(int i = 0; i < otherBranch.size(); i++){
+				std::cout << otherBranch[i] << " ";
+			}
+			std::cout << std::endl;
+
 			if(otherBranch.size() != branch.size()){
 				return false;
 			}
@@ -50,13 +62,16 @@ class State{
 		}
 
 		void addNextState(State next){
+			std::cout << "Add next state" << std::endl;
 			if(this->branchMatch(next.getBranch()) || next.getBranch().size() < branch.size()){
 				nextStates.push_back(next);
+				std::cout << "Added next state to this" << std::endl;
 			} else {
 				for(unsigned i = 0; i < operations.size(); i++){
 					if(operations[i]->getComponentName() == "IFELSE" 
 							&& operations[i]->branchMatchUpToEnd(next.getBranch())){
 						operations[i]->addNextState(next);
+						std::cout << "Added next state to ifelse" << std::endl;
 					}
 				}
 			}
@@ -86,6 +101,7 @@ class State{
 					hasIf = true;
 			}
 			if(!hasIf){
+				std::cout << "State toString" << std::endl;
 				toReturn += "stateNext <= " + std::to_string(nextStates.at(0).getStateNum()) + "\n";
 			}
 			return toReturn;

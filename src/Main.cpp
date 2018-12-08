@@ -40,9 +40,21 @@ int main(int argc, char *argv[]) {
 		}
 		vector<State> states;
 		for(int i = 0; i < cycles.size(); i++){
-			vector<State> cycleStates = cycles.at(i)->getStates();
-			
-			states.insert(states.end(), cycles.at(i)->getStates().begin(), cycles.at(i)->getStates().end());
+			vector<State> currCycleStates = cycles.at(i)->getStates();
+			for(unsigned j = 0; j < currCycleStates.size(); j++){
+				vector<State> nextCycleStates;
+				if(i + 1 < cycles.size()){
+					nextCycleStates = cycles.at(i+1)->getNextBranchStates(currCycleStates[j].getBranch());
+				} else {
+					State doneState{};
+					nextCycleStates.push_back(doneState);
+				}
+				for(unsigned k = 0; k < nextCycleStates.size(); k++){
+					currCycleStates[j].addNextState(nextCycleStates[k]);
+				}
+			}
+
+			states.insert(states.end(), currCycleStates.begin(), currCycleStates.end());
 		}
 
         outFile.open(argv[3]);
