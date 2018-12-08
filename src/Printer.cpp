@@ -11,7 +11,7 @@ using namespace std;
 void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> states ) {
     string base = getBaseName(filename);
     outFile << "`timescale 1ns / 1ps" << endl;
-    outFile << "module " << "HLSM" << "(clk, rst,start,done, ";
+    outFile << "module " << "HLSM" << "(clk, rst, start, done, ";
     for(unsigned i = 0; i < netlist.getInputs().size(); i++){
         if(netlist.getInputs()[i].getName() != "clk" && netlist.getInputs()[i].getName() != "rst"){
             outFile << netlist.getInputs()[i].getName() << ", ";
@@ -26,8 +26,11 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
 
     outFile << "\tinput clk;" << endl;
     outFile << "\tinput rst;" << endl;
+	outFile << "\tinput start" << endl << endl;
 
 	outFile << "output reg done;" << endl;
+
+	outFile << "reg [15:0] state, nextState;" << endl;
 
     // print inputs, outputs, wires
     for(Variable v : netlist.getInputs()){
@@ -45,15 +48,14 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
             outFile << "\t" << v.toString();
         }
     }
-
-    /*for(shared_ptr<Component> c : netlist.getComponents()){
-        outFile << "\t" << c->toString();
-    }*/
     
-    outFile << "always @(posedge clk) begin\n";
-	outFile << "\tif(rst == 1) begin\n";
-	outFile << "\t\tstate <= 0;\nend\n";
-    outFile << "\telse begin\n\t\tstate <= stateNext;\n\tend";
+    outFile << "always @(posedge clk) begin" << endl;
+	outFile << "\tif(rst == 1) begin" << endl;
+	outFile << "\t\tstate <= 0;" << endl;
+	outFile << "\tend" << endl;
+	outFile << "\telse begin" << endl;
+	outFile << "\t\tstate <= stateNext;" << endl; 
+	outFile << "\tend" << endl;
     outFile << "end\n";
     
     outFile << "always@(state, ";
@@ -68,12 +70,9 @@ void Printer(string filename, ofstream &outFile, Netlist netlist, vector<State> 
     outFile << "case(state)\n";
     outFile << "\t32'd0: begin\n";
     outFile << "\t\tif(start) begin\n";
-	outFile << "\t\tdone <= 0;\n";
     outFile << "\t\t\tstateNext <= 1;\n";
     outFile << "\t\tend\n";
-	outFile << "\t\telse begin\n";
-	outFile << "\t\t\tstateNext <= 0;\n";
-    outFile << "\t\tend\n\tend\n";
+    outFile << "\tend\n";
     
     for(int i = 1; i < states.size(); i++){
 		outFile << "\t32'd" << states.at(i).getStateNum() << ": begin\n";
