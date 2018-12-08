@@ -2,6 +2,7 @@
 #define __IFELSE_H
 #include "Component.h"
 #include "../State.h"
+#include <iostream>
 
 class ifelse: public Component {
 	private:
@@ -44,6 +45,7 @@ class ifelse: public Component {
 
 		std::string toString() override{
 			std::string toReturn;
+			std::cout << "IfElse tostring" << std::endl;
 			int loop = 0;
 			//if ('condition')
 			toReturn += "if ( ";
