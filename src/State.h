@@ -96,9 +96,13 @@ class State{
 			std::string toReturn = "";
 			bool hasIf = false;
 			for(std::shared_ptr<Component> cmp : operations){
-				toReturn += cmp->toString() + "\n";
-				if(cmp->getComponentName() == "IFELSE")
+				toReturn += cmp->toString();
+				if(cmp->getComponentName() == "IFELSE"){
 					hasIf = true;
+				} else{
+					toReturn += ";";
+				}
+				toReturn += "\n\t\t";
 			}
 			if(!hasIf){
 				std::cout << "State toString" << std::endl;
