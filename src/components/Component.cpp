@@ -1,7 +1,7 @@
 #include "Component.h"
 #include "../Netlist.h"
 
-virtual void Component::checkConnections(std::string line){
+void Component::checkConnections(std::string line){
 	size_t len = inputs.size() + outputs.size();
 	std::vector<bool> connections;
 	connections.resize(len, false);
@@ -40,7 +40,7 @@ virtual void Component::checkConnections(std::string line){
 	}
 }
 
-virtual void Component::checkWidths(){
+void Component::checkWidths(){
 	bool sign = this->isSigned();
 	this->getWidth();
 	for(unsigned i = 0; i < inputs.size(); i++){
@@ -65,7 +65,7 @@ virtual void Component::checkWidths(){
 	}
 }
 
-virtual void Component::checkRegisters(){
+void Component::checkRegisters(){
 	std::vector<std::shared_ptr<Component>> regs = this->netlist->getComponents();
 	for(std::shared_ptr<Component> reg : regs){
 		if(reg->componentName.find("REG") == std::string::npos){
@@ -84,7 +84,7 @@ virtual void Component::checkRegisters(){
 	}
 }
 
-virtual int Component::getWidth() {
+int Component::getWidth() {
 	if(this->width != -1){
 		return this->width;
 	}
@@ -108,7 +108,7 @@ virtual int Component::getWidth() {
 	return toReturn;
 }
 
-virtual bool Component::isSigned(){
+bool Component::isSigned(){
 	for(std::string output : outputs){
 		for(Variable outputVar : this->netlist->getOutputs()){
 			if(output == outputVar.getName() && outputVar.isSigned()){
