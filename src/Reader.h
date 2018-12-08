@@ -8,9 +8,7 @@
 #include <vector>
 #include <string>
 
-using namespace std;
-
-Netlist read(ifstream &inFile, int* error);
+Netlist read(std::ifstream &inFile, int* error);
 
 #endif
 

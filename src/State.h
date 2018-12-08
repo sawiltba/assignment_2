@@ -5,17 +5,18 @@
 #include <memory>
 #include "components/Component.h"
 
+extern int State_id;
+
 class State{
 	private:
 		std::vector<bool> branch;
 		std::vector<std::shared_ptr<Component>> operations;
 		int stateNum;
-		static int id;
 		std::vector<State> nextStates;
 	public:
 		State(){
-			stateNum = id;
-			id++;
+			stateNum = State_id;
+			State_id++;
 		}
 
 		int getStateNum(){
@@ -64,7 +65,5 @@ class State{
 			return toReturn;
 		}
 };
-
-int State::id = 1;
 
 #endif

@@ -3,6 +3,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED_ON)
 
 add_subdirectory( components )
 
-file( GLOB SRCS *.cpp *.h )
+file( GLOB SRCS *.cpp *.h components/*.cpp)
 
 add_executable ( hlsyn ${SRCS} )

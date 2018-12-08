@@ -7,6 +7,8 @@
 #include "Reader.h"
 #include "ListR.h"
 
+int State_id = 1;
+
 using namespace std;
 
 int main(int argc, char *argv[]) {
